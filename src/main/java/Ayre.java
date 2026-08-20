@@ -22,8 +22,8 @@ public class Ayre {
         String userInput;
         String cleanInput;
         while (true) {
-            userInput = scanner.nextLine();
-            cleanInput = userInput.trim().toLowerCase();
+            userInput = scanner.nextLine().trim();
+            cleanInput = userInput.toLowerCase();
             if (cleanInput.equals("bye")) {
                 System.out.println(goodbye);
                 break;
@@ -43,7 +43,18 @@ public class Ayre {
                 task.markComplete();
                 System.out.print("~ Mission complete. Good work, Raven.\n" + task + "\n> ");
             } else {
-                lst.add(new Task(userInput));
+                String[] input = userInput.split("\s", 2);
+                input[0] = input[0].toLowerCase();
+                if (input[0].equals("todo")) {
+                    lst.add(new Todo(input[1]));
+                } else if (input[0].equals("deadline")) {
+                    String[] params = input[1].split(" /by ");
+                    lst.add(new Deadline(params[0], params[1]));
+                } else if (input[0].equals("event")) {
+                    String[] params = input[1].split(" /from ");
+                    String[] times = params[1].split(" /to ");
+                    lst.add(new Event(params[0], times[0], times[1]));
+                }
                 System.out.print("~ [" + userInput + "] has been added to the mission list.\n> ");
             }
         }
