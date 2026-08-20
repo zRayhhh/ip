@@ -2,9 +2,11 @@ import java.util.Scanner;
 
 public class Ayre {
     private TaskList tasks;
+    private Scanner scanner;
 
     public Ayre() {
         this.tasks = new TaskList();
+        this.scanner = new Scanner(System.in);
     }
 
     public String parseInput(String input) throws InvalidCommandException, InsufficientArgumentsException {
@@ -18,6 +20,8 @@ public class Ayre {
             tasks.unmarkTask(Integer.parseInt(body[1]) - 1);
         } else if (cmd.equals("mark")) {
             tasks.markTask(Integer.parseInt(body[1]) - 1);
+        } else if (cmd.equals("delete")) {
+            tasks.delTask(Integer.parseInt(body[1]) - 1);
         } else {
             if (cmd.equals("todo")) {
                 if (body.length < 2) throw new InsufficientArgumentsException("Mission body not found.");
@@ -47,10 +51,7 @@ public class Ayre {
                     ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚══════╝
                     .~"~.__.~"~.__.~"~.__.~"~.__.~"~.\n""";
         String greeting = "~ Hello, Raven. What shall we do today?\n> ";
-        String goodbye = "~ Terminating connection. See you again, Raven.";
         System.out.print(banner + greeting);
-
-        Scanner scanner = new Scanner(System.in);
 
         while (true) {
             try {

@@ -19,6 +19,11 @@ public class TaskList {
         lst.get(i).unmarkComplete();
     }
 
+    public void delTask(int i) {
+        lst.remove(i);
+        System.out.print("~ The mission has been dropped. Let's... try it again next time.\n> ");
+    }
+
     public int pendingTasks() {
         int count = 0;
         for (Task t : lst) {
