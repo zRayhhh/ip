@@ -1,13 +1,15 @@
-import java.util.Scanner;   // switch to BufferedReader at some point
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
 
 public class Ayre {
     private static final String LOG_PATH = "./data/ayre.txt";
 
     private final LiveTaskList tasks;
-    private final Scanner inputScanner;
+    private final BufferedReader reader;
 
     public Ayre() {
-        this.inputScanner = new Scanner(System.in);
+        this.reader = new BufferedReader(new InputStreamReader(System.in));
         this.tasks = LiveTaskList.load(new Storage(LOG_PATH));
     }
 
@@ -60,12 +62,14 @@ public class Ayre {
 
         while (true) {
             try {
-                String cmd = parseInput(inputScanner.nextLine());
+                String cmd = parseInput(reader.readLine());
                 if (cmd.equals("bye")) break;
             } catch (InsufficientArgumentsException e) {
                 System.out.print("~ Raven, I'm not seeing the mission details. Please try again.\n> ");
             } catch (InvalidCommandException e) {
                 System.out.print("~ ...Raven, this command was not found in the Coral Collective. Was it a mistake?\n> ");
+            } catch (IOException e) {
+                // Do something
             }
         }
     }
