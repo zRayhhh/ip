@@ -10,22 +10,18 @@ public class TaskList {
 
     public void addTask(Task tsk) {
         lst.add(tsk);
-        Ayre.saveNewTask(tsk);
     }
 
     public void markTask(int i) {
         lst.get(i).markComplete();
-        Ayre.updateExistingTask();
     }
 
     public void unmarkTask(int i) {
         lst.get(i).unmarkComplete();
-        Ayre.updateExistingTask();
     }
 
     public void delTask(int i) {
         lst.remove(i);
-        Ayre.updateExistingTask();
         System.out.print("~ The mission has been dropped.\n> ");
     }
 
