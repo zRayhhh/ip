@@ -1,13 +1,4 @@
-import java.io.IOException;
-
-import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.nio.file.StandardOpenOption;
-
 import java.util.Scanner;   // switch to BufferedReader at some point
-import java.util.stream.Stream;
 
 public class Ayre {
     private static final String LOG_PATH = "./data/ayre.txt";
