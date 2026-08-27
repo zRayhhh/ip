@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class TaskList {
     public void delTask(int i) {
         lst.remove(i);
         Ayre.updateExistingTask();
-        System.out.print("~ The mission has been dropped. Let's... try it again next time.\n> ");
+        System.out.print("~ The mission has been dropped.\n> ");
     }
 
     public int pendingTasks() {
