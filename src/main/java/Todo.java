@@ -5,7 +5,7 @@ public class Todo extends Task {
 
     @Override
     public String toLogString() {
-        return "T " + super.toLogString() + "\n";
+        return "T " + super.toLogString();
     }
 
     @Override

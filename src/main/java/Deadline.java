@@ -10,7 +10,7 @@ public class Deadline extends TimedTask {
 
     @Override
     public String toLogString() {
-        return "D " + super.toLogString() + " " + dueBy + "\n";
+        return "D " + super.toLogString() + " " + dueBy;
     }
 
     @Override
