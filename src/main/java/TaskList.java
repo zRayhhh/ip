@@ -1,4 +1,6 @@
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TaskList {
     private ArrayList<Task> lst;
@@ -9,18 +11,22 @@ public class TaskList {
 
     public void addTask(Task tsk) {
         lst.add(tsk);
+        Ayre.saveNewTask(tsk);
     }
 
     public void markTask(int i) {
         lst.get(i).markComplete();
+        Ayre.updateExistingTask();
     }
 
     public void unmarkTask(int i) {
         lst.get(i).unmarkComplete();
+        Ayre.updateExistingTask();
     }
 
     public void delTask(int i) {
         lst.remove(i);
+        Ayre.updateExistingTask();
         System.out.print("~ The mission has been dropped. Let's... try it again next time.\n> ");
     }
 
@@ -32,8 +38,14 @@ public class TaskList {
         return count;
     }
 
-    public int numTasks() {
+    public int getNumTasks() {
         return lst.size();
+    }
+
+    public List<String> toLog() {
+        return this.lst.stream()
+                .map(Task::toLogString)
+                .toList();
     }
 
     @Override

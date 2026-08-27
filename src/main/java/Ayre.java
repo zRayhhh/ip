@@ -3,6 +3,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
 
 import java.util.Scanner;   // switch to BufferedReader at some point
 import java.util.stream.Stream;
@@ -11,15 +13,15 @@ public class Ayre {
     private static final Path DATA = Path.of("./data");
     private static final Path TASK_LOG = DATA.resolve("ayre.txt");
 
-    private TaskList tasks;
+    private static TaskList tasks;
     private Scanner inputScanner;
 
     public Ayre() {
         this.inputScanner = new Scanner(System.in);
-        this.tasks = this.readTaskLog();        // shift into a factory method
+        tasks = this.readTaskLog();        // shift into a factory method
     }
 
-    // task log T/D/E,0/1,name,time1,time2
+    // task log T/D/E 0/1 name time1 time2
 
     private void createTaskLog() {
         try {
@@ -34,7 +36,7 @@ public class Ayre {
         TaskList lst = new TaskList();
         try (Stream<String> lines = Files.lines(TASK_LOG)) {
             lines.forEach(line -> {
-                    String[] args = line.split(",");
+                    String[] args = line.split(" ");
                     Task tsk;
                     try {
                         tsk = switch (args[0]) {
@@ -52,7 +54,7 @@ public class Ayre {
                 });
         } catch (NoSuchFileException e) {
             System.out.println("~ First contact with Coral Collective established");
-            this.tasks = new TaskList();
+            tasks = new TaskList();
             this.createTaskLog();
         } catch (IOException e) {
             // something went bad
@@ -60,8 +62,26 @@ public class Ayre {
         return lst;
     }
 
+    public static void saveNewTask(Task tsk) {
+        try {
+            Files.writeString(TASK_LOG, tsk.toLogString(), StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            System.out.println("Failed to write new mission to log");
+        }
+    }
+
+    public static void updateExistingTask() {
+        try {
+            Path tmpFile = Files.createTempFile(DATA, "~$ayre", ".tmp");
+            Files.write(tmpFile, tasks.toLog());
+            Files.move(tmpFile, TASK_LOG, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            System.out.println("Failed to update mission log");
+        }
+    }
+
     public String parseInput(String input) throws InvalidCommandException, InsufficientArgumentsException {
-        String[] body = input.trim().split("\s", 2);
+        String[] body = input.trim().split(" ", 2);
         String cmd = body[0].toLowerCase();
         if (cmd.equals("bye")) {
             System.out.println("~ Terminating connection. See you again, Raven.");
@@ -100,7 +120,8 @@ public class Ayre {
                     ██╔══██║  ╚██╔╝  ██╔══██╗██╔══╝
                     ██║  ██║   ██║   ██║  ██║███████╗
                     ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚══════╝
-                    .~"~.__.~"~.__.~"~.__.~"~.__.~"~.\n""";
+                    .~"~.__.~"~.__.~"~.__.~"~.__.~"~.
+                """;
         String greeting = "~ Hello, Raven. What shall we do today?\n> ";
         System.out.print(banner + greeting);
 

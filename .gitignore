@@ -1,6 +1,9 @@
 # .class files
 *.class
 
+# ./data folder
+/data/
+
 # IDEA files
 /.idea/
 /out/
