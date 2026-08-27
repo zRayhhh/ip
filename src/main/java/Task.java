@@ -21,6 +21,10 @@ public class Task {
         System.out.print("~ The mission is still pending, Raven. Let's get to it.\n" + this + "\n> ");
     }
 
+    public String toLogString() {
+        return (this.isComplete ? "1" : "0") + " " + this.name;
+    }
+
     @Override
     public String toString() {
         return "[" + (this.isComplete ? "+" : " ") + "] " + this.name;
