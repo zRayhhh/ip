@@ -1,9 +1,11 @@
-public class Deadline extends Task {
-    private String dueBy;
+import java.time.LocalDate;
+
+public class Deadline extends TimedTask {
+    private LocalDate dueBy;
 
     public Deadline(String name, String dueBy) {
         super(name);
-        this.dueBy = dueBy;
+        this.dueBy = LocalDate.parse(dueBy);
     }
 
     @Override
@@ -13,6 +15,6 @@ public class Deadline extends Task {
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " <by: " + dueBy + ">";
+        return "[D]" + super.toString() + " <by: " + this.formatDate(dueBy) + ">";
     }
 }
