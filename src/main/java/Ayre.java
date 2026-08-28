@@ -15,7 +15,7 @@ public class Ayre {
 
     // task log T/D/E 0/1 name time1 time2
 
-    public String parseInput(String input) throws InvalidCommandException, InsufficientArgumentsException {
+    public String parseInput(String input) throws InvalidCommandException, WrongNumberOfArgumentsException {
         String[] body = input.trim().split(" ", 2);
         String cmd = body[0].toLowerCase();
         if (cmd.equals("bye")) {
@@ -30,7 +30,7 @@ public class Ayre {
             tasks.del(Integer.parseInt(body[1]) - 1);
         } else {
             if (cmd.equals("todo")) {
-                if (body.length < 2) throw new InsufficientArgumentsException("Mission body not found.");
+                if (body.length < 2) throw new WrongNumberOfArgumentsException("Mission body not found.");
                 tasks.add(new Todo(body[1]));
             } else if (cmd.equals("deadline")) {
                 String[] params = body[1].split(" /by ");
@@ -64,7 +64,7 @@ public class Ayre {
             try {
                 String cmd = parseInput(reader.readLine());
                 if (cmd.equals("bye")) break;
-            } catch (InsufficientArgumentsException e) {
+            } catch (WrongNumberOfArgumentsException e) {
                 System.out.print("~ Raven, I'm not seeing the mission details. Please try again.\n> ");
             } catch (InvalidCommandException e) {
                 System.out.print("~ ...Raven, this command was not found in the Coral Collective. Was it a mistake?\n> ");

@@ -64,6 +64,10 @@ public enum Command {
 
     public abstract void validate(List<String> args) throws InvalidCommandArgumentsException;
 
+    public int getNumArgs() {
+        return numArgs;
+    }
+
     public static Command parseCommand(String input) {
         for (Command cmd : values()) {
             if (cmd.name.equals(input)) {
