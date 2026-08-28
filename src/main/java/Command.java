@@ -1,5 +1,6 @@
 import java.util.List;
 
+// Constructed with some modifications from Claude Sonnet 5 medium
 public enum Command {
     BYE("bye", 0) {
         @Override
@@ -13,7 +14,7 @@ public enum Command {
         @Override
         public void validate(List<String> args) throws InvalidCommandArgumentsException {
             if (!ValidationTools.isValidTaskIndex(args.get(0))) {
-                throw new InvalidCommandArgumentsException("Expected strictly positive integer as index");
+                throw new InvalidCommandArgumentsException("Expected integer value");
             }
         }
     },
@@ -21,7 +22,7 @@ public enum Command {
         @Override
         public void validate(List<String> args) throws InvalidCommandArgumentsException {
             if (!ValidationTools.isValidTaskIndex(args.get(0))) {
-                throw new InvalidCommandArgumentsException("Expected strictly positive integer as index");
+                throw new InvalidCommandArgumentsException("Expected integer value");
             }
         }
     },
@@ -29,7 +30,7 @@ public enum Command {
         @Override
         public void validate(List<String> args) throws InvalidCommandArgumentsException {
             if (!ValidationTools.isValidTaskIndex(args.get(0))) {
-                throw new InvalidCommandArgumentsException("Expected strictly positive integer as index");
+                throw new InvalidCommandArgumentsException("Expected integer value");
             }
         }
     },

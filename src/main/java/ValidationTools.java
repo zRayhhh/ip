@@ -5,8 +5,8 @@ import java.time.format.ResolverStyle;
 import java.util.regex.Pattern;
 
 public class ValidationTools {
-    // Demonic regex for int validation via Gemini
-    private static final Pattern POSITIVE_INT_WITH_LEADING_ZERO = Pattern.compile("(?=.*[1-9])\\d+");
+    // Regex for int validation via Gemini
+    private static final Pattern POSITIVE_INT_WITH_LEADING_ZERO = Pattern.compile("-?\\d+");
     // Strict version of default
     private static final DateTimeFormatter STRICT_ISO_LOCAL_DATE =
             DateTimeFormatter.ISO_LOCAL_DATE.withResolverStyle(ResolverStyle.STRICT);

@@ -1,6 +1,7 @@
 import java.util.function.Consumer;
 
-public class LiveTaskList {     // made with Claude Sonnet 5 as baseline
+// Constructed with Claude Sonnet 5 medium
+public class LiveTaskList {
     private final TaskList tasks;
     private final Storage store;
 
@@ -32,6 +33,10 @@ public class LiveTaskList {     // made with Claude Sonnet 5 as baseline
 
     public void unmark(int i) {
         this.mutateList(lst -> lst.unmarkTask(i));
+    }
+
+    public int getNumTasks() {
+        return this.tasks.getNumTasks();
     }
 
     @Override
