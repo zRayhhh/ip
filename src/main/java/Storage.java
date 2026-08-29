@@ -62,7 +62,12 @@ public class Storage {
         try {
             Path tmpFile = Files.createTempFile(PARENT_DIR, "~$ayre", ".tmp");
             Files.write(tmpFile, lst.toLog());
-            Files.move(tmpFile, LOG_PATH, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+            try {
+                Files.move(tmpFile, LOG_PATH, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                Files.deleteIfExists(tmpFile);
+                throw e;
+            }
         } catch (IOException e) {
             // handle it here (failed to save to hard disk), allows remaining list operation to return result
         }
