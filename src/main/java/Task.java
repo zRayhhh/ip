@@ -13,12 +13,12 @@ public class Task {
 
     public String markComplete() {
         this.isComplete = true;
-        return "~ Mission complete. Good work, Raven.\n" + this + "\n> ";
+        return "~ Mission complete. Good work, Raven.\n" + this ;
     }
 
     public String unmarkComplete() {
         this.isComplete = false;
-        return "~ The mission is still pending, Raven. Let's get to it.\n" + this + "\n> ";
+        return "~ The mission is still pending, Raven. Let's get to it.\n" + this;
     }
 
     public String toLogString() {

@@ -37,11 +37,17 @@ public class Ui {
         this.OUT.print(banner + greeting);
     }
 
-    public void showGoodbye() {
-        this.OUT.print("~ Terminating connection. See you again, Raven.\n");
-    }
-
     public void showMessage(String message) {
         this.OUT.print(message);
+        this.showNewUserLine();
+    }
+
+    public void showError(String errorMsg) {
+        this.OUT.print("<<Main System: Error Detected>>\n" + errorMsg);
+        this.showNewUserLine();
+    }
+
+    private void showNewUserLine() {
+        this.OUT.print("\n> ");
     }
 }

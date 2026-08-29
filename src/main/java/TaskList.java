@@ -10,7 +10,7 @@ public class TaskList {
 
     public String addTask(Task tsk) {
         lst.add(tsk);
-        return "~ New mission added:\n" + tsk.toString() + "\n> ";
+        return "~ New mission added:\n" + tsk.toString();
     }
 
     public String markTask(int i) {
@@ -24,7 +24,15 @@ public class TaskList {
     public String delTask(int i) {
         String tsk = lst.get(i).toString();
         lst.remove(i);
-        return "~ The mission has been dropped.\n~~Deleted: " + tsk + "\n> ";
+        return "~ The mission has been dropped.\nDeleted: " + tsk;
+    }
+
+    private int getUnmarkedTasks() {
+        int count = 0;
+        for (Task t : lst) {
+            if (!t.getComplete()) count++;
+        }
+        return count;
     }
 
     public int getNumTasks() {
@@ -39,10 +47,18 @@ public class TaskList {
 
     @Override
     public String toString() {
+        if (lst.isEmpty()) {
+            return "~ The mission log is empty, Raven.";
+        }
         StringBuilder tasks = new StringBuilder();
         for (int i = 1; i <= lst.size(); i++) {
             tasks.append(i).append(". ").append(lst.get(i - 1)).append("\n");
         }
-        return "~ Current missions:\n" + tasks + "> ";
+        int numUnmarked = this.getUnmarkedTasks();
+        String unmarkedInfo = (numUnmarked == 0)
+                ? "~ There are no unmarked missions. Well done, Raven."
+                : "~ You have " + numUnmarked + " pending mission"
+                        + (numUnmarked == 1 ? "" : "s") + ". Let's do this.";
+        return "~ Current missions:\n" + tasks + unmarkedInfo;
     }
 }
