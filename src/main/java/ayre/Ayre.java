@@ -5,6 +5,10 @@ import ayre.exceptions.InvalidCommandArgumentsException;
 import ayre.exceptions.UnknownCommandException;
 import ayre.exceptions.WrongNumberOfArgumentsException;
 
+import java.io.PrintStream;
+
+import java.nio.charset.StandardCharsets;
+
 public class Ayre {
     private static final String LOG_PATH = "./data/ayre.txt";
 
@@ -39,6 +43,8 @@ public class Ayre {
     }
 
     public static void main(String[] args) {
+        // clamping output bytes to UTF-8
+        System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
         new Ayre().run();
     }
 }
