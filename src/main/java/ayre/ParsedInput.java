@@ -1,3 +1,7 @@
+package ayre;
+
+import ayre.enums.Command;
+
 import java.util.List;
 
 public class ParsedInput {

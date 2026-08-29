@@ -1,3 +1,7 @@
+package ayre;
+
+import ayre.enums.AyreStatus;
+
 public class CommandResult {
     private final String MESSAGE;
     private final AyreStatus STATUS;

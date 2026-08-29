@@ -1,3 +1,5 @@
+package ayre.tasks;
+
 public class Task {
     private String name;
     private boolean isComplete;

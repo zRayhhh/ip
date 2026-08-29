@@ -1,3 +1,8 @@
+package ayre.enums;
+
+import ayre.exceptions.InvalidCommandArgumentsException;
+import ayre.ValidationTools;
+
 import java.util.List;
 
 // Constructed with some modifications from Claude Sonnet 5 medium

@@ -1,3 +1,10 @@
+package ayre;
+
+import ayre.enums.Command;
+import ayre.exceptions.InvalidCommandArgumentsException;
+import ayre.exceptions.UnknownCommandException;
+import ayre.exceptions.WrongNumberOfArgumentsException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

@@ -1,3 +1,7 @@
+package ayre;
+
+import ayre.tasks.Task;
+
 // Constructed partially with Claude Sonnet 5 medium
 public class LiveTaskList {
     @FunctionalInterface
