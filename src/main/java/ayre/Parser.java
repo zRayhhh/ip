@@ -19,19 +19,17 @@ public class Parser {
         }
 
         List<String> args = Parser.tokenizeArgs(cmd, input);
-        if (args.size() != cmd.getNumArgs()) {
-            throw new WrongNumberOfArgumentsException("Insufficient arguments provided");
-        }
         cmd.validate(args);
         return new ParsedInput(cmd, args);
     }
 
-    private static List<String> tokenizeArgs(Command cmd, String input) throws WrongNumberOfArgumentsException {
+    // package private for junit test to run directly on this
+    static List<String> tokenizeArgs(Command cmd, String input) throws WrongNumberOfArgumentsException {
         List<String> args = new ArrayList<>();
-        if (cmd.getNumArgs() != 0) {
+        if (cmd.getNumArgs() != 0) {    // filters out BYE and LIST
             String[] cmdWithArgs = input.trim().split(" ", 2);
-            if (cmdWithArgs.length < cmd.getNumArgs()) {
-                throw new WrongNumberOfArgumentsException("Insufficient arguments provided");
+            if (cmdWithArgs.length == 1) {
+                throw new WrongNumberOfArgumentsException("Insufficient arguments");
             }
             String argLine = cmdWithArgs[1];
             switch (cmd) {
@@ -39,6 +37,9 @@ public class Parser {
                 case UNMARK:
                 case DELETE:
                 case TODO:
+                    if (argLine.split(" ").length > 1) {
+                        throw new WrongNumberOfArgumentsException("Arguments provided where not expected");
+                    }
                     args.add(argLine);
                     break;
                 case DEADLINE:
