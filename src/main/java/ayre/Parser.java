@@ -9,7 +9,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Handles the parsing of user input, involving tokenizing and validating the arguments/commands.
+ * The parser does not need to hold any information as its only purpose is
+ * to take a String as input and give back a Command and list of arguments as output.
+ */
 public class Parser {
+    /**
+     * Returns the matching Command and its arguments from a user-inputted String as a ParsedInput Record.
+     * Expected that the output arguments can be passed into the corresponding methods without type errors.
+     *
+     * @param input The String entered by the user via command line.
+     * @return Record comprising the Command and its arguments.
+     * @throws UnknownCommandException If no matching Command is found.
+     * @throws WrongNumberOfArgumentsException If wrong number of arguments are parsed.
+     * @throws InvalidCommandArgumentsException If arguments will cause type errors when passed to methods.
+     */
     public static ParsedInput parseInput(String input) throws UnknownCommandException,
             WrongNumberOfArgumentsException, InvalidCommandArgumentsException {
         String[] cmdWithArgs = input.trim().split(" ", 2);
@@ -23,7 +38,15 @@ public class Parser {
         return new ParsedInput(cmd, args);
     }
 
-    // package private for junit test to run directly on this
+    /**
+     * Splits the user-inputted String into the corresponding arguments of the Command.
+     * Package private for JUnit tests.
+     *
+     * @param cmd Command parsed from input.
+     * @param input User-inputted String.
+     * @return List of arguments as Strings.
+     * @throws WrongNumberOfArgumentsException If wrong number of arguments are detected after tokenizing.
+     */
     static List<String> tokenizeArgs(Command cmd, String input) throws WrongNumberOfArgumentsException {
         List<String> args = new ArrayList<>();
         if (cmd.getNumArgs() != 0) {    // filters out BYE and LIST

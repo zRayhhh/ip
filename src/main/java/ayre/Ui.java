@@ -6,7 +6,12 @@ import java.io.PrintStream;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-// Constructed with some modifications from Claude Sonnet 5 medium
+/**
+ * Handles user input scanning and printing to console.
+ * Relevant results of user input and exceptions are printed by this class.
+ *
+ * Constructed with some modifications from Claude Sonnet 5 medium
+ */
 public class Ui {
     private final Scanner SCANNER;
     private final PrintStream OUT;

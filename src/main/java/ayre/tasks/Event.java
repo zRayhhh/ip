@@ -2,6 +2,9 @@ package ayre.tasks;
 
 import java.time.LocalDate;
 
+/**
+ * A TimedTask that holds two dates.
+ */
 public class Event extends TimedTask {
     private LocalDate startTime;
     private LocalDate endTime;

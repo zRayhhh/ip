@@ -9,18 +9,29 @@ import java.io.PrintStream;
 
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Main Class that handles the high-level operation of the chatbot.
+ */
 public class Ayre {
     private static final String LOG_PATH = "./data/ayre.txt";
 
     private final Ui ui;
     private final CommandExecutor executor;
 
+    /**
+     * Instantiate UI, Storage, TaskList, CommandExecutor and ensure they can communicate.
+     */
     public Ayre() {
         this.ui = new Ui(System.in, System.out);
         LiveTaskList tasks = LiveTaskList.load(new Storage(LOG_PATH));
         this.executor = new CommandExecutor(tasks);
     }
 
+    /**
+     * Hosts the main loop for Ayre.
+     * In every loop, attempt to parse user input and execute the related command,
+     * then displays the result as a console message.
+     */
     public void run() {
         this.ui.showGreeting();
         while (true) {
