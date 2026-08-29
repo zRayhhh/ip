@@ -49,15 +49,11 @@ jar {
 }
 
 shadowJar {
-    archiveFileName = 'duke.jar'
+    archiveFileName = 'test.jar'
 }
 
 run {
     standardInput = System.in
-}
-
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8'
 }
 
 tasks.named('run', JavaExec) {
