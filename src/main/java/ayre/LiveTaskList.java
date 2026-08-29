@@ -2,6 +2,8 @@ package ayre;
 
 import ayre.tasks.Task;
 
+import java.util.List;
+
 // Constructed partially with Claude Sonnet 5 medium
 public class LiveTaskList {
     @FunctionalInterface
@@ -45,6 +47,10 @@ public class LiveTaskList {
 
     public int getNumTasks() {
         return this.tasks.getNumTasks();
+    }
+
+    public String findTasks(String name) {
+        return this.tasks.findTasks(name);
     }
 
     @Override

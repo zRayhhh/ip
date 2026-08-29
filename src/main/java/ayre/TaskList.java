@@ -17,6 +17,21 @@ public class TaskList {
         return "~ New mission added:\n" + tsk.toString();
     }
 
+    public String findTasks(String name) {
+        List<String> list = this.lst.stream()
+                                    .filter(task -> task.matchesName(name))
+                                    .map(Task::toString)
+                                    .toList();
+        StringBuilder tasks = new StringBuilder();
+        for (int i = 1; i <= list.size(); i++) {
+            tasks.append(i).append(". ").append(list.get(i - 1)).append("\n");
+        }
+        return list.isEmpty()
+                ? "~ Sorry, Raven. There were no hits for that search."
+                : "~ These are the matching missions:\n"
+                    + tasks + "Did you find what you were looking for, Raven?";
+    }
+
     public String markTask(int i) {
         return lst.get(i).markComplete();
     }
@@ -51,12 +66,12 @@ public class TaskList {
 
     @Override
     public String toString() {
-        if (lst.isEmpty()) {
+        if (this.lst.isEmpty()) {
             return "~ The mission log is empty, Raven.";
         }
         StringBuilder tasks = new StringBuilder();
-        for (int i = 1; i <= lst.size(); i++) {
-            tasks.append(i).append(". ").append(lst.get(i - 1)).append("\n");
+        for (int i = 1; i <= this.lst.size(); i++) {
+            tasks.append(i).append(". ").append(this.lst.get(i - 1)).append("\n");
         }
         int numUnmarked = this.getUnmarkedTasks();
         String unmarkedInfo = (numUnmarked == 0)

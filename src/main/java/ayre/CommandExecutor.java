@@ -28,6 +28,8 @@ public class CommandExecutor {
                 new CommandResult("~ Terminating connection. See you again, Raven.\n", AyreStatus.TERMINATE));
         HANDLER.put(Command.LIST, args ->
                 new CommandResult(tasks.toString(), AyreStatus.CONTINUE));
+        HANDLER.put(Command.FIND, args ->
+                new CommandResult(tasks.findTasks(args.get(0)), AyreStatus.CONTINUE));
         HANDLER.put(Command.MARK, args -> {
             int index = Integer.parseInt(args.get(0)) - 1;      // user inputs index starting from 1
             if (index >= tasks.getNumTasks() || index < 0) {

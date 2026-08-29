@@ -19,6 +19,12 @@ public enum Command {
             return true;
         }
     },
+    FIND("find", 1) {
+        @Override
+        public boolean validate(List<String> args) {
+            return true;
+        }
+    },
     MARK("mark", 1) {
         @Override
         public boolean validate(List<String> args) throws InvalidCommandArgumentsException {
