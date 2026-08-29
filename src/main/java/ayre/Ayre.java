@@ -26,9 +26,9 @@ public class Ayre {
         while (true) {
             try {
                 ParsedInput parsedInput = Parser.parseInput(ui.readLine());
-                CommandResult result = this.executor.execute(parsedInput.getCommand(), parsedInput.getArgs());
-                ui.showMessage(result.getMessage());
-                if (result.getStatus() == AyreStatus.TERMINATE) {
+                CommandResult result = this.executor.execute(parsedInput.command(), parsedInput.args());
+                ui.showMessage(result.message());
+                if (result.status() == AyreStatus.TERMINATE) {
                     break;
                 }
             } catch (WrongNumberOfArgumentsException e) {
