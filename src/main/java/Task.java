@@ -11,14 +11,14 @@ public class Task {
         return this.isComplete;
     }
 
-    public void markComplete() {
+    public String markComplete() {
         this.isComplete = true;
-        System.out.print("~ Mission complete. Good work, Raven.\n" + this + "\n> ");
+        return "~ Mission complete. Good work, Raven.\n" + this ;
     }
 
-    public void unmarkComplete() {
+    public String unmarkComplete() {
         this.isComplete = false;
-        System.out.print("~ The mission is still pending, Raven. Let's get to it.\n" + this + "\n> ");
+        return "~ The mission is still pending, Raven. Let's get to it.\n" + this;
     }
 
     public String toLogString() {

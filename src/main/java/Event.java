@@ -12,7 +12,7 @@ public class Event extends TimedTask {
 
     @Override
     public String toLogString() {
-        return "E " + super.toLogString() + " " + startTime + " " + endTime + "\n";
+        return "E " + super.toLogString() + " " + startTime + " " + endTime;
     }
 
     @Override

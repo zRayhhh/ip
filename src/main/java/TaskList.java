@@ -8,31 +8,29 @@ public class TaskList {
         lst = new ArrayList<>();
     }
 
-    public void addTask(Task tsk) {
+    public String addTask(Task tsk) {
         lst.add(tsk);
-        Ayre.saveNewTask(tsk);
+        return "~ New mission added:\n" + tsk.toString();
     }
 
-    public void markTask(int i) {
-        lst.get(i).markComplete();
-        Ayre.updateExistingTask();
+    public String markTask(int i) {
+        return lst.get(i).markComplete();
     }
 
-    public void unmarkTask(int i) {
-        lst.get(i).unmarkComplete();
-        Ayre.updateExistingTask();
+    public String unmarkTask(int i) {
+        return lst.get(i).unmarkComplete();
     }
 
-    public void delTask(int i) {
+    public String delTask(int i) {
+        String tsk = lst.get(i).toString();
         lst.remove(i);
-        Ayre.updateExistingTask();
-        System.out.print("~ The mission has been dropped.\n> ");
+        return "~ The mission has been dropped.\nDeleted: " + tsk;
     }
 
-    public int pendingTasks() {
+    private int getUnmarkedTasks() {
         int count = 0;
         for (Task t : lst) {
-            if (t.getComplete()) count++;
+            if (!t.getComplete()) count++;
         }
         return count;
     }
@@ -49,10 +47,18 @@ public class TaskList {
 
     @Override
     public String toString() {
+        if (lst.isEmpty()) {
+            return "~ The mission log is empty, Raven.";
+        }
         StringBuilder tasks = new StringBuilder();
         for (int i = 1; i <= lst.size(); i++) {
             tasks.append(i).append(". ").append(lst.get(i - 1)).append("\n");
         }
-        return "~ Current missions:\n" + tasks + "> ";
+        int numUnmarked = this.getUnmarkedTasks();
+        String unmarkedInfo = (numUnmarked == 0)
+                ? "~ There are no unmarked missions. Well done, Raven."
+                : "~ You have " + numUnmarked + " pending mission"
+                        + (numUnmarked == 1 ? "" : "s") + ". Let's do this.";
+        return "~ Current missions:\n" + tasks + unmarkedInfo;
     }
 }
