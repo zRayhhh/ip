@@ -12,46 +12,45 @@ public class CommandExecutor {
     private final Map<Command, CommandHandler> HANDLER = new EnumMap<>(Command.class);
 
     public CommandExecutor(LiveTaskList tasks) {
-        HANDLER.put(Command.BYE, args -> CommandResult.TERMINATE);
-        HANDLER.put(Command.LIST, args -> {
-            System.out.print(tasks);
-            return CommandResult.CONTINUE;
-        });
+        HANDLER.put(Command.BYE, args ->
+                new CommandResult("~ Terminating connection. See you again, Raven.\n", AyreStatus.TERMINATE));
+        HANDLER.put(Command.LIST, args ->
+                new CommandResult(tasks.toString(), AyreStatus.CONTINUE));
         HANDLER.put(Command.MARK, args -> {
             int index = Integer.parseInt(args.get(0)) - 1;      // user inputs index starting from 1
             if (index >= tasks.getNumTasks() || index < 0) {
                 throw new InvalidCommandArgumentsException("Invalid index entered");
             }
-            tasks.mark(index);
-            return CommandResult.CONTINUE;
+            String resultMsg = tasks.mark(index);
+            return new CommandResult(resultMsg, AyreStatus.CONTINUE);
         });
         HANDLER.put(Command.UNMARK, args -> {
             int index = Integer.parseInt(args.get(0)) - 1;      // user inputs index starting from 1
             if (index >= tasks.getNumTasks() || index < 0) {
                 throw new InvalidCommandArgumentsException("Invalid index entered");
             }
-            tasks.unmark(index);
-            return CommandResult.CONTINUE;
+            String resultMsg = tasks.unmark(index);
+            return new CommandResult(resultMsg, AyreStatus.CONTINUE);
         });
         HANDLER.put(Command.DELETE, args -> {
             int index = Integer.parseInt(args.get(0)) - 1;      // user inputs index starting from 1
             if (index >= tasks.getNumTasks() || index < 0) {
                 throw new InvalidCommandArgumentsException("Invalid index entered");
             }
-            tasks.del(index);
-            return CommandResult.CONTINUE;
+            String resultMsg = tasks.del(index);
+            return new CommandResult(resultMsg, AyreStatus.CONTINUE);
         });
         HANDLER.put(Command.TODO, args -> {
-            tasks.add(new Todo(args.get(0)));
-            return CommandResult.CONTINUE;
+            String resultMsg = tasks.add(new Todo(args.get(0)));
+            return new CommandResult(resultMsg, AyreStatus.CONTINUE);
         });
         HANDLER.put(Command.DEADLINE, args -> {
-            tasks.add(new Deadline(args.get(0), args.get(1)));
-            return CommandResult.CONTINUE;
+            String resultMsg = tasks.add(new Deadline(args.get(0), args.get(1)));
+            return new CommandResult(resultMsg, AyreStatus.CONTINUE);
         });
         HANDLER.put(Command.EVENT, args -> {
-            tasks.add(new Event(args.get(0), args.get(1), args.get(2)));
-            return CommandResult.CONTINUE;
+            String resultMsg = tasks.add(new Event(args.get(0), args.get(1), args.get(2)));
+            return new CommandResult(resultMsg, AyreStatus.CONTINUE);
         });
     }
 

@@ -1,7 +1,10 @@
-import java.util.function.Consumer;
-
-// Constructed with Claude Sonnet 5 medium
+// Constructed partially with Claude Sonnet 5 medium
 public class LiveTaskList {
+    @FunctionalInterface
+    interface TaskTransformer {
+        String transform(TaskList tasks);
+    }
+
     private final TaskList tasks;
     private final Storage store;
 
@@ -14,25 +17,26 @@ public class LiveTaskList {
         return new LiveTaskList(store.load(), store);
     }
 
-    private void mutateList(Consumer<TaskList> mut) {
-        mut.accept(this.tasks);
+    private String mutateList(TaskTransformer mut) {
+        String msg = mut.transform(this.tasks);
         this.store.update(this.tasks);
+        return msg;
     }
 
-    public void add(Task tsk) {
-        this.mutateList(lst -> lst.addTask(tsk));
+    public String add(Task tsk) {
+        return this.mutateList(lst -> lst.addTask(tsk));
     }
 
-    public void del(int i) {
-        this.mutateList(lst -> lst.delTask(i));
+    public String del(int i) {
+        return this.mutateList(lst -> lst.delTask(i));
     }
 
-    public void mark(int i) {
-        this.mutateList(lst -> lst.markTask(i));
+    public String mark(int i) {
+        return this.mutateList(lst -> lst.markTask(i));
     }
 
-    public void unmark(int i) {
-        this.mutateList(lst -> lst.unmarkTask(i));
+    public String unmark(int i) {
+        return this.mutateList(lst -> lst.unmarkTask(i));
     }
 
     public int getNumTasks() {

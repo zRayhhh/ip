@@ -8,29 +8,23 @@ public class TaskList {
         lst = new ArrayList<>();
     }
 
-    public void addTask(Task tsk) {
+    public String addTask(Task tsk) {
         lst.add(tsk);
+        return "~ New mission added:\n" + tsk.toString() + "\n> ";
     }
 
-    public void markTask(int i) {
-        lst.get(i).markComplete();
+    public String markTask(int i) {
+        return lst.get(i).markComplete();
     }
 
-    public void unmarkTask(int i) {
-        lst.get(i).unmarkComplete();
+    public String unmarkTask(int i) {
+        return lst.get(i).unmarkComplete();
     }
 
-    public void delTask(int i) {
+    public String delTask(int i) {
+        String tsk = lst.get(i).toString();
         lst.remove(i);
-        System.out.print("~ The mission has been dropped.\n> ");
-    }
-
-    public int pendingTasks() {
-        int count = 0;
-        for (Task t : lst) {
-            if (t.getComplete()) count++;
-        }
-        return count;
+        return "~ The mission has been dropped.\n~~Deleted: " + tsk + "\n> ";
     }
 
     public int getNumTasks() {

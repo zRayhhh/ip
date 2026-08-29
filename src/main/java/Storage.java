@@ -1,7 +1,6 @@
 import java.io.IOException;
 
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
@@ -29,6 +28,10 @@ public class Storage {
 
     public TaskList load() {
         TaskList lst = new TaskList();
+        if (!Files.exists(LOG_PATH)) {
+            System.out.println("~ First contact with Coral Collective established");
+            this.createTaskLog();
+        }
         try (Stream<String> lines = Files.lines(LOG_PATH)) {
             lines.forEach(line -> {
                 String[] args = line.split(" ");
@@ -41,17 +44,16 @@ public class Storage {
                         default ->
                                 throw new TaskLogCorruptedException("Unexpected value encountered in file read");
                     };
-                    if (args[1].equals("1")) { tsk.markComplete(); }
+                    if (args[1].equals("1")) {
+                        tsk.markComplete();
+                    }
                     lst.addTask(tsk);
                 } catch (TaskLogCorruptedException e) {
                     // smth wrong with the data file, try to salvage or skip to next line (create error dump maybe)
                 }
             });
-        } catch (NoSuchFileException e) {
-            System.out.println("~ First contact with Coral Collective established");
-            this.createTaskLog();
         } catch (IOException e) {
-            // something went bad
+            // fatal error reading file, either perms changed or disk failure
         }
         return lst;
     }
@@ -62,7 +64,7 @@ public class Storage {
             Files.write(tmpFile, lst.toLog());
             Files.move(tmpFile, LOG_PATH, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            System.out.println("Failed to update mission log");
+            // handle it here (failed to save to hard disk), allows remaining list operation to return result
         }
     }
 }

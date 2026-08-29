@@ -11,16 +11,16 @@ public class ValidationTools {
     private static final DateTimeFormatter STRICT_ISO_LOCAL_DATE =
             DateTimeFormatter.ISO_LOCAL_DATE.withResolverStyle(ResolverStyle.STRICT);
 
-    public static boolean isValidTaskIndex(String str) {
-        return POSITIVE_INT_WITH_LEADING_ZERO.matcher(str).matches();
+    public static boolean isInvalidTaskIndex(String str) {
+        return !POSITIVE_INT_WITH_LEADING_ZERO.matcher(str).matches();
     }
 
-    public static boolean isValidIsoDate(String str) {
+    public static boolean isInvalidIsoDate(String str) {
         try {
             LocalDate.parse(str, STRICT_ISO_LOCAL_DATE);
-            return true;
-        } catch (DateTimeParseException e) {
             return false;
+        } catch (DateTimeParseException e) {
+            return true;
         }
     }
 }

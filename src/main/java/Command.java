@@ -13,7 +13,7 @@ public enum Command {
     MARK("mark", 1) {
         @Override
         public void validate(List<String> args) throws InvalidCommandArgumentsException {
-            if (!ValidationTools.isValidTaskIndex(args.get(0))) {
+            if (ValidationTools.isInvalidTaskIndex(args.get(0))) {
                 throw new InvalidCommandArgumentsException("Expected integer value");
             }
         }
@@ -21,7 +21,7 @@ public enum Command {
     UNMARK("unmark", 1) {
         @Override
         public void validate(List<String> args) throws InvalidCommandArgumentsException {
-            if (!ValidationTools.isValidTaskIndex(args.get(0))) {
+            if (ValidationTools.isInvalidTaskIndex(args.get(0))) {
                 throw new InvalidCommandArgumentsException("Expected integer value");
             }
         }
@@ -29,7 +29,7 @@ public enum Command {
     DELETE("delete", 1) {
         @Override
         public void validate(List<String> args) throws InvalidCommandArgumentsException {
-            if (!ValidationTools.isValidTaskIndex(args.get(0))) {
+            if (ValidationTools.isInvalidTaskIndex(args.get(0))) {
                 throw new InvalidCommandArgumentsException("Expected integer value");
             }
         }
@@ -41,7 +41,7 @@ public enum Command {
     DEADLINE("deadline", 2) {
         @Override
         public void validate(List<String> args) throws InvalidCommandArgumentsException {
-            if (!ValidationTools.isValidIsoDate(args.get(1))) {
+            if (ValidationTools.isInvalidIsoDate(args.get(1))) {
                 throw new InvalidCommandArgumentsException("Date does not adhere to ISO_LOCAL_DATE format");
             }
         }
@@ -49,7 +49,7 @@ public enum Command {
     EVENT("event", 3) {
         @Override
         public void validate(List<String> args) throws InvalidCommandArgumentsException {
-            if (!ValidationTools.isValidIsoDate(args.get(1)) || !ValidationTools.isValidIsoDate(args.get(2))) {
+            if (ValidationTools.isInvalidIsoDate(args.get(1)) || ValidationTools.isInvalidIsoDate(args.get(2))) {
                 throw new InvalidCommandArgumentsException("Date does not adhere to ISO_LOCAL_DATE format");
             }
         }
