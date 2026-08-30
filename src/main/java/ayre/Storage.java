@@ -67,7 +67,7 @@ public class Storage {
                             this.validateLog(Command.EVENT, logArgs, i);
                             yield new Event(logArgs[2], logArgs[3], logArgs[4]);
                         }
-                        default -> throw new TaskLogCorruptedException("Log line " + i + ": Data corrupted");
+                        default -> throw new TaskLogCorruptedException("Dropped log line " + i + ": Data corrupted");
                     };
                     if (logArgs[1].equals("1")) {
                         tsk.markComplete();
@@ -79,28 +79,33 @@ public class Storage {
             }
         } catch (IOException e) {
             // fatal error reading file, either perms changed or disk failure
-            // throw new FileLoadFailureException(e.getMessage);
+            warnings.add(e.getMessage() + "\n<<Main System>> WARNING: MISSION LOG FAILED TO LOAD; " +
+                    "YOUR MISSION LIST WILL NOT BE SAVED TO DISK");
+            return new LoadResult(lst, warnings);
+        }
+        if (!warnings.isEmpty()) {
+            this.update(lst);       // force an update to clear corrupted data straight away
         }
         return new LoadResult(lst, warnings);
     }
 
     private void validateLog(Command cmd, String[] logArgs, int index) throws TaskLogCorruptedException {
         if (logArgs.length < 3) {
-            throw new TaskLogCorruptedException("Log line " + index + ": Missing data detected");
+            throw new TaskLogCorruptedException("Dropped log line " + index + ": Missing data detected");
         }
         List<String> cmdArgs = Arrays.asList(Arrays.copyOfRange(logArgs, 2, logArgs.length));
         if (cmdArgs.size() != cmd.getNumArgs()) {
-            throw new TaskLogCorruptedException("Log line " + index + ": Missing data detected");
+            throw new TaskLogCorruptedException("Dropped log line " + index + ": Missing data detected");
         }
         try {
             cmd.validate(cmdArgs);
         } catch (InvalidCommandArgumentsException e) {
             System.out.print(cmdArgs.get(1));
-            throw new TaskLogCorruptedException("Log line " + index + ": Data corrupted");
+            throw new TaskLogCorruptedException("Dropped log line " + index + ": Data corrupted");
         }
     }
 
-    public void update(TaskList lst) {
+    public String update(TaskList lst) {
         try {
             Path tmpFile = Files.createTempFile(PARENT_DIR, "~$ayre", ".tmp");
             Files.write(tmpFile, lst.toLog());
@@ -110,8 +115,9 @@ public class Storage {
                 Files.deleteIfExists(tmpFile);
                 throw e;
             }
+            return "";
         } catch (IOException e) {
-            // handle it here (failed to save to hard disk), allows remaining list operation to return result
+            return "\n<<Main System>> WARNING: MISSION LOG UPDATE FAILED; YOUR CHANGE WILL NOT BE SAVED TO DISK";
         }
     }
 }

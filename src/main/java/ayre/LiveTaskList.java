@@ -2,8 +2,6 @@ package ayre;
 
 import ayre.tasks.Task;
 
-import java.util.List;
-
 /**
  * Intermediary class that handles mutation of TaskList and corresponding file IO.
  * This allows TaskList to stay separate from file read/write, maintaining the
@@ -26,9 +24,8 @@ public class LiveTaskList {
     }
 
     private String mutateList(TaskTransformer mut) {
-        String msg = mut.transform(this.tasks);
-        this.store.update(this.tasks);
-        return msg;
+        return mut.transform(this.tasks)
+                + this.store.update(this.tasks);
     }
 
     /**

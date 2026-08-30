@@ -11,8 +11,8 @@ public record LoadResult(TaskList tasks, List<String> warnings) {
         }
         StringBuilder warnString = new StringBuilder();
         for (int i = 1; i <= this.warnings.size(); i++) {
-            warnString.append(i).append(". ").append(this.warnings.get(i - 1)).append("\n");
+            warnString.append(this.warnings.get(i - 1)).append("\n");
         }
-        return "<<Main System: Mission Log Corruption Detected, Corrupted Lines Dropped>>\n" + warnString;
+        return "<<Main System: Mission Log Load Failed>>\n" + warnString;
     }
 }

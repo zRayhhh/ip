@@ -3,9 +3,6 @@ package ayre;
 import ayre.enums.AyreStatus;
 
 import ayre.exceptions.AyreException;
-import ayre.exceptions.InvalidCommandArgumentsException;
-import ayre.exceptions.UnknownCommandException;
-import ayre.exceptions.WrongNumberOfArgumentsException;
 import ayre.tasks.LoadResult;
 
 import java.io.PrintStream;
@@ -22,15 +19,13 @@ public class Ayre {
     private final CommandExecutor executor;
 
     /**
-     * Instantiate UI, Storage, TaskList, CommandExecutor and ensure they can communicate.
+     * Initialize UI, Storage, TaskList, CommandExecutor and ensure they can communicate.
      */
     public Ayre() {
         this.ui = new Ui(System.in, System.out);
         Storage store = new Storage(LOG_PATH);
         LoadResult res = store.load();
-        if (!res.warnings().isEmpty()) {
-            ui.showWarning(res.getWarningsAsString());
-        }
+        ui.showWarning(res.getWarningsAsString());
         LiveTaskList tasks = new LiveTaskList(res.tasks(), store);
         this.executor = new CommandExecutor(tasks);
     }
