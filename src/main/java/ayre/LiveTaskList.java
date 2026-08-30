@@ -2,6 +2,8 @@ package ayre;
 
 import ayre.tasks.Task;
 
+import java.util.List;
+
 /**
  * Intermediary class that handles mutation of TaskList and corresponding file IO.
  * This allows TaskList to stay separate from file read/write, maintaining the
@@ -81,6 +83,10 @@ public class LiveTaskList {
 
     public int getNumTasks() {
         return this.tasks.getNumTasks();
+    }
+
+    public String findTasks(String name) {
+        return this.tasks.findTasks(name);
     }
 
     @Override

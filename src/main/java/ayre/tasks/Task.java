@@ -6,12 +6,16 @@ package ayre.tasks;
  * Tasks are not complete at creation by default.
  */
 public abstract class Task {
-    private String name;
+    private final String NAME;
     private boolean isComplete;
 
     public Task(String name) {
-        this.name = name;
+        this.NAME = name;
         this.isComplete = false;
+    }
+
+    public boolean matchesName(String key) {
+        return this.NAME.contains(key);
     }
 
     public boolean getComplete() {
@@ -44,11 +48,11 @@ public abstract class Task {
      * @return String containing all necessary information about the Task to reconstruct it later
      */
     public String toLogString() {
-        return (this.isComplete ? "1" : "0") + " " + this.name;
+        return (this.isComplete ? "1" : "0") + " " + this.NAME;
     }
 
     @Override
     public String toString() {
-        return "[" + (this.isComplete ? "+" : " ") + "] " + this.name;
+        return "[" + (this.isComplete ? "+" : " ") + "] " + this.NAME;
     }
 }

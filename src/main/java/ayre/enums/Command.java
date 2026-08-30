@@ -40,6 +40,12 @@ public enum Command {
             return true;
         }
     },
+    FIND("find", 1) {
+        @Override
+        public boolean validate(List<String> args) {
+            return true;
+        }
+    },
     /** Mark a Task as complete. Requires the index of the Task as shown in the TaskList. */
     MARK("mark", 1) {
         /**

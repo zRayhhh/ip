@@ -56,6 +56,9 @@ public class Parser {
             }
             String argLine = cmdWithArgs[1];
             switch (cmd) {
+                case FIND:
+                    args.add(argLine);
+                    break;
                 case MARK:
                 case UNMARK:
                 case DELETE:

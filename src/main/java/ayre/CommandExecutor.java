@@ -39,6 +39,8 @@ public class CommandExecutor {
         // Returns the toString() of the LiveTaskList.
         HANDLER.put(Command.LIST, args ->
                 new CommandResult(tasks.toString(), AyreStatus.CONTINUE));
+        HANDLER.put(Command.FIND, args ->
+                new CommandResult(tasks.findTasks(args.get(0)), AyreStatus.CONTINUE));
         // Returns the toString() of the Task after marking it as complete.
         // @param A List<String> holding a single numeric String that is the index of the Task.
         HANDLER.put(Command.MARK, args -> {
