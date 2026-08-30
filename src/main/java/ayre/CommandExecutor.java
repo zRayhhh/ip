@@ -46,7 +46,8 @@ public class CommandExecutor {
         HANDLER.put(Command.MARK, args -> {
             int index = Integer.parseInt(args.get(0)) - 1;      // user inputs index starting from 1
             if (index >= tasks.getNumTasks() || index < 0) {
-                throw new InvalidCommandArgumentsException("Invalid index entered");
+                throw new InvalidCommandArgumentsException("~ Invalid index entered. " +
+                        "Raven, the available indexes are 1 to " + tasks.getNumTasks());
             }
             String resultMsg = tasks.mark(index);
             return new CommandResult(resultMsg, AyreStatus.CONTINUE);
@@ -56,7 +57,8 @@ public class CommandExecutor {
         HANDLER.put(Command.UNMARK, args -> {
             int index = Integer.parseInt(args.get(0)) - 1;      // user inputs index starting from 1
             if (index >= tasks.getNumTasks() || index < 0) {
-                throw new InvalidCommandArgumentsException("Invalid index entered");
+                throw new InvalidCommandArgumentsException("~ Invalid index entered. " +
+                        "Raven, the available indexes are 1 to " + tasks.getNumTasks());
             }
             String resultMsg = tasks.unmark(index);
             return new CommandResult(resultMsg, AyreStatus.CONTINUE);
@@ -66,7 +68,8 @@ public class CommandExecutor {
         HANDLER.put(Command.DELETE, args -> {
             int index = Integer.parseInt(args.get(0)) - 1;      // user inputs index starting from 1
             if (index >= tasks.getNumTasks() || index < 0) {
-                throw new InvalidCommandArgumentsException("Invalid index entered");
+                throw new InvalidCommandArgumentsException("~ Invalid index entered. " +
+                        "Raven, the available indexes are 1 to " + tasks.getNumTasks());
             }
             String resultMsg = tasks.del(index);
             return new CommandResult(resultMsg, AyreStatus.CONTINUE);

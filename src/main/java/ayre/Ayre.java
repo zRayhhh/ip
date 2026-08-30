@@ -2,9 +2,11 @@ package ayre;
 
 import ayre.enums.AyreStatus;
 
+import ayre.exceptions.AyreException;
 import ayre.exceptions.InvalidCommandArgumentsException;
 import ayre.exceptions.UnknownCommandException;
 import ayre.exceptions.WrongNumberOfArgumentsException;
+import ayre.tasks.LoadResult;
 
 import java.io.PrintStream;
 
@@ -24,7 +26,12 @@ public class Ayre {
      */
     public Ayre() {
         this.ui = new Ui(System.in, System.out);
-        LiveTaskList tasks = LiveTaskList.load(new Storage(LOG_PATH));
+        Storage store = new Storage(LOG_PATH);
+        LoadResult res = store.load();
+        if (!res.warnings().isEmpty()) {
+            ui.showWarning(res.getWarningsAsString());
+        }
+        LiveTaskList tasks = new LiveTaskList(res.tasks(), store);
         this.executor = new CommandExecutor(tasks);
     }
 
@@ -43,12 +50,8 @@ public class Ayre {
                 if (result.status() == AyreStatus.TERMINATE) {
                     break;
                 }
-            } catch (WrongNumberOfArgumentsException e) {
-                System.out.print("~ Raven. Please try again.\n> ");
-            } catch (UnknownCommandException e) {
-                System.out.print("~ ...Raven, this command was not found in the Coral Collective. Was it a mistake?\n> ");
-            } catch (InvalidCommandArgumentsException e) {
-                System.out.print("~ The data you just gave me doesn't seem to be valid.\n> ");
+            } catch (AyreException e) {
+                ui.showError(e.getMessage());
             }
         }
         ui.close();

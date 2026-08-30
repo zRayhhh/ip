@@ -54,6 +54,10 @@ public class Ui {
         this.showNewUserLine();
     }
 
+    public void showWarning(String warning) {
+        this.OUT.print(warning);
+    }
+
     private void showNewUserLine() {
         this.OUT.print("\n> ");
     }

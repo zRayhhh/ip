@@ -39,7 +39,7 @@ public class TaskList {
         return list.isEmpty()
                 ? "~ Sorry, Raven. There were no hits for that search."
                 : "~ These are the matching missions:\n"
-                    + tasks + "Did you find what you were looking for, Raven?";
+                    + tasks + "~ Did you find what you were looking for, Raven?";
     }
 
     /**

@@ -20,19 +20,9 @@ public class LiveTaskList {
     private final TaskList tasks;
     private final Storage store;
 
-    private LiveTaskList(TaskList tasks, Storage store) {
+    public LiveTaskList(TaskList tasks, Storage store) {
         this.tasks = tasks;
         this.store = store;
-    }
-
-    /**
-     * Loads the information in the save file into memory as a TaskList.
-     *
-     * @param store A Storage object instantiated to handle IO.
-     * @return A LiveTaskList object to mutate the TaskList with.
-     */
-    public static LiveTaskList load(Storage store) {
-        return new LiveTaskList(store.load(), store);
     }
 
     private String mutateList(TaskTransformer mut) {

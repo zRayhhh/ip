@@ -1,11 +1,10 @@
 package ayre;
 
+import ayre.enums.Command;
+import ayre.exceptions.InvalidCommandArgumentsException;
 import ayre.exceptions.TaskLogCorruptedException;
 
-import ayre.tasks.Deadline;
-import ayre.tasks.Event;
-import ayre.tasks.Task;
-import ayre.tasks.Todo;
+import ayre.tasks.*;
 
 import java.io.IOException;
 
@@ -13,6 +12,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 
 /**
@@ -40,36 +42,62 @@ public class Storage {
         }
     }
 
-    public TaskList load() {
+    public LoadResult load() {
         TaskList lst = new TaskList();
+        List<String> warnings = new ArrayList<>();
         if (!Files.exists(LOG_PATH)) {
             System.out.println("~ First contact with Coral Collective established");
             this.createTaskLog();
         }
         try (Stream<String> lines = Files.lines(LOG_PATH)) {
-            lines.forEach(line -> {
-                String[] args = line.split(" ");
-                Task tsk;
+            List<String> linesList = lines.toList();
+            for (int i = 0; i < linesList.size(); i++) {
+                String[] logArgs = linesList.get(i).split(" ");
                 try {
-                    tsk = switch (args[0]) {
-                        case "T" -> new Todo(args[2]);
-                        case "D" -> new Deadline(args[2], args[3]);
-                        case "E" -> new Event(args[2], args[3], args[4]);
-                        default ->
-                                throw new TaskLogCorruptedException("Unexpected value encountered in file read");
+                    Task tsk = switch (logArgs[0]) {
+                        case "T" -> {
+                            this.validateLog(Command.TODO, logArgs, i);
+                            yield new Todo(logArgs[2]);
+                        }
+                        case "D" -> {
+                            this.validateLog(Command.DEADLINE, logArgs, i);
+                            yield new Deadline(logArgs[2], logArgs[3]);
+                        }
+                        case "E" -> {
+                            this.validateLog(Command.EVENT, logArgs, i);
+                            yield new Event(logArgs[2], logArgs[3], logArgs[4]);
+                        }
+                        default -> throw new TaskLogCorruptedException("Log line " + i + ": Data corrupted");
                     };
-                    if (args[1].equals("1")) {
+                    if (logArgs[1].equals("1")) {
                         tsk.markComplete();
                     }
                     lst.addTask(tsk);
                 } catch (TaskLogCorruptedException e) {
-                    // smth wrong with the data file, try to salvage or skip to next line (create error dump maybe)
+                    warnings.add(e.getMessage());
                 }
-            });
+            }
         } catch (IOException e) {
             // fatal error reading file, either perms changed or disk failure
+            // throw new FileLoadFailureException(e.getMessage);
         }
-        return lst;
+        return new LoadResult(lst, warnings);
+    }
+
+    private void validateLog(Command cmd, String[] logArgs, int index) throws TaskLogCorruptedException {
+        if (logArgs.length < 3) {
+            throw new TaskLogCorruptedException("Log line " + index + ": Missing data detected");
+        }
+        List<String> cmdArgs = Arrays.asList(Arrays.copyOfRange(logArgs, 2, logArgs.length));
+        if (cmdArgs.size() != cmd.getNumArgs()) {
+            throw new TaskLogCorruptedException("Log line " + index + ": Missing data detected");
+        }
+        try {
+            cmd.validate(cmdArgs);
+        } catch (InvalidCommandArgumentsException e) {
+            System.out.print(cmdArgs.get(1));
+            throw new TaskLogCorruptedException("Log line " + index + ": Data corrupted");
+        }
     }
 
     public void update(TaskList lst) {
