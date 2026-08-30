@@ -7,6 +7,9 @@ import java.time.format.ResolverStyle;
 
 import java.util.regex.Pattern;
 
+/**
+ * A helper class with some useful methods for validating String input against a certain pattern or format.
+ */
 public class ValidationTools {
     // Regex for int validation via Gemini
     private static final Pattern POSITIVE_INT_WITH_LEADING_ZERO = Pattern.compile("-?\\d+");

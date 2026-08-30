@@ -15,6 +15,11 @@ import java.nio.file.StandardCopyOption;
 
 import java.util.stream.Stream;
 
+/**
+ * Handles file IO, including reading the save file at the start of the program and loading that
+ * information into the TaskList, as well as updating the file.
+ * Relies on LiveTaskList to bind the file update to a TaskList mutation.
+ */
 public class Storage {
     private final Path LOG_PATH;
     private final Path PARENT_DIR;

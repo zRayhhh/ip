@@ -2,6 +2,9 @@ package ayre.tasks;
 
 import java.time.LocalDate;
 
+/**
+ * A TimedTask that only holds a single date.
+ */
 public class Deadline extends TimedTask {
     private LocalDate dueBy;
 
