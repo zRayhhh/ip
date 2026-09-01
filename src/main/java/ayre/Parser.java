@@ -34,7 +34,6 @@ public class Parser {
                     "Was it a mistake?");
         }
         List<String> args = Parser.tokenizeArgs(cmd, input);
-        cmd.validate(args);
         return new ParsedInput(cmd, args);
     }
 

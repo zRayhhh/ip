@@ -1,5 +1,6 @@
 package ayre;
 
+import ayre.commands.*;
 import ayre.enums.AyreStatus;
 import ayre.enums.CommandType;
 
@@ -19,79 +20,30 @@ import java.util.Map;
  * Constructed with some modifications from Claude Sonnet 5 medium
  */
 public class CommandExecutor {
-    @FunctionalInterface
-    interface CommandHandler {
-        CommandResult handle(List<String> args) throws InvalidCommandArgumentsException;
-    }
-
-    private final Map<CommandType, CommandHandler> HANDLER = new EnumMap<>(CommandType.class);
+    private final Map<CommandType, Command> HANDLER = new EnumMap<>(CommandType.class);
 
     /**
      * Class constructor.
-     * Initializes the EnumMap by adding all mappings between Commands and their execution methods.
+     * Initializes the EnumMap by adding all mappings between CommandTypes and their Command class.
      *
      * @param tasks The LiveTaskList used by the main process.
      */
     public CommandExecutor(LiveTaskList tasks) {
-        // Returns a goodbye message and is the only one to return a TERMINATE status.
-        HANDLER.put(CommandType.BYE, args ->
-                new CommandResult("~ Terminating connection. See you again, Raven.\n", AyreStatus.TERMINATE));
-        // Returns the toString() of the LiveTaskList.
-        HANDLER.put(CommandType.LIST, args ->
-                new CommandResult(tasks.toString(), AyreStatus.CONTINUE));
-        HANDLER.put(CommandType.FIND, args ->
-                new CommandResult(tasks.findTasks(args.get(0)), AyreStatus.CONTINUE));
-        // Returns the toString() of the Task after marking it as complete.
-        // @param A List<String> holding a single numeric String that is the index of the Task.
-        HANDLER.put(CommandType.MARK, args -> {
-            int index = Integer.parseInt(args.get(0)) - 1;      // user inputs index starting from 1
-            if (index >= tasks.getNumTasks() || index < 0) {
-                throw new InvalidCommandArgumentsException("~ Invalid index entered. " +
-                        "Raven, the available indexes are 1 to " + tasks.getNumTasks());
+        HANDLER.put(CommandType.BYE, new ByeCommand(tasks));
+        HANDLER.put(CommandType.LIST, new ListCommand(tasks));
+        HANDLER.put(CommandType.FIND, new FindCommand(tasks));
+        HANDLER.put(CommandType.MARK, new MarkCommand(tasks));
+        HANDLER.put(CommandType.UNMARK, new UnmarkCommand(tasks));
+        HANDLER.put(CommandType.DELETE, new DeleteCommand(tasks));
+        HANDLER.put(CommandType.TODO, new TodoCommand(tasks));
+        HANDLER.put(CommandType.DEADLINE, new DeadlineCommand(tasks));
+        HANDLER.put(CommandType.EVENT, new EventCommand(tasks));
+
+        for (CommandType c : CommandType.values()) {
+            if (!HANDLER.containsKey(c)) {
+                throw new IllegalStateException("No executor registered for command: " + c);
             }
-            String resultMsg = tasks.mark(index);
-            return new CommandResult(resultMsg, AyreStatus.CONTINUE);
-        });
-        // Returns the toString() of the Task after marking it as incomplete.
-        // @param A List<String> holding a single numeric String that is the index of the Task.
-        HANDLER.put(CommandType.UNMARK, args -> {
-            int index = Integer.parseInt(args.get(0)) - 1;      // user inputs index starting from 1
-            if (index >= tasks.getNumTasks() || index < 0) {
-                throw new InvalidCommandArgumentsException("~ Invalid index entered. " +
-                        "Raven, the available indexes are 1 to " + tasks.getNumTasks());
-            }
-            String resultMsg = tasks.unmark(index);
-            return new CommandResult(resultMsg, AyreStatus.CONTINUE);
-        });
-        // Returns the toString() of the Task after removing it from the LiveTaskList.
-        // @param A List<String> holding a single numeric String that is the index of the Task.
-        HANDLER.put(CommandType.DELETE, args -> {
-            int index = Integer.parseInt(args.get(0)) - 1;      // user inputs index starting from 1
-            if (index >= tasks.getNumTasks() || index < 0) {
-                throw new InvalidCommandArgumentsException("~ Invalid index entered. " +
-                        "Raven, the available indexes are 1 to " + tasks.getNumTasks());
-            }
-            String resultMsg = tasks.del(index);
-            return new CommandResult(resultMsg, AyreStatus.CONTINUE);
-        });
-        // Returns the toString() of the Todo after adding it to the LiveTaskList.
-        // @param A List<String> holding a single String that is the name of the Todo.
-        HANDLER.put(CommandType.TODO, args -> {
-            String resultMsg = tasks.add(new Todo(args.get(0)));
-            return new CommandResult(resultMsg, AyreStatus.CONTINUE);
-        });
-        // Returns the toString() of the Deadline after adding it to the LiveTaskList.
-        // @param A List<String> holding 2 Strings: the name of the Deadline and the date due by.
-        HANDLER.put(CommandType.DEADLINE, args -> {
-            String resultMsg = tasks.add(new Deadline(args.get(0), args.get(1)));
-            return new CommandResult(resultMsg, AyreStatus.CONTINUE);
-        });
-        // Returns the toString() of the Event after adding it to the LiveTaskList.
-        // @param A List<String> holding 3 Strings: the name of the Event, start date, and end date.
-        HANDLER.put(CommandType.EVENT, args -> {
-            String resultMsg = tasks.add(new Event(args.get(0), args.get(1), args.get(2)));
-            return new CommandResult(resultMsg, AyreStatus.CONTINUE);
-        });
+        }
     }
 
     /**
@@ -103,6 +55,6 @@ public class CommandExecutor {
      * @throws InvalidCommandArgumentsException If arguments will cause a RunTimeException.
      */
     public CommandResult execute(CommandType cmd, List<String> args) throws InvalidCommandArgumentsException {
-        return HANDLER.get(cmd).handle(args);
+        return HANDLER.get(cmd).doCommand(args);
     }
 }

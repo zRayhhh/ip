@@ -1,5 +1,9 @@
 package ayre;
 
+import ayre.commands.Command;
+import ayre.commands.DeadlineCommand;
+import ayre.commands.EventCommand;
+import ayre.commands.TodoCommand;
 import ayre.enums.CommandType;
 import ayre.exceptions.InvalidCommandArgumentsException;
 import ayre.exceptions.TaskLogCorruptedException;
@@ -56,15 +60,15 @@ public class Storage {
                 try {
                     Task tsk = switch (logArgs[0]) {
                         case "T" -> {
-                            this.validateLog(CommandType.TODO, logArgs, i);
+                            this.validateLog(CommandType.TODO, new TodoCommand(null), logArgs, i);
                             yield new Todo(logArgs[2]);
                         }
                         case "D" -> {
-                            this.validateLog(CommandType.DEADLINE, logArgs, i);
+                            this.validateLog(CommandType.DEADLINE, new DeadlineCommand(null), logArgs, i);
                             yield new Deadline(logArgs[2], logArgs[3]);
                         }
                         case "E" -> {
-                            this.validateLog(CommandType.EVENT, logArgs, i);
+                            this.validateLog(CommandType.EVENT, new EventCommand(null), logArgs, i);
                             yield new Event(logArgs[2], logArgs[3], logArgs[4]);
                         }
                         default -> throw new TaskLogCorruptedException("Dropped log line " + i + ": Data corrupted");
@@ -89,16 +93,16 @@ public class Storage {
         return new LoadResult(lst, warnings);
     }
 
-    private void validateLog(CommandType cmd, String[] logArgs, int index) throws TaskLogCorruptedException {
+    private void validateLog(CommandType cmdType, Command command, String[] logArgs, int index) throws TaskLogCorruptedException {
         if (logArgs.length < 3) {
             throw new TaskLogCorruptedException("Dropped log line " + index + ": Missing data detected");
         }
         List<String> cmdArgs = Arrays.asList(Arrays.copyOfRange(logArgs, 2, logArgs.length));
-        if (cmdArgs.size() != cmd.getNumArgs()) {
+        if (cmdArgs.size() != cmdType.getNumArgs()) {
             throw new TaskLogCorruptedException("Dropped log line " + index + ": Missing data detected");
         }
         try {
-            cmd.validate(cmdArgs);
+            command.validate(cmdArgs);
         } catch (InvalidCommandArgumentsException e) {
             System.out.print(cmdArgs.get(1));
             throw new TaskLogCorruptedException("Dropped log line " + index + ": Data corrupted");

@@ -11,6 +11,6 @@ public abstract class Command {
         return this.execute(args);
     }
 
-    protected abstract void validate(List<String> args) throws InvalidCommandArgumentsException;
+    public abstract void validate(List<String> args) throws InvalidCommandArgumentsException;
     protected abstract CommandResult execute(List<String> args) throws InvalidCommandArgumentsException;
 }

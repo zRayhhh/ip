@@ -20,7 +20,7 @@ public class FindCommand extends Command {
      * @param args Expected to be a List with a single element that is the name.
      */
     @Override
-    protected void validate(List<String> args) throws InvalidCommandArgumentsException {
+    public void validate(List<String> args) throws InvalidCommandArgumentsException {
     }
 
     @Override

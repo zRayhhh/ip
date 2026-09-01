@@ -15,139 +15,23 @@ import java.util.List;
  */
 public enum CommandType {
     /** Terminate the process. Requires no arguments. */
-    BYE("bye", 0) {
-        /**
-         * Returns true by default as there is nothing to validate.
-         *
-         * @param args Expected to be an empty List.
-         * @return true
-         */
-        @Override
-        public boolean validate(List<String> args) {
-            return true;
-        }
-    },
+    BYE("bye", 0),
     /** Print the entire TaskList for viewing. Requires no arguments. */
-    LIST("list", 0) {
-        /**
-         * Returns true by default as there is nothing to validate.
-         *
-         * @param args Expected to be an empty List.
-         * @return true
-         */
-        @Override
-        public boolean validate(List<String> args) {
-            return true;
-        }
-    },
-    FIND("find", 1) {
-        @Override
-        public boolean validate(List<String> args) {
-            return true;
-        }
-    },
+    LIST("list", 0),
+    /** Print all tasks which name contains a strict match to the input String. */
+    FIND("find", 1),
     /** Mark a Task as complete. Requires the index of the Task as shown in the TaskList. */
-    MARK("mark", 1) {
-        /**
-         * Checks whether the argument is a numeric String.
-         *
-         * @param args Expected to be a List with a single element that is the argument for the Command.
-         * @return true
-         * @throws InvalidCommandArgumentsException If argument is not a numeric String.
-         */
-        @Override
-        public boolean validate(List<String> args) throws InvalidCommandArgumentsException {
-            if (ValidationTools.isInvalidTaskIndex(args.get(0))) {
-                throw new InvalidCommandArgumentsException("Expected integer value");
-            }
-            return true;
-        }
-    },
+    MARK("mark", 1),
     /** Unmark a Task as complete. Requires the index of the Task as shown in the TaskList. */
-    UNMARK("unmark", 1) {
-        /**
-         * Checks whether the argument is a numeric String.
-         *
-         * @param args Expected to be a List with a single element that is the argument for the Command.
-         * @return true
-         * @throws InvalidCommandArgumentsException If argument is not a numeric String.
-         */
-        @Override
-        public boolean validate(List<String> args) throws InvalidCommandArgumentsException {
-            if (ValidationTools.isInvalidTaskIndex(args.get(0))) {
-                throw new InvalidCommandArgumentsException("Expected integer value");
-            }
-            return true;
-        }
-    },
+    UNMARK("unmark", 1),
     /** Remove the Task from the TaskList. Requires the index of the Task as shown in the TaskList. */
-    DELETE("delete", 1) {
-        /**
-         * Checks whether the argument is a numeric String.
-         *
-         * @param args Expected to be a List with a single element that is the argument for the Command.
-         * @return true
-         * @throws InvalidCommandArgumentsException If argument is not a numeric String.
-         */
-        @Override
-        public boolean validate(List<String> args) throws InvalidCommandArgumentsException {
-            if (ValidationTools.isInvalidTaskIndex(args.get(0))) {
-                throw new InvalidCommandArgumentsException("Expected integer value");
-            }
-            return true;
-        }
-    },
+    DELETE("delete", 1),
     /** Add a new Todo to the TaskList. Requires the name of the Todo. */
-    TODO("todo", 1) {
-        /**
-         * Returns true by default as the name does not need to be validated.
-         *
-         * @param args Expected to be a List with a single element that is the name.
-         * @return true
-         */
-        @Override
-        public boolean validate(List<String> args) {
-            return true;
-        }
-    },
+    TODO("todo", 1),
     /** Add a new Deadline to the TaskList. Requires the name of the Deadline and the date due by. */
-    DEADLINE("deadline", 2) {
-        /**
-         * Checks whether the date argument is a String that matches the ISO_LOCAL_DATE format.
-         * The matching is strict, i.e. impossible dates like 13/13 are invalid.
-         * Name does not need to be validated.
-         *
-         * @param args Expected to be a List with a name and the date in that order.
-         * @return true
-         * @throws InvalidCommandArgumentsException If argument is not a valid ISO_LOCAL_DATE.
-         */
-        @Override
-        public boolean validate(List<String> args) throws InvalidCommandArgumentsException {
-            if (ValidationTools.isInvalidIsoDate(args.get(1))) {
-                throw new InvalidCommandArgumentsException("Date does not adhere to ISO_LOCAL_DATE format");
-            }
-            return true;
-        }
-    },
+    DEADLINE("deadline", 2),
     /** Add a new Event to the TaskList. Requires the name of the Event, the starting date, and the end date. */
-    EVENT("event", 3) {
-        /**
-         * Checks whether the date arguments are Strings that match the ISO_LOCAL_DATE format.
-         * The matching is strict, i.e. impossible dates like 13/13 are invalid.
-         * Name does not need to be validated.
-         *
-         * @param args Expected to be a List with a name, start date, and end date in that order.
-         * @return true
-         * @throws InvalidCommandArgumentsException If arguments are not valid ISO_LOCAL_DATE's.
-         */
-        @Override
-        public boolean validate(List<String> args) throws InvalidCommandArgumentsException {
-            if (ValidationTools.isInvalidIsoDate(args.get(1)) || ValidationTools.isInvalidIsoDate(args.get(2))) {
-                throw new InvalidCommandArgumentsException("Date does not adhere to ISO_LOCAL_DATE format");
-            }
-            return true;
-        }
-    };
+    EVENT("event", 3);
 
     private final String name;
     private final int numArgs;
@@ -156,8 +40,6 @@ public enum CommandType {
         this.name = name;
         this.numArgs = numArgs;
     }
-
-    public abstract boolean validate(List<String> args) throws InvalidCommandArgumentsException;
 
     public int getNumArgs() {
         return numArgs;

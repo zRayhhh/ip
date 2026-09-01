@@ -20,7 +20,7 @@ public class ListCommand extends Command {
      * @param args Expected to be an empty List.
      */
     @Override
-    protected void validate(List<String> args) throws InvalidCommandArgumentsException {
+    public void validate(List<String> args) throws InvalidCommandArgumentsException {
     }
 
     @Override

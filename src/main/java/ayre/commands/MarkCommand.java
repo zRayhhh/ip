@@ -22,7 +22,7 @@ public class MarkCommand extends Command {
      * @throws InvalidCommandArgumentsException If argument is not a numeric String.
      */
     @Override
-    protected void validate(List<String> args) throws InvalidCommandArgumentsException {
+    public void validate(List<String> args) throws InvalidCommandArgumentsException {
         if (ValidationTools.isInvalidTaskIndex(args.get(0))) {
             throw new InvalidCommandArgumentsException("Expected integer value");
         }

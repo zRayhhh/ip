@@ -24,7 +24,7 @@ public class EventCommand extends Command {
      * @param args Expected to be a List with a name, start date, and end date in that order.
      * @throws InvalidCommandArgumentsException If argument is not a valid ISO_LOCAL_DATE.
      */
-    protected void validate(List<String> args) throws InvalidCommandArgumentsException {
+    public void validate(List<String> args) throws InvalidCommandArgumentsException {
         if (ValidationTools.isInvalidIsoDate(args.get(1)) || ValidationTools.isInvalidIsoDate(args.get(2))) {
             throw new InvalidCommandArgumentsException("Date does not adhere to ISO_LOCAL_DATE format");
         }

@@ -19,7 +19,7 @@ public class ByeCommand extends Command {
      *
      * @param args Expected to be an empty List.
      */
-    protected void validate(List<String> args) throws InvalidCommandArgumentsException {
+    public void validate(List<String> args) throws InvalidCommandArgumentsException {
     }
 
     @Override
