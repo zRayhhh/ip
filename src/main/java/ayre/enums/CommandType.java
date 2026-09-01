@@ -13,7 +13,7 @@ import java.util.List;
  * Each Command, given its correct number of arguments, is able to validate those arguments
  * for whether they adhere to the required format. Whether the input works is not checked.
  */
-public enum Command {
+public enum CommandType {
     /** Terminate the process. Requires no arguments. */
     BYE("bye", 0) {
         /**
@@ -152,7 +152,7 @@ public enum Command {
     private final String name;
     private final int numArgs;
 
-    Command(String name, int numArgs) {
+    CommandType(String name, int numArgs) {
         this.name = name;
         this.numArgs = numArgs;
     }
@@ -170,8 +170,8 @@ public enum Command {
      * @param input A String without whitespace from processed user input.
      * @return Command matching the String.
      */
-    public static Command parseCommand(String input) {
-        for (Command cmd : values()) {
+    public static CommandType parseCommand(String input) {
+        for (CommandType cmd : values()) {
             if (cmd.name.equals(input)) {
                 return cmd;
             }

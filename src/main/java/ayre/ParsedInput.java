@@ -1,6 +1,6 @@
 package ayre;
 
-import ayre.enums.Command;
+import ayre.enums.CommandType;
 
 import java.util.List;
 
@@ -10,4 +10,4 @@ import java.util.List;
  * @param command
  * @param args
  */
-public record ParsedInput(Command command, List<String> args) {}
+public record ParsedInput(CommandType command, List<String> args) {}

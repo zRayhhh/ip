@@ -1,6 +1,6 @@
 package ayre;
 
-import ayre.enums.Command;
+import ayre.enums.CommandType;
 import ayre.exceptions.InvalidCommandArgumentsException;
 import ayre.exceptions.UnknownCommandException;
 import ayre.exceptions.WrongNumberOfArgumentsException;
@@ -28,7 +28,7 @@ public class Parser {
     public static ParsedInput parseInput(String input) throws UnknownCommandException,
             WrongNumberOfArgumentsException, InvalidCommandArgumentsException {
         String[] cmdWithArgs = input.trim().split(" ", 2);
-        Command cmd = Command.parseCommand(cmdWithArgs[0]);
+        CommandType cmd = CommandType.parseCommand(cmdWithArgs[0]);
         if (cmd == null) {
             throw new UnknownCommandException("~ ...Raven, this command was not found in the Coral Collective. " +
                     "Was it a mistake?");
@@ -47,27 +47,21 @@ public class Parser {
      * @return List of arguments as Strings.
      * @throws WrongNumberOfArgumentsException If wrong number of arguments are detected after tokenizing.
      */
-    static List<String> tokenizeArgs(Command cmd, String input) throws WrongNumberOfArgumentsException {
+    static List<String> tokenizeArgs(CommandType cmd, String input) throws WrongNumberOfArgumentsException {
         List<String> args = new ArrayList<>();
         if (cmd.getNumArgs() != 0) {    // filters out BYE and LIST
-            String[] cmdWithArgs = input.trim().split(" ", 2);
+            String[] cmdWithArgs = input.trim().split(" ", 2);  // split once to check for name/index
             if (cmdWithArgs.length == 1) {
                 throw new WrongNumberOfArgumentsException("~ Raven, some parameters are missing. I don't have " +
                         "enough information to carry out this command.");
             }
-            String argLine = cmdWithArgs[1];
+            String argLine = cmdWithArgs[1];    // take the latter half of the split input as args
             switch (cmd) {
-                case FIND:
-                    args.add(argLine);
-                    break;
-                case MARK:
-                case UNMARK:
-                case DELETE:
+                case FIND:      // fallthrough
+                case MARK:      // fallthrough
+                case UNMARK:    // fallthrough
+                case DELETE:    // fallthrough
                 case TODO:
-                    if (argLine.split(" ").length > 1) {
-                        throw new WrongNumberOfArgumentsException("~ Raven, there seems to be some extra parameters" +
-                                " mixed in. Please try again.");
-                    }
                     args.add(argLine);
                     break;
                 case DEADLINE:
