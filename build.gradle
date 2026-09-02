@@ -53,7 +53,7 @@ test {
 }
 
 application {
-    mainClass = 'ayre.Launcher'
+    mainClass = 'ayre.gui.Launcher'
 }
 
 jar {
@@ -64,7 +64,7 @@ jar {
 }
 
 shadowJar {
-    archiveFileName = 'test.jar'
+    archiveFileName = 'ayre.jar'
 }
 
 run {

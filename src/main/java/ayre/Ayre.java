@@ -64,11 +64,4 @@ public class Ayre {
             return e.getMessage();
         }
     }
-
-    public static void main(String[] args) {
-        // clamping output bytes to UTF-8
-        // System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
-
-        // new Ayre().run();
-    }
 }
