@@ -38,6 +38,10 @@ dependencies {
     implementation("org.openjfx:javafx-graphics:${javaFxVersion}:linux")
 }
 
+checkstyle {
+    toolVersion = '11.0.0'
+}
+
 test {
     useJUnitPlatform()
 
