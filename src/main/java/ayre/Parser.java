@@ -23,10 +23,9 @@ public class Parser {
      * @return Record comprising the Command and its arguments.
      * @throws UnknownCommandException If no matching Command is found.
      * @throws WrongNumberOfArgumentsException If wrong number of arguments are parsed.
-     * @throws InvalidCommandArgumentsException If arguments will cause type errors when passed to methods.
      */
     public static ParsedInput parseInput(String input) throws UnknownCommandException,
-            WrongNumberOfArgumentsException, InvalidCommandArgumentsException {
+            WrongNumberOfArgumentsException {
         String[] cmdWithArgs = input.trim().split(" ", 2);
         CommandType cmd = CommandType.parseCommand(cmdWithArgs[0]);
         if (cmd == null) {
