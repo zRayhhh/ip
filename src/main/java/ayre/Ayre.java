@@ -52,10 +52,16 @@ public class Ayre {
         ui.close();
     }
 
-    public static void main(String[] args) {
-        // clamping output bytes to UTF-8
-        System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
-
-        new Ayre().run();
+    public String getResponse(String input) {
+        try {
+            ParsedInput parsedInput = Parser.parseInput(input);
+            CommandResult result = this.executor.execute(parsedInput.command(), parsedInput.args());
+            if (result.status() == AyreStatus.TERMINATE) {
+                return "TERMINATE";
+            }
+            return result.message();
+        } catch (AyreException e) {
+            return e.getMessage();
+        }
     }
 }
