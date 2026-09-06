@@ -5,9 +5,9 @@ import java.io.IOException;
 import ayre.Ayre;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
@@ -23,8 +23,8 @@ public class Main extends Application {
             stage.setMinHeight(220);
             stage.setMinWidth(417);
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
-            AnchorPane ap = fxmlLoader.load();
-            Scene scene = new Scene(ap);
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.getIcons().add(new Image("/images/Emblem_ACVI_Ayre.png"));
             stage.setTitle("Ayre");

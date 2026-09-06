@@ -5,7 +5,7 @@
     /*-fx-background-size: stretch;*/
 }
 
-.text-field {
+.text-area {
     -fx-background-color: #819aa6;
     -fx-font: 16px "Courier New";
     -fx-prompt-text-fill: #696969;

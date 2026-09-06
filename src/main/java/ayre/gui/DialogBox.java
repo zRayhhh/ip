@@ -56,23 +56,6 @@ public class DialogBox extends HBox {
     public static DialogBox getAyreDialog(String text, Image img) {
         var db = new DialogBox(text, img);
         db.flip();
-        // db.changeDialogStyle(commandType);
         return db;
-    }
-
-    private void changeDialogStyle(String commandType) {
-        switch(commandType) {
-            case "add":
-                dialog.getStyleClass().add("add-label");
-                break;
-            case "mark":
-                dialog.getStyleClass().add("marked-label");
-                break;
-            case "delete":
-                dialog.getStyleClass().add("delete-label");
-                break;
-            default:
-                // Do nothing
-        }
     }
 }
