@@ -24,6 +24,12 @@ public class DialogBox extends HBox {
     @FXML
     private ImageView displayPicture;
 
+    /**
+     * Initializes the fxmlLoader for a new DialogBox to display the text and image.
+     *
+     * @param text Text to be displayed.
+     * @param img Profile icon.
+     */
     private DialogBox(String text, Image img) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainWindow.class.getResource("/view/DialogBox.fxml"));
@@ -31,7 +37,7 @@ public class DialogBox extends HBox {
             fxmlLoader.setRoot(this);
             fxmlLoader.load();
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // legit cannot be bothered to deal with this
         }
 
         dialog.setText(text);
@@ -49,10 +55,24 @@ public class DialogBox extends HBox {
         dialog.getStyleClass().add("reply-label");
     }
 
+    /**
+     * Creates a new DialogBox to echo user input.
+     *
+     * @param text User input.
+     * @param img User profile icon.
+     * @return DialogBox.
+     */
     public static DialogBox getUserDialog(String text, Image img) {
         return new DialogBox(text, img);
     }
 
+    /**
+     * Creates a new DialogBox to display Ayre dialog or reply
+     *
+     * @param text Ayre message
+     * @param img Ayre profile icon
+     * @return DialogBox
+     */
     public static DialogBox getAyreDialog(String text, Image img) {
         var db = new DialogBox(text, img);
         db.flip();

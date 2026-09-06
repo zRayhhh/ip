@@ -8,7 +8,7 @@ import ayre.exceptions.AyreException;
  */
 public class Ayre {
     private static final String LOG_PATH = "./data/ayre.txt";
-    private String loadMessage;
+    private final String loadMessage;
 
     private final CommandExecutor executor;
 
@@ -23,15 +23,21 @@ public class Ayre {
         this.executor = new CommandExecutor(tasks);
     }
 
+    /**
+     * Getter for the message on loading from save file.
+     * Allows the GUI to display the load result.
+     *
+     * @return Any accumulated messages from loading from save file.
+     */
     public String getLoadMessage() {
         return this.loadMessage;
     }
 
     /**
-     * Reads, executes, then returns the result of user input as a String
+     * Reads, executes, then returns the result of user input as a String.
      *
-     * @param input User input through the GUI
-     * @return Result of executing the relevant command
+     * @param input User input through the GUI.
+     * @return Result of executing the relevant command.
      */
     public String getResponse(String input) {
         try {

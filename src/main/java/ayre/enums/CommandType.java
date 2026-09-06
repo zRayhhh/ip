@@ -29,11 +29,23 @@ public enum CommandType {
     private final String name;
     private final int numArgs;
 
+    /**
+     * Initializes the name and number of arguments of the enum element.
+     *
+     * @param name Name of the enum element.
+     * @param numArgs Number of arguments related to the enum element.
+     */
     CommandType(String name, int numArgs) {
         this.name = name;
         this.numArgs = numArgs;
     }
 
+    /**
+     * Getter for the number of arguments related to the enum element.
+     * Allows for correctness checks on user input.
+     *
+     * @return Number of arguments
+     */
     public int getNumArgs() {
         return numArgs;
     }

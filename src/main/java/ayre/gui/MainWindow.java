@@ -30,41 +30,55 @@ public class MainWindow extends AnchorPane {
     private static final double MIN_HEIGHT = 30;
     private static final double MAX_HEIGHT = 120;
 
+    /**
+     * Initialize the dialog display area and user input area of the GUI.
+     */
     @FXML
     public void initialize() {
-        dialogContainer.heightProperty().addListener((obs, oldVal, newVal) -> {
-            Platform.runLater(() -> scrollPane.setVvalue(1.0));
+        // sets dialog display to scroll to the bottommost newest dialog bubble
+        this.dialogContainer.heightProperty().addListener((obs, oldVal, newVal) -> {
+            Platform.runLater(() -> this.scrollPane.setVvalue(1.0));
         });
-        userInput.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER && !event.isShiftDown()) {
+        // listens to keystrokes for user hitting ENTER key to handle user input
+        this.userInput.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER && !event.isShiftDown()) { // SHIFT-ENTER will not trigger this
                 event.consume();
                 handleUserInput();
             }
         });
-        userInput.textProperty().addListener((obs, oldText, newText) -> {
+        // auto expands user input area to hold user text better
+        this.userInput.textProperty().addListener((obs, oldText, newText) -> {
             Platform.runLater(() -> {
-                userInput.setPrefHeight(computeContentHeight(userInput));
+                this.userInput.setPrefHeight(computeContentHeight(this.userInput));
             });
         });
-        userInput.widthProperty().addListener((obs, oldWidth, newWidth) -> {
+        // auto adjusts user input area if user modifies the window width
+        this.userInput.widthProperty().addListener((obs, oldWidth, newWidth) -> {
             Platform.runLater(() -> {
-                userInput.setPrefHeight(computeContentHeight(userInput));
+                this.userInput.setPrefHeight(computeContentHeight(this.userInput));
             });
         });
     }
 
-    private double computeContentHeight(TextArea textArea) {
-        Text helper = new Text(textArea.getText());
-        helper.setFont(textArea.getFont());
-        helper.setWrappingWidth(textArea.getWidth() - 20);
-        double textHeight = helper.getLayoutBounds().getHeight();
+    /**
+     * Spits out an estimate for the height of the user input area to best display user text.
+     * Garbage hack, but it probably won't be used much so whatever.
+     *
+     * @param userInput User input area.
+     * @return Estimated height of text box.
+     */
+    private double computeContentHeight(TextArea userInput) {
+        Text text = new Text(userInput.getText());
+        text.setFont(userInput.getFont());
+        text.setWrappingWidth(userInput.getWidth() - 20);
+        double textHeight = text.getLayoutBounds().getHeight();
         return Math.clamp(textHeight + 24, MIN_HEIGHT, MAX_HEIGHT);
     }
 
     /**
-     * Injects the Ayre instance and adds relevant startup dialog
+     * Injects the Ayre instance and adds relevant startup dialog.
      *
-     * @param ayre Injected instance
+     * @param ayre Injected instance.
      */
     public void setAyre(Ayre ayre) {
         this.ayre = ayre;

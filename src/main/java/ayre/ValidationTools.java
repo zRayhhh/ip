@@ -11,15 +11,28 @@ import java.util.regex.Pattern;
  */
 public class ValidationTools {
     // Regex for int validation via Gemini
-    private static final Pattern POSITIVE_INT_WITH_LEADING_ZERO = Pattern.compile("-?\\d+");
+    private static final Pattern NUMERIC_STRING = Pattern.compile("-?\\d+");
     // Strict version of default
     private static final DateTimeFormatter STRICT_ISO_LOCAL_DATE =
             DateTimeFormatter.ISO_LOCAL_DATE.withResolverStyle(ResolverStyle.STRICT);
 
+    /**
+     * Tests whether the input String is numeric via regex.
+     *
+     * @param str Input String.
+     * @return Whether the input String is numeric.
+     */
     public static boolean isInvalidTaskIndex(String str) {
-        return !POSITIVE_INT_WITH_LEADING_ZERO.matcher(str).matches();
+        return !NUMERIC_STRING.matcher(str).matches();
     }
 
+    /**
+     * Tests whether the input String is a valid ISO_LOCAL_DATE via strict DateTimeFormatter.
+     * This prevents the DateTimeFormatter from trying to crush impossible dates into plausible ones.
+     *
+     * @param str Input String.
+     * @return Whether the input String is a valid ISO_LOCAL_DATE.
+     */
     public static boolean isInvalidIsoDate(String str) {
         try {
             LocalDate.parse(str, STRICT_ISO_LOCAL_DATE);

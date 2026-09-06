@@ -31,9 +31,9 @@ public class Storage {
     private final Path parentDirectory;
 
     /**
-     * Initializes Path fields in Storage
+     * Initializes Path fields in Storage.
      *
-     * @param path Relative path to where the save file should be created/accessed
+     * @param path Relative path to where the save file should be created/accessed.
      */
     public Storage(String path) {
         this.logPath = Path.of(path);
@@ -41,9 +41,9 @@ public class Storage {
     }
 
     /**
-     * Creates a new save file if not present
+     * Creates a new save file if not present.
      *
-     * @throws IOException If unable to create the parent folder or file for some reason
+     * @throws IOException If unable to create the parent folder or file for some reason.
      */
     private void createTaskLog() throws IOException {
         if (parentDirectory != null) {
@@ -53,11 +53,11 @@ public class Storage {
     }
 
     /**
-     * Loads the save file from disk into a TaskList
-     * If the file does not exist, creates it and returns early
-     * Reads and processes the file line by line
+     * Loads the save file from disk into a TaskList.
+     * If the file does not exist, creates it and returns early.
+     * Reads and processes the file line by line.
      *
-     * @return Record holding the resultant TaskList and the printout of any accumulated messages
+     * @return Record holding the resultant TaskList and the printout of any accumulated messages.
      */
     public LoadResult load() {
         TaskList tasks = new TaskList();
@@ -99,12 +99,12 @@ public class Storage {
     }
 
     /**
-     * Creates and returns a new Task based on input arguments
+     * Creates and returns a new Task based on input arguments.
      *
-     * @param index Identifies the line of the save file in the exception in case log corruption is detected
-     * @param logArgs Tokenized arguments taken from parsing the line
-     * @return A new Task reconstructed via the logArgs
-     * @throws TaskLogCorruptedException If save file data does not match parsing expectations
+     * @param index Identifies the line of the save file in the exception in case log corruption is detected.
+     * @param logArgs Tokenized arguments taken from parsing the line.
+     * @return A new Task reconstructed via the logArgs.
+     * @throws TaskLogCorruptedException If save file data does not match parsing expectations.
      */
     private Task constructNewTask(int index, String ...logArgs) throws TaskLogCorruptedException {
         return switch (logArgs[0]) {
@@ -127,13 +127,13 @@ public class Storage {
     }
 
     /**
-     * Checks the correctness of the arguments in a line of the save file
+     * Checks the correctness of the arguments in a line of the save file.
      *
-     * @param cmdType The CommandType to check the number of required arguments
-     * @param command A temporary Command used for argument validation
-     * @param logArgs A tokenized array holding the arguments present in the save file line
-     * @param index The index of the line in its file
-     * @throws TaskLogCorruptedException If validation checks for number of arguments or correctness fail
+     * @param cmdType The CommandType to check the number of required arguments.
+     * @param command A temporary Command used for argument validation.
+     * @param logArgs A tokenized array holding the arguments present in the save file line.
+     * @param index The index of the line in its file.
+     * @throws TaskLogCorruptedException If validation checks for number of arguments or correctness fail.
      */
     private void validateLog(CommandType cmdType, Command command, String[] logArgs, int index)
             throws TaskLogCorruptedException {
@@ -170,10 +170,10 @@ public class Storage {
     }
 
     /**
-     * Updates the save file whenever it is mutated
+     * Updates the save file whenever it is mutated.
      *
-     * @param tasks The post-update TaskList to be written into the save file
-     * @return An empty String if successful, or an error message to be appended to the result String of the operation
+     * @param tasks The post-update TaskList to be written into the save file.
+     * @return An empty String if successful, or an error message to be appended to the result String of the operation.
      */
     public String update(TaskList tasks) {
         try {

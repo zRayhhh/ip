@@ -5,13 +5,17 @@ import java.util.List;
 import ayre.CommandResult;
 import ayre.LiveTaskList;
 import ayre.enums.AyreStatus;
-import ayre.exceptions.InvalidCommandArgumentsException;
 
+/**
+ * Defines how user command "bye" should be validated and executed.
+ */
 public class ByeCommand extends Command {
-    private LiveTaskList tasks;
-
+    /**
+     * Constructs a new ByeCommand.
+     *
+     * @param tasks Not required for anything.
+     */
     public ByeCommand(LiveTaskList tasks) {
-        this.tasks = tasks;
     }
 
     /**
@@ -19,11 +23,17 @@ public class ByeCommand extends Command {
      *
      * @param args Expected to be an empty List.
      */
-    public void validate(List<String> args) throws InvalidCommandArgumentsException {
-    }
-
     @Override
-    public CommandResult execute(List<String> args) throws InvalidCommandArgumentsException {
+    public void validate(List<String> args) {}
+
+    /**
+     * Returns a new CommandResult signaling for process termination.
+     *
+     * @param args A list of arguments, should be empty at this point but the method doesn't use it regardless.
+     * @return A CommandResult holding the (legacy) message String and the status to TERMINATE.
+     */
+    @Override
+    public CommandResult execute(List<String> args) {
         return new CommandResult("~ Terminating connection. See you again, Raven.\n", AyreStatus.TERMINATE);
     }
 }

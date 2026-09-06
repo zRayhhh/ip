@@ -1,23 +1,39 @@
 package ayre.tasks;
 
 /**
- * Parent class for all tasks.
+ * Parent class for all tasks. Abstract to prevent instantiation as it is not complete as is.
  * Holds the common methods and information that all tasks share.
- * Tasks are not complete at creation by default.
  */
 public abstract class Task {
     private final String name;
     private boolean isComplete;
 
+    /**
+     * Initializes a new Task to be incomplete by default.
+     * @param name Name of the Task.
+     */
     public Task(String name) {
         this.name = name;
         this.isComplete = false;
     }
 
+    /**
+     * Tests whether the name of the Task contains (leniently) the key.
+     *
+     * @param key Substring to be tested.
+     * @return Whether the key is contained in the name of the Task without considering capitalization.
+     */
     public boolean matchesName(String key) {
-        return this.name.contains(key);
+        return this.name.toLowerCase()
+                .contains(key.toLowerCase());
     }
 
+    /**
+     * Getter for isComplete boolean.
+     * Allows the TaskList to count how many incomplete tasks there are.
+     *
+     * @return isComplete
+     */
     public boolean getComplete() {
         return this.isComplete;
     }

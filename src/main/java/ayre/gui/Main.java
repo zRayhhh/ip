@@ -15,8 +15,16 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
-    private Ayre ayre = new Ayre();
+    private final Ayre ayre = new Ayre();
 
+    /**
+     * Initializes the stage parameters and the main window of the GUI.
+     *
+     * @param stage the primary stage for this application, onto which
+     *     the application scene can be set.
+     *     Applications may create other stages, if needed, but they will not be
+     *     primary stages.
+     */
     @Override
     public void start(Stage stage) {
         try {
@@ -31,7 +39,7 @@ public class Main extends Application {
             fxmlLoader.<MainWindow>getController().setAyre(ayre); // inject the Ayre instance
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // cba
         }
     }
 }

@@ -19,7 +19,7 @@ import ayre.exceptions.InvalidCommandArgumentsException;
 
 /**
  * Handles the execution of Commands with an EnumMap mapping each Command to its manner of execution.
- * Constructed with some modifications from Claude Sonnet 5 medium
+ * Constructed with some modifications from Claude Sonnet 5 medium.
  */
 public class CommandExecutor {
     private final Map<CommandType, Command> handler = new EnumMap<>(CommandType.class);

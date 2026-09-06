@@ -9,9 +9,16 @@ import ayre.enums.AyreStatus;
 import ayre.exceptions.InvalidCommandArgumentsException;
 import ayre.tasks.Event;
 
+/**
+ * Defines how a user command "event ..." should be validated and executed.
+ */
 public class EventCommand extends Command {
-    private LiveTaskList tasks;
+    private final LiveTaskList tasks;
 
+    /**
+     * Injects the LiveTaskList to be mutated.
+     * @param tasks The list.
+     */
     public EventCommand(LiveTaskList tasks) {
         this.tasks = tasks;
     }
@@ -30,8 +37,14 @@ public class EventCommand extends Command {
         }
     }
 
+    /**
+     * Adds a new Event to the LiveTaskList.
+     *
+     * @param args A list of arguments to construct a new Event with.
+     * @return Record holding the operation result message as a String and the update to the process status.
+     */
     @Override
-    protected CommandResult execute(List<String> args) throws InvalidCommandArgumentsException {
+    protected CommandResult execute(List<String> args) {
         String resultMsg = tasks.add(new Event(args.get(0), args.get(1), args.get(2)));
         return new CommandResult(resultMsg, AyreStatus.CONTINUE);
     }

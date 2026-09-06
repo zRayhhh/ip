@@ -10,25 +10,34 @@ import ayre.tasks.Task;
  * the other methods and the Tasks.
  */
 public class TaskList {
-    private ArrayList<Task> lst;
+    private final ArrayList<Task> list;
 
+    /**
+     * Initializes the list.
+     */
     public TaskList() {
-        lst = new ArrayList<>();
+        this.list = new ArrayList<>();
     }
 
     /**
      * Add a Task to the ArrayList.
      *
-     * @param tsk Task to be added
-     * @return Context String for adding a Task
+     * @param tsk Task to be added.
+     * @return Context String for adding a Task.
      */
     public String addTask(Task tsk) {
-        lst.add(tsk);
+        this.list.add(tsk);
         return "~ New mission added:\n" + tsk.toString();
     }
 
+    /**
+     * Finds all tasks containing the given String and returns them as a formatted String for easy printing.
+     *
+     * @param name Name to be matched against tasks in the list.
+     * @return Result of the search.
+     */
     public String findTasks(String name) {
-        List<String> list = this.lst.stream()
+        List<String> list = this.list.stream()
                                     .filter(task -> task.matchesName(name))
                                     .map(Task::toString)
                                     .toList();
@@ -45,38 +54,43 @@ public class TaskList {
     /**
      * Mark a Task in the ArrayList as complete.
      *
-     * @param i Index of the Task
-     * @return Context String of marking a Task
+     * @param i Index of the Task.
+     * @return Context String of marking a Task.
      */
     public String markTask(int i) {
-        return lst.get(i).markComplete();
+        return this.list.get(i).markComplete();
     }
 
     /**
      * Unmark a Task in the ArrayList as complete.
      *
-     * @param i Index of the Task
-     * @return Context String of unmarking a Task
+     * @param i Index of the Task.
+     * @return Context String of unmarking a Task.
      */
     public String unmarkTask(int i) {
-        return lst.get(i).unmarkComplete();
+        return this.list.get(i).unmarkComplete();
     }
 
     /**
      * Remove a Task from the ArrayList.
      *
-     * @param i Index of the Task
-     * @return Context String of removing a Task
+     * @param i Index of the Task.
+     * @return Context String of removing a Task.
      */
     public String delTask(int i) {
-        String tsk = lst.get(i).toString();
-        lst.remove(i);
+        String tsk = this.list.get(i).toString();
+        this.list.remove(i);
         return "~ The mission has been dropped.\nDeleted: " + tsk;
     }
 
+    /**
+     * Sums the number of tasks not marked complete.
+     *
+     * @return Number of tasks not marked complete.
+     */
     private int getUnmarkedTasks() {
         int count = 0;
-        for (Task t : lst) {
+        for (Task t : this.list) {
             if (!t.getComplete()) {
                 count++;
             }
@@ -84,8 +98,13 @@ public class TaskList {
         return count;
     }
 
+    /**
+     * Getter for number of tasks in the list.
+     *
+     * @return Number of tasks.
+     */
     public int getNumTasks() {
-        return lst.size();
+        return this.list.size();
     }
 
     /**
@@ -94,19 +113,19 @@ public class TaskList {
      * @return A List of the toLogString() of each Task in order.
      */
     public List<String> toLog() {
-        return this.lst.stream()
+        return this.list.stream()
                 .map(Task::toLogString)
                 .toList();
     }
 
     @Override
     public String toString() {
-        if (this.lst.isEmpty()) {
+        if (this.list.isEmpty()) {
             return "~ The mission log is empty, Raven.";
         }
         StringBuilder tasks = new StringBuilder();
-        for (int i = 1; i <= this.lst.size(); i++) {
-            tasks.append(i).append(". ").append(this.lst.get(i - 1)).append("\n");
+        for (int i = 1; i <= this.list.size(); i++) {
+            tasks.append(i).append(". ").append(this.list.get(i - 1)).append("\n");
         }
         int numUnmarked = this.getUnmarkedTasks();
         String unmarkedInfo = (numUnmarked == 0)
