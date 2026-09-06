@@ -10,20 +10,23 @@ import ayre.tasks.LoadResult;
  */
 public class Ayre {
     private static final String LOG_PATH = "./data/ayre.txt";
+    private String loadMessage;
 
-    private final Ui ui;
     private final CommandExecutor executor;
 
     /**
      * Initialize UI, Storage, TaskList, CommandExecutor and ensure they can communicate.
      */
     public Ayre() {
-        this.ui = new Ui(System.in, System.out);
         Storage store = new Storage(LOG_PATH);
         LoadResult res = store.load();
-        ui.showWarning(res.getWarningsAsString());
+        this.loadMessage = res.getWarningsAsString();
         LiveTaskList tasks = new LiveTaskList(res.tasks(), store);
         this.executor = new CommandExecutor(tasks);
+    }
+
+    public String getLoadMessage() {
+        return this.loadMessage;
     }
 
     /**
