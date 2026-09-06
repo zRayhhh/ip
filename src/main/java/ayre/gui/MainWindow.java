@@ -1,5 +1,7 @@
 package ayre.gui;
 
+import java.util.Objects;
+
 import ayre.Ayre;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -19,15 +21,11 @@ public class MainWindow extends AnchorPane {
     private VBox dialogContainer;
     @FXML
     private TextField userInput;
-    @FXML
-    private Button sendButton;
 
     private Ayre ayre;
 
-    private Image userImage = new Image(
-            this.getClass().getResourceAsStream("/images/Emblem_ACVI_C4-621_Raven.png"));
-    private Image ayreImage = new Image(
-            this.getClass().getResourceAsStream("/images/Emblem_ACVI_Ayre.png"));
+    private Image userImage = new Image("/images/Emblem_ACVI_C4-621_Raven.png");
+    private Image ayreImage = new Image("/images/Emblem_ACVI_Ayre.png");
 
     @FXML
     public void initialize() {

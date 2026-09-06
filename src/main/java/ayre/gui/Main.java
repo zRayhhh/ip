@@ -6,6 +6,7 @@ import ayre.Ayre;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -25,6 +26,8 @@ public class Main extends Application {
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
             stage.setScene(scene);
+            stage.getIcons().add(new Image("/images/Emblem_ACVI_Ayre.png"));
+            stage.setTitle("Ayre");
             fxmlLoader.<MainWindow>getController().setAyre(ayre);  // inject the Ayre instance
             stage.show();
         } catch (IOException e) {
