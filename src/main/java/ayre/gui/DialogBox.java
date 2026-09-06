@@ -60,23 +60,6 @@ public class DialogBox extends HBox {
         return db;
     }
 
-    public static DialogBox getAyreGreeting(Image img) {
-        String banner = """
-                <<Main System: Activating Support Mode.>>
-                     █████╗ ██╗   ██╗██████╗ ███████╗
-                    ██╔══██╗╚██╗ ██╔╝██╔══██╗██╔════╝
-                    ███████║ ╚████╔╝ ██████╔╝█████╗
-                    ██╔══██║  ╚██╔╝  ██╔══██╗██╔══╝
-                    ██║  ██║   ██║   ██║  ██║███████╗
-                    ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚══════╝
-                    .~"~.__.~"~.__.~"~.__.~"~.__.~"~.
-                """;
-        String greeting = "~ Hello, Raven. What shall we do today?";
-        var db = new DialogBox(banner + greeting, img);
-        db.flip();
-        return db;
-    }
-
     private void changeDialogStyle(String commandType) {
         switch(commandType) {
             case "add":

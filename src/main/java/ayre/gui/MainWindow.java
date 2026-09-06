@@ -32,7 +32,17 @@ public class MainWindow extends AnchorPane {
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
-        dialogContainer.getChildren().add(DialogBox.getAyreGreeting(ayreImage));
+        dialogContainer.getChildren().addAll(DialogBox.getAyreDialog("""
+                <<Main System: Activating Support Mode.>>
+                     █████╗ ██╗   ██╗██████╗ ███████╗
+                    ██╔══██╗╚██╗ ██╔╝██╔══██╗██╔════╝
+                    ███████║ ╚████╔╝ ██████╔╝█████╗
+                    ██╔══██║  ╚██╔╝  ██╔══██╗██╔══╝
+                    ██║  ██║   ██║   ██║  ██║███████╗
+                    ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚══════╝
+                    .~"~.__.~"~.__.~"~.__.~"~.__.~"~.
+                """, ayreImage),
+                DialogBox.getAyreDialog("~ Hello, Raven. What shall we do today?", ayreImage));
     }
 
     /** Injects the Ayre instance */

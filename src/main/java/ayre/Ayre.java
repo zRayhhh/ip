@@ -5,10 +5,6 @@ import ayre.enums.AyreStatus;
 import ayre.exceptions.AyreException;
 import ayre.tasks.LoadResult;
 
-import java.io.PrintStream;
-
-import java.nio.charset.StandardCharsets;
-
 /**
  * Main Class that handles the high-level operation of the chatbot.
  */
@@ -31,27 +27,11 @@ public class Ayre {
     }
 
     /**
-     * Hosts the main loop for Ayre.
-     * In every loop, attempt to parse user input and execute the related command,
-     * then displays the result as a console message.
+     * Reads, executes, then returns the result of user input as a String
+     *
+     * @param input User input through the GUI
+     * @return Result of executing the relevant command
      */
-    public void run() {
-        this.ui.showGreeting();
-        while (true) {
-            try {
-                ParsedInput parsedInput = Parser.parseInput(ui.readLine());
-                CommandResult result = this.executor.execute(parsedInput.command(), parsedInput.args());
-                ui.showMessage(result.message());
-                if (result.status() == AyreStatus.TERMINATE) {
-                    break;
-                }
-            } catch (AyreException e) {
-                ui.showError(e.getMessage());
-            }
-        }
-        ui.close();
-    }
-
     public String getResponse(String input) {
         try {
             ParsedInput parsedInput = Parser.parseInput(input);
