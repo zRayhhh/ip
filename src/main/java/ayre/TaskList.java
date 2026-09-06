@@ -1,9 +1,9 @@
 package ayre;
 
-import ayre.tasks.Task;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import ayre.tasks.Task;
 
 /**
  * Wrapper of an ArrayList of Tasks that acts as an intermediary in communication between
@@ -77,7 +77,9 @@ public class TaskList {
     private int getUnmarkedTasks() {
         int count = 0;
         for (Task t : lst) {
-            if (!t.getComplete()) count++;
+            if (!t.getComplete()) {
+                count++;
+            }
         }
         return count;
     }

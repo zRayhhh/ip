@@ -1,12 +1,5 @@
 package ayre.enums;
 
-import ayre.exceptions.InvalidCommandArgumentsException;
-import ayre.ValidationTools;
-
-import java.util.List;
-
-// Constructed with some modifications from Claude Sonnet 5 medium
-
 /**
  * Represents the different Commands available to the user.
  * Each Command holds its name and the number of arguments that it requires.

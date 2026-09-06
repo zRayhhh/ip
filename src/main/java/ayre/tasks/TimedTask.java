@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
  * Defines how the date should be formatted when printed.
  */
 public abstract class TimedTask extends Task {
-    private final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MMM dd, yyyy");;
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
 
     public TimedTask(String name) {
         super(name);
@@ -21,6 +21,6 @@ public abstract class TimedTask extends Task {
      * @return String of formatted date
      */
     public String formatDate(LocalDate date) {
-        return date.format(FORMATTER);
+        return date.format(formatter);
     }
 }

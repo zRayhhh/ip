@@ -1,8 +1,8 @@
 package ayre;
 
-import ayre.enums.CommandType;
-
 import java.util.List;
+
+import ayre.enums.CommandType;
 
 /**
  * A record to pass immutably the parsed Command and List of arguments back to the main loop in Ayre::run().

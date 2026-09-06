@@ -24,8 +24,8 @@ public class MainWindow extends AnchorPane {
 
     private Ayre ayre;
 
-    private Image userImage = new Image("/images/Emblem_ACVI_C4-621_Raven.png");
-    private Image ayreImage = new Image("/images/Emblem_ACVI_Ayre.png");
+    private static final Image USER_IMAGE = new Image("/images/Emblem_ACVI_C4-621_Raven.png");
+    private static final Image AYRE_IMAGE = new Image("/images/Emblem_ACVI_Ayre.png");
 
     private static final double MIN_HEIGHT = 30;
     private static final double MAX_HEIGHT = 120;
@@ -63,11 +63,13 @@ public class MainWindow extends AnchorPane {
 
     /**
      * Injects the Ayre instance and adds relevant startup dialog
+     *
+     * @param ayre Injected instance
      */
-    public void setAyre(Ayre d) {
-        ayre = d;
+    public void setAyre(Ayre ayre) {
+        this.ayre = ayre;
         dialogContainer.getChildren().addAll(
-                DialogBox.getAyreDialog(this.ayre.getLoadMessage(), ayreImage),
+                DialogBox.getAyreDialog(this.ayre.getLoadMessage(), AYRE_IMAGE),
                 DialogBox.getAyreDialog("""
                 <<Main System: Activating Support Mode.>>
                      █████╗ ██╗   ██╗██████╗ ███████╗
@@ -77,8 +79,8 @@ public class MainWindow extends AnchorPane {
                     ██║  ██║   ██║   ██║  ██║███████╗
                     ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚══════╝
                     .~"~.__.~"~.__.~"~.__.~"~.__.~"~.
-                """, ayreImage),
-                DialogBox.getAyreDialog("~ Hello, Raven. What shall we do today?", ayreImage));
+                """, AYRE_IMAGE),
+                DialogBox.getAyreDialog("~ Hello, Raven. What shall we do today?", AYRE_IMAGE));
     }
 
     /**
@@ -92,8 +94,8 @@ public class MainWindow extends AnchorPane {
             Platform.exit();
         }
         dialogContainer.getChildren().addAll(
-                DialogBox.getUserDialog(input, userImage),
-                DialogBox.getAyreDialog(response, ayreImage)
+                DialogBox.getUserDialog(input, USER_IMAGE),
+                DialogBox.getAyreDialog(response, AYRE_IMAGE)
         );
         userInput.clear();
     }

@@ -28,7 +28,7 @@ public class Main extends Application {
             stage.setScene(scene);
             stage.getIcons().add(new Image("/images/Emblem_ACVI_Ayre.png"));
             stage.setTitle("Ayre");
-            fxmlLoader.<MainWindow>getController().setAyre(ayre);  // inject the Ayre instance
+            fxmlLoader.<MainWindow>getController().setAyre(ayre); // inject the Ayre instance
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

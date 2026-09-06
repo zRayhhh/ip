@@ -1,9 +1,7 @@
 package ayre;
 
 import ayre.enums.AyreStatus;
-
 import ayre.exceptions.AyreException;
-import ayre.tasks.LoadResult;
 
 /**
  * Main Class that handles the high-level operation of the chatbot.
@@ -20,7 +18,7 @@ public class Ayre {
     public Ayre() {
         Storage store = new Storage(LOG_PATH);
         LoadResult res = store.load();
-        this.loadMessage = res.getWarningsAsString();
+        this.loadMessage = res.loadMessage();
         LiveTaskList tasks = new LiveTaskList(res.tasks(), store);
         this.executor = new CommandExecutor(tasks);
     }

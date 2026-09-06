@@ -1,26 +1,28 @@
 package ayre;
 
-import ayre.commands.*;
-import ayre.enums.AyreStatus;
-import ayre.enums.CommandType;
-
-import ayre.tasks.Deadline;
-import ayre.tasks.Event;
-
-import ayre.exceptions.InvalidCommandArgumentsException;
-
-import ayre.tasks.Todo;
-
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+
+import ayre.commands.ByeCommand;
+import ayre.commands.Command;
+import ayre.commands.DeadlineCommand;
+import ayre.commands.DeleteCommand;
+import ayre.commands.EventCommand;
+import ayre.commands.FindCommand;
+import ayre.commands.ListCommand;
+import ayre.commands.MarkCommand;
+import ayre.commands.TodoCommand;
+import ayre.commands.UnmarkCommand;
+import ayre.enums.CommandType;
+import ayre.exceptions.InvalidCommandArgumentsException;
 
 /**
  * Handles the execution of Commands with an EnumMap mapping each Command to its manner of execution.
  * Constructed with some modifications from Claude Sonnet 5 medium
  */
 public class CommandExecutor {
-    private final Map<CommandType, Command> HANDLER = new EnumMap<>(CommandType.class);
+    private final Map<CommandType, Command> handler = new EnumMap<>(CommandType.class);
 
     /**
      * Class constructor.
@@ -29,18 +31,18 @@ public class CommandExecutor {
      * @param tasks The LiveTaskList used by the main process.
      */
     public CommandExecutor(LiveTaskList tasks) {
-        HANDLER.put(CommandType.BYE, new ByeCommand(tasks));
-        HANDLER.put(CommandType.LIST, new ListCommand(tasks));
-        HANDLER.put(CommandType.FIND, new FindCommand(tasks));
-        HANDLER.put(CommandType.MARK, new MarkCommand(tasks));
-        HANDLER.put(CommandType.UNMARK, new UnmarkCommand(tasks));
-        HANDLER.put(CommandType.DELETE, new DeleteCommand(tasks));
-        HANDLER.put(CommandType.TODO, new TodoCommand(tasks));
-        HANDLER.put(CommandType.DEADLINE, new DeadlineCommand(tasks));
-        HANDLER.put(CommandType.EVENT, new EventCommand(tasks));
+        handler.put(CommandType.BYE, new ByeCommand(tasks));
+        handler.put(CommandType.LIST, new ListCommand(tasks));
+        handler.put(CommandType.FIND, new FindCommand(tasks));
+        handler.put(CommandType.MARK, new MarkCommand(tasks));
+        handler.put(CommandType.UNMARK, new UnmarkCommand(tasks));
+        handler.put(CommandType.DELETE, new DeleteCommand(tasks));
+        handler.put(CommandType.TODO, new TodoCommand(tasks));
+        handler.put(CommandType.DEADLINE, new DeadlineCommand(tasks));
+        handler.put(CommandType.EVENT, new EventCommand(tasks));
 
         for (CommandType c : CommandType.values()) {
-            if (!HANDLER.containsKey(c)) {
+            if (!handler.containsKey(c)) {
                 throw new IllegalStateException("No executor registered for command: " + c);
             }
         }
@@ -55,6 +57,6 @@ public class CommandExecutor {
      * @throws InvalidCommandArgumentsException If arguments will cause a RunTimeException.
      */
     public CommandResult execute(CommandType cmd, List<String> args) throws InvalidCommandArgumentsException {
-        return HANDLER.get(cmd).doCommand(args);
+        return handler.get(cmd).doCommand(args);
     }
 }

@@ -30,10 +30,10 @@ public class MarkCommand extends Command {
 
     @Override
     protected CommandResult execute(List<String> args) throws InvalidCommandArgumentsException {
-        int index = Integer.parseInt(args.get(0)) - 1;      // user inputs index starting from 1
+        int index = Integer.parseInt(args.get(0)) - 1; // user inputs index starting from 1
         if (index >= tasks.getNumTasks() || index < 0) {
-            throw new InvalidCommandArgumentsException("~ Invalid index entered. " +
-                    "Raven, the available indexes are 1 to " + tasks.getNumTasks());
+            throw new InvalidCommandArgumentsException("~ Invalid index entered. "
+                    + "Raven, the available indexes are 1 to " + tasks.getNumTasks());
         }
         String resultMsg = tasks.mark(index);
         return new CommandResult(resultMsg, AyreStatus.CONTINUE);

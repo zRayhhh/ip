@@ -1,13 +1,12 @@
 package ayre;
 
-import ayre.enums.CommandType;
-import ayre.exceptions.InvalidCommandArgumentsException;
-import ayre.exceptions.UnknownCommandException;
-import ayre.exceptions.WrongNumberOfArgumentsException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import ayre.enums.CommandType;
+import ayre.exceptions.UnknownCommandException;
+import ayre.exceptions.WrongNumberOfArgumentsException;
 
 /**
  * Handles the parsing of user input, involving tokenizing and validating the arguments/commands.
@@ -29,8 +28,8 @@ public class Parser {
         String[] cmdWithArgs = input.trim().split(" ", 2);
         CommandType cmd = CommandType.parseCommand(cmdWithArgs[0]);
         if (cmd == null) {
-            throw new UnknownCommandException("~ ...Raven, this command was not found in the Coral Collective. " +
-                    "Was it a mistake?");
+            throw new UnknownCommandException("~ ...Raven, this command was not found in the Coral Collective. "
+                    + "Was it a mistake?");
         }
         List<String> args = Parser.tokenizeArgs(cmd, input);
         return new ParsedInput(cmd, args);
@@ -47,48 +46,50 @@ public class Parser {
      */
     static List<String> tokenizeArgs(CommandType cmd, String input) throws WrongNumberOfArgumentsException {
         List<String> args = new ArrayList<>();
-        if (cmd.getNumArgs() != 0) {    // filters out BYE and LIST
-            String[] cmdWithArgs = input.trim().split(" ", 2);  // split once to check for name/index
+        if (cmd.getNumArgs() != 0) { // filters out BYE and LIST
+            String[] cmdWithArgs = input.trim().split(" ", 2); // split once to check for name/index
             if (cmdWithArgs.length == 1) {
-                throw new WrongNumberOfArgumentsException("~ Raven, some parameters are missing. I don't have " +
-                        "enough information to carry out this command.");
+                throw new WrongNumberOfArgumentsException("~ Raven, some parameters are missing. I don't have "
+                        + "enough information to carry out this command.");
             }
-            String argLine = cmdWithArgs[1];    // take the latter half of the split input as args
+            String argLine = cmdWithArgs[1]; // take the latter half of the split input as args
             switch (cmd) {
-                case FIND:      // fallthrough
-                case MARK:      // fallthrough
-                case UNMARK:    // fallthrough
-                case DELETE:    // fallthrough
+                case FIND: // fallthrough
+                case MARK: // fallthrough
+                case UNMARK: // fallthrough
+                case DELETE: // fallthrough
                 case TODO:
                     args.add(argLine);
                     break;
                 case DEADLINE:
                     String[] deadlineArgs = argLine.split(" /by ");
                     if (deadlineArgs.length != 2) {
-                        throw new WrongNumberOfArgumentsException("~ Raven... please follow the format: " +
-                                "deadline NAME-OF-TASK /by yyyy-mm-dd");
+                        throw new WrongNumberOfArgumentsException("~ Raven... please follow the format: "
+                                + "deadline NAME-OF-TASK /by yyyy-mm-dd");
                     }
                     args.addAll(Arrays.asList(deadlineArgs)); // add name and time by
                     break;
                 case EVENT:
                     String[] eventArgs = argLine.split(" /from ");
                     if (eventArgs.length != 2) {
-                        throw new WrongNumberOfArgumentsException("~ Raven... please follow the format: " +
-                                "event NAME-OF-TASK /from yyyy-mm-dd /to yyyy-mm-dd");
+                        throw new WrongNumberOfArgumentsException("~ Raven... please follow the format: "
+                                + "event NAME-OF-TASK /from yyyy-mm-dd /to yyyy-mm-dd");
                     }
                     args.add(eventArgs[0]); // add name
                     eventArgs = eventArgs[1].split(" /to ");
                     if (eventArgs.length != 2) {
-                        throw new WrongNumberOfArgumentsException("~ Raven... please follow the format: " +
-                                "event NAME-OF-TASK /from yyyy-mm-dd /to yyyy-mm-dd");
+                        throw new WrongNumberOfArgumentsException("~ Raven... please follow the format: "
+                                + "event NAME-OF-TASK /from yyyy-mm-dd /to yyyy-mm-dd");
                     }
                     args.addAll(Arrays.asList(eventArgs)); // add time from and time to
+                    break;
+                default: // guaranteed to never happen by cmd == null check above
                     break;
             }
         } else {
             if (input.trim().split(" ").length != 1) {
-                throw new WrongNumberOfArgumentsException("~ Raven, there seems to be some extra parameters" +
-                        " mixed in. Please try again.");
+                throw new WrongNumberOfArgumentsException("~ Raven, there seems to be some extra parameters"
+                        + " mixed in. Please try again.");
             }
         }
         return args;
