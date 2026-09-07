@@ -30,6 +30,15 @@ public class Storage {
     private final Path logPath;
     private final Path parentDirectory;
 
+    // Named constants representing their index position in a well-formatted save file log
+    private static final int COMMAND_FLAG_INDEX = 0;
+    private static final int IS_COMPLETE_FLAG_INDEX = 1;
+    private static final int NAME_INDEX = 2;
+    private static final int FIRST_DATE_INDEX = 3;
+    private static final int SECOND_DATE_INDEX = 4;
+
+    private static final int MIN_TOKENS = 3;
+
     /**
      * Initializes Path fields in Storage.
      *
@@ -73,21 +82,20 @@ public class Storage {
             return new LoadResult(tasks, this.getWarningsAsString(warnings));
         }
         try (Stream<String> lines = Files.lines(logPath)) {
-            List<String> linesList = lines.toList();
+            List<String> linesList = lines.toList(); // unable to use stream as we track the index for warning printouts
             for (int i = 0; i < linesList.size(); i++) {
                 String[] logArgs = linesList.get(i).split(" ");
-                try {
-                    Task task = constructNewTask(i, logArgs); // goes through parsing and validation
-                    if (logArgs[1].equals("1")) {
+                try { // quietly handles errors to try to salvage anything that is intact
+                    Task task = this.constructNewTask(i, logArgs); // goes through parsing and validation
+                    if (logArgs[IS_COMPLETE_FLAG_INDEX].equals("1")) {
                         task.markComplete();
                     }
                     tasks.addTask(task);
-                } catch (TaskLogCorruptedException e) { // this line in the file is corrupted
+                } catch (TaskLogCorruptedException e) {
                     warnings.add(e.getMessage()); // add a warning but continue parsing the rest of the file
                 }
             }
-        } catch (IOException e) {
-            // fatal error reading file, either perms changed or disk failure
+        } catch (IOException e) { // fatal error reading file, either perms changed or disk failure
             warnings.add(e.getMessage() + "\n<<Main System>> WARNING: MISSION LOG FAILED TO LOAD; "
                     + "YOUR MISSION LIST WILL NOT BE SAVED TO DISK");
             return new LoadResult(tasks, this.getWarningsAsString(warnings));
@@ -107,21 +115,21 @@ public class Storage {
      * @throws TaskLogCorruptedException If save file data does not match parsing expectations.
      */
     private Task constructNewTask(int index, String ...logArgs) throws TaskLogCorruptedException {
-        return switch (logArgs[0]) {
+        return switch (logArgs[COMMAND_FLAG_INDEX]) {
             case "T" -> {
                 this.validateLog(CommandType.TODO, new TodoCommand(null), logArgs, index);
                 assert logArgs.length == 3 : "Number of log arguments should match log specifications (3)";
-                yield new Todo(logArgs[2]);
+                yield new Todo(logArgs[NAME_INDEX]);
             }
             case "D" -> {
                 this.validateLog(CommandType.DEADLINE, new DeadlineCommand(null), logArgs, index);
                 assert logArgs.length == 4 : "Number of log arguments should match log specifications (4)";
-                yield new Deadline(logArgs[2], logArgs[3]);
+                yield new Deadline(logArgs[NAME_INDEX], logArgs[FIRST_DATE_INDEX]);
             }
             case "E" -> {
                 this.validateLog(CommandType.EVENT, new EventCommand(null), logArgs, index);
                 assert logArgs.length == 5 : "Number of log arguments should match log specifications (5)";
-                yield new Event(logArgs[2], logArgs[3], logArgs[4]);
+                yield new Event(logArgs[NAME_INDEX], logArgs[FIRST_DATE_INDEX], logArgs[SECOND_DATE_INDEX]);
             }
             default -> {
                 throw new TaskLogCorruptedException("Dropped log line at index " + index + ": Data corrupted");
@@ -140,17 +148,17 @@ public class Storage {
      */
     private void validateLog(CommandType cmdType, Command command, String[] logArgs, int index)
             throws TaskLogCorruptedException {
-        if (logArgs.length < 3) {
+        if (logArgs.length < MIN_TOKENS) { // expected save file log format has minimum 3 tokens for a todo
             throw new TaskLogCorruptedException("Dropped log line at index " + index + ": Missing data detected");
         }
-        List<String> cmdArgs = Arrays.asList(Arrays.copyOfRange(logArgs, 2, logArgs.length));
+        // turn the arguments from NAME_INDEX onwards into a list
+        List<String> cmdArgs = Arrays.asList(Arrays.copyOfRange(logArgs, NAME_INDEX, logArgs.length));
         if (cmdArgs.size() != cmdType.getNumArgs()) {
             throw new TaskLogCorruptedException("Dropped log line at index " + index + ": Missing data detected");
         }
         try {
             command.validate(cmdArgs); // correctness check for the arguments
         } catch (InvalidCommandArgumentsException e) {
-            System.out.print(cmdArgs.get(1));
             throw new TaskLogCorruptedException("Dropped log line at index " + index + ": Data corrupted");
         }
     }
@@ -166,8 +174,8 @@ public class Storage {
             return "<<Main System: Mission Log Loaded Successfully>>";
         }
         StringBuilder warnString = new StringBuilder();
-        for (int i = 1; i <= warnings.size(); i++) {
-            warnString.append(warnings.get(i - 1)).append("\n");
+        for (String warning : warnings) {
+            warnString.append(warning).append("\n");
         }
         return "<<Main System: Mission Log Corrupted>>\n" + warnString;
     }
@@ -176,7 +184,7 @@ public class Storage {
      * Updates the save file whenever it is mutated.
      *
      * @param tasks The post-update TaskList to be written into the save file.
-     * @return An empty String if successful, or an error message to be appended to the result String of the operation.
+     * @return An empty String if successful, or an error message to be appended to the result String of the command.
      */
     public String update(TaskList tasks) {
         try {
@@ -186,11 +194,12 @@ public class Storage {
                 // atomic rewrite of file to prevent save file tampering while process is running
                 Files.move(tmpFile, logPath, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
-                Files.deleteIfExists(tmpFile);
+                Files.deleteIfExists(tmpFile); // prevent Temp files from piling up if atomic move fails
                 throw e;
             }
-            return "";
+            return ""; // no issues, nothing to append
         } catch (IOException e) {
+            // additional message appended to result message of executing the command
             return "\n<<Main System>> WARNING: MISSION LOG UPDATE FAILED; YOUR CHANGE WILL NOT BE SAVED TO DISK";
         }
     }

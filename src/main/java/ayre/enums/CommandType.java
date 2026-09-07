@@ -47,15 +47,24 @@ public enum CommandType {
      * @return Number of arguments
      */
     public int getNumArgs() {
-        return numArgs;
+        return this.numArgs;
     }
 
     /**
-     * Returns the Command that the given String matches to.
+     * Checks if the CommandType requires a non-zero number of arguments
+     *
+     * @return True if CommandType has one or more arguments, false if zero
+     */
+    public boolean requiresArgs() {
+        return (this.numArgs > 0);
+    }
+
+    /**
+     * Returns the CommandType that the given String matches to.
      * If there is no match, null is returned.
      *
      * @param input A String without whitespace from processed user input.
-     * @return Command matching the String.
+     * @return CommandType matching the String.
      */
     public static CommandType parseCommand(String input) {
         for (CommandType cmd : values()) {
