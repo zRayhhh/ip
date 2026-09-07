@@ -24,7 +24,9 @@ public class ByeCommand extends Command {
      * @param args Expected to be an empty List.
      */
     @Override
-    public void validate(List<String> args) {}
+    public void validate(List<String> args) {
+        assert args.isEmpty() : "Argument list should be empty";
+    }
 
     /**
      * Returns a new CommandResult signaling for process termination.
@@ -34,6 +36,7 @@ public class ByeCommand extends Command {
      */
     @Override
     public CommandResult execute(List<String> args) {
+        assert args.isEmpty() : "Argument list should be empty";
         return new CommandResult("~ Terminating connection. See you again, Raven.\n", AyreStatus.TERMINATE);
     }
 }

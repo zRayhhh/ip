@@ -26,7 +26,9 @@ public class TodoCommand extends Command {
      *
      * @param args Expected to be a List with a single element that is the name.
      */
-    public void validate(List<String> args) {}
+    public void validate(List<String> args) {
+        assert args.size() == 1 : "Argument list should have 1 element";
+    }
 
     /**
      * Adds a new Todo to the LiveTaskList.
@@ -36,6 +38,7 @@ public class TodoCommand extends Command {
      */
     @Override
     protected CommandResult execute(List<String> args) {
+        assert args.size() == 1 : "Argument list should have 1 element";
         String resultMsg = tasks.add(new Todo(args.get(0)));
         return new CommandResult(resultMsg, AyreStatus.CONTINUE);
     }

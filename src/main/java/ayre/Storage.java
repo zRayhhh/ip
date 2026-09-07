@@ -110,14 +110,17 @@ public class Storage {
         return switch (logArgs[0]) {
             case "T" -> {
                 this.validateLog(CommandType.TODO, new TodoCommand(null), logArgs, index);
+                assert logArgs.length == 3 : "Number of log arguments should match log specifications (3)";
                 yield new Todo(logArgs[2]);
             }
             case "D" -> {
                 this.validateLog(CommandType.DEADLINE, new DeadlineCommand(null), logArgs, index);
+                assert logArgs.length == 4 : "Number of log arguments should match log specifications (4)";
                 yield new Deadline(logArgs[2], logArgs[3]);
             }
             case "E" -> {
                 this.validateLog(CommandType.EVENT, new EventCommand(null), logArgs, index);
+                assert logArgs.length == 5 : "Number of log arguments should match log specifications (5)";
                 yield new Event(logArgs[2], logArgs[3], logArgs[4]);
             }
             default -> {
@@ -145,7 +148,7 @@ public class Storage {
             throw new TaskLogCorruptedException("Dropped log line at index " + index + ": Missing data detected");
         }
         try {
-            command.validate(cmdArgs);
+            command.validate(cmdArgs); // correctness check for the arguments
         } catch (InvalidCommandArgumentsException e) {
             System.out.print(cmdArgs.get(1));
             throw new TaskLogCorruptedException("Dropped log line at index " + index + ": Data corrupted");

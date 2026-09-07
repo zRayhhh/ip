@@ -26,7 +26,9 @@ public class ListCommand extends Command {
      * @param args Expected to be an empty List.
      */
     @Override
-    public void validate(List<String> args) {}
+    public void validate(List<String> args) {
+        assert args.isEmpty() : "Argument list should be empty";
+    }
 
     /**
      * Fetches the printout of the current LiveTaskList.
@@ -36,6 +38,7 @@ public class ListCommand extends Command {
      */
     @Override
     public CommandResult execute(List<String> args) {
+        assert args.isEmpty() : "Argument list should be empty";
         return new CommandResult(tasks.toString(), AyreStatus.CONTINUE);
     }
 }

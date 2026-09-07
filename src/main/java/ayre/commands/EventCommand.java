@@ -32,6 +32,7 @@ public class EventCommand extends Command {
      * @throws InvalidCommandArgumentsException If argument is not a valid ISO_LOCAL_DATE.
      */
     public void validate(List<String> args) throws InvalidCommandArgumentsException {
+        assert args.size() == 3 : "Argument list should have 3 elements";
         if (ValidationTools.isInvalidIsoDate(args.get(1)) || ValidationTools.isInvalidIsoDate(args.get(2))) {
             throw new InvalidCommandArgumentsException("Date does not adhere to ISO_LOCAL_DATE format");
         }
@@ -45,6 +46,7 @@ public class EventCommand extends Command {
      */
     @Override
     protected CommandResult execute(List<String> args) {
+        assert args.size() == 3 : "Argument list should have 3 elements";
         String resultMsg = tasks.add(new Event(args.get(0), args.get(1), args.get(2)));
         return new CommandResult(resultMsg, AyreStatus.CONTINUE);
     }
