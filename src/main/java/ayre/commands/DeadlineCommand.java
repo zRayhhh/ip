@@ -32,6 +32,7 @@ public class DeadlineCommand extends Command {
      * @throws InvalidCommandArgumentsException If argument is not a valid ISO_LOCAL_DATE.
      */
     public void validate(List<String> args) throws InvalidCommandArgumentsException {
+        assert args.size() == 2 : "Argument list should have 2 elements";
         if (ValidationTools.isInvalidIsoDate(args.get(1))) {
             throw new InvalidCommandArgumentsException("Date does not adhere to ISO_LOCAL_DATE format");
         }
@@ -45,6 +46,7 @@ public class DeadlineCommand extends Command {
      */
     @Override
     protected CommandResult execute(List<String> args) {
+        assert args.size() == 2 : "Argument list should have 2 elements";
         String resultMsg = tasks.add(new Deadline(args.get(0), args.get(1)));
         return new CommandResult(resultMsg, AyreStatus.CONTINUE);
     }

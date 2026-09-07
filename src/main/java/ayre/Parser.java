@@ -32,6 +32,8 @@ public class Parser {
                     + "Was it a mistake?");
         }
         List<String> args = Parser.tokenizeArgs(cmd, input);
+        assert args.size() == cmd.getNumArgs() : "Arguments list should be of the same size "
+                + "as number of arguments required by the CommandType";
         return new ParsedInput(cmd, args);
     }
 
@@ -83,8 +85,8 @@ public class Parser {
                     }
                     args.addAll(Arrays.asList(eventArgs)); // add time from and time to
                     break;
-                default: // guaranteed to never happen by cmd == null check above
-                    break;
+                default:
+                    assert false : cmd; // should be guaranteed that default case will never be reached
             }
         } else {
             if (input.trim().split(" ").length != 1) {
