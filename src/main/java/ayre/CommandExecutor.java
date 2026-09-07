@@ -29,8 +29,9 @@ public class CommandExecutor {
      * Initializes the EnumMap by adding all mappings between CommandTypes and their Command class.
      *
      * @param tasks The LiveTaskList used by the main process.
+     * @throws IllegalStateException If programmer failed to include a handler for a CommandType.
      */
-    public CommandExecutor(LiveTaskList tasks) {
+    public CommandExecutor(LiveTaskList tasks) throws IllegalStateException {
         handler.put(CommandType.BYE, new ByeCommand(tasks));
         handler.put(CommandType.LIST, new ListCommand(tasks));
         handler.put(CommandType.FIND, new FindCommand(tasks));

@@ -28,6 +28,7 @@ public class FindCommand extends Command {
      */
     @Override
     public void validate(List<String> args) throws InvalidCommandArgumentsException {
+        assert args.size() == 1 : "Argument list should have 1 element";
     }
 
     /**
@@ -38,6 +39,7 @@ public class FindCommand extends Command {
      */
     @Override
     public CommandResult execute(List<String> args) {
+        assert args.size() == 1 : "Argument list should have 1 element";
         return new CommandResult(tasks.findTasks(args.get(0)), AyreStatus.CONTINUE);
     }
 }
