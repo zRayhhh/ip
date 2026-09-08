@@ -1,6 +1,3 @@
-# .class files
-*.class
-
 # ./data folder
 /data/
 
