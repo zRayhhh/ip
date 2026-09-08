@@ -108,13 +108,14 @@ public class Storage {
 
     /**
      * Creates and returns a new Task based on input arguments.
+     * Package private for JUnit testing.
      *
      * @param index Identifies the line of the save file in the exception in case log corruption is detected.
      * @param logArgs Tokenized arguments taken from parsing the line.
      * @return A new Task reconstructed via the logArgs.
      * @throws TaskLogCorruptedException If save file data does not match parsing expectations.
      */
-    private Task constructNewTask(int index, String ...logArgs) throws TaskLogCorruptedException {
+    Task constructNewTask(int index, String ...logArgs) throws TaskLogCorruptedException {
         return switch (logArgs[COMMAND_FLAG_INDEX]) {
             case "T" -> {
                 this.validateLog(CommandType.TODO, new TodoCommand(null), logArgs, index);
