@@ -18,7 +18,7 @@ public enum CommandType {
     /** Unmark a Task as complete. Requires the index of the Task as shown in the TaskList. */
     UNMARK("unmark", "u", 1),
     /** Remove the Task from the TaskList. Requires the index of the Task as shown in the TaskList. */
-    DELETE("delete", "rm",  1),
+    DELETE("delete", "rm", 1),
     /** Add a new Todo to the TaskList. Requires the name of the Todo. */
     TODO("todo", "t", 1),
     /** Add a new Deadline to the TaskList. Requires the name of the Deadline and the date due by. */

@@ -1,7 +1,6 @@
 package ayre.tasks;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 /**
  * A TimedTask that only holds a single date.
