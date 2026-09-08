@@ -27,8 +27,6 @@ import ayre.tasks.Todo;
  * Relies on LiveTaskList to bind the file update to a TaskList mutation.
  */
 public class Storage {
-    private final Path logPath;
-    private final Path parentDirectory;
 
     // Named constants representing their index position in a well-formatted save file log
     private static final int COMMAND_FLAG_INDEX = 0;
@@ -36,8 +34,10 @@ public class Storage {
     private static final int NAME_INDEX = 2;
     private static final int FIRST_DATE_INDEX = 3;
     private static final int SECOND_DATE_INDEX = 4;
-
     private static final int MIN_TOKENS = 3;
+
+    private final Path logPath;
+    private final Path parentDirectory;
 
     /**
      * Initializes Path fields in Storage.

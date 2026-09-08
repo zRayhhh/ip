@@ -96,8 +96,8 @@ public class Parser {
                 }
                 arguments.addAll(Arrays.asList(deadlineArgs)); // add name and time by
                 break;
-            case EVENT:
-                String[] eventArgsFromSplit = argLine.split(" /from "); // split and verify x2 to make sure no misuse of flags
+            case EVENT: // split and verify x2 to make sure no misuse of flags
+                String[] eventArgsFromSplit = argLine.split(" /from ");
                 if (eventArgsFromSplit.length != 2) { // expecting to split only once
                     throw new WrongNumberOfArgumentsException("~ Raven... please follow the format: "
                             + "event NAME-OF-TASK /from yyyy-mm-dd /to yyyy-mm-dd");
