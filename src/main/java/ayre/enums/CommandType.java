@@ -2,29 +2,29 @@ package ayre.enums;
 
 /**
  * Represents the different Commands available to the user.
- * Each Command holds its name and the number of arguments that it requires.
+ * Each Command holds its name, shorthand alias, and the number of arguments that it requires.
  * Each Command, given its correct number of arguments, is able to validate those arguments
  * for whether they adhere to the required format. Whether the input works is not checked.
  */
 public enum CommandType {
     /** Terminate the process. Requires no arguments. */
-    BYE("bye", "-b", 0),
+    BYE("bye", "b", 0),
     /** Print the entire TaskList for viewing. Requires no arguments. */
-    LIST("list", "-l", 0),
+    LIST("list", "l", 0),
     /** Print all tasks which name contains a strict match to the input String. */
-    FIND("find", "-f", 1),
+    FIND("find", "f", 1),
     /** Mark a Task as complete. Requires the index of the Task as shown in the TaskList. */
-    MARK("mark", "-m", 1),
+    MARK("mark", "m", 1),
     /** Unmark a Task as complete. Requires the index of the Task as shown in the TaskList. */
-    UNMARK("unmark", "-u", 1),
+    UNMARK("unmark", "u", 1),
     /** Remove the Task from the TaskList. Requires the index of the Task as shown in the TaskList. */
-    DELETE("delete", "-rm",  1),
+    DELETE("delete", "rm",  1),
     /** Add a new Todo to the TaskList. Requires the name of the Todo. */
-    TODO("todo", "-t", 1),
+    TODO("todo", "t", 1),
     /** Add a new Deadline to the TaskList. Requires the name of the Deadline and the date due by. */
-    DEADLINE("deadline", "-d", 2),
+    DEADLINE("deadline", "d", 2),
     /** Add a new Event to the TaskList. Requires the name of the Event, the starting date, and the end date. */
-    EVENT("event", "-e", 3);
+    EVENT("event", "e", 3);
 
     private final String name;
     private final String alias;
