@@ -89,7 +89,7 @@ public class Parser {
                 arguments.add(argLine);
                 break;
             case DEADLINE:
-                String[] deadlineArgs = argLine.split(" /by ");
+                String[] deadlineArgs = argLine.split(" /by | b/");
                 if (deadlineArgs.length != 2) { // expecting to split only once
                     throw new WrongNumberOfArgumentsException("~ Raven... please follow the format: "
                             + "deadline NAME-OF-TASK /by yyyy-mm-dd");
@@ -97,13 +97,13 @@ public class Parser {
                 arguments.addAll(Arrays.asList(deadlineArgs)); // add name and time by
                 break;
             case EVENT: // split and verify x2 to make sure no misuse of flags
-                String[] eventArgsFromSplit = argLine.split(" /from ");
+                String[] eventArgsFromSplit = argLine.split(" /from | f/");
                 if (eventArgsFromSplit.length != 2) { // expecting to split only once
                     throw new WrongNumberOfArgumentsException("~ Raven... please follow the format: "
                             + "event NAME-OF-TASK /from yyyy-mm-dd /to yyyy-mm-dd");
                 }
                 arguments.add(eventArgsFromSplit[NAME_INDEX]); // add name
-                String[] eventArgsToSplit = eventArgsFromSplit[DATES_INDEX].split(" /to ");
+                String[] eventArgsToSplit = eventArgsFromSplit[DATES_INDEX].split(" /to | t/");
                 if (eventArgsToSplit.length != 2) { // expecting to split only once
                     throw new WrongNumberOfArgumentsException("~ Raven... please follow the format: "
                             + "event NAME-OF-TASK /from yyyy-mm-dd /to yyyy-mm-dd");
