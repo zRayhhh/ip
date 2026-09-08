@@ -50,14 +50,14 @@ public class ParserTest {
 
     @Test
     public void tokenizeArgs_extraArguments_exceptionThrown() {
-        assertThrows(WrongNumberOfArgumentsException.class,
-                () -> Parser.tokenizeArguments(CommandType.BYE, "bye bye"));
-        assertThrows(WrongNumberOfArgumentsException.class,
-                () -> Parser.tokenizeArguments(CommandType.BYE, "b 1"));
-        assertThrows(WrongNumberOfArgumentsException.class,
-                () -> Parser.tokenizeArguments(CommandType.LIST, "list 3"));
-        assertThrows(WrongNumberOfArgumentsException.class,
-                () -> Parser.tokenizeArguments(CommandType.LIST, "l l"));
+        assertThrows(WrongNumberOfArgumentsException.class, () ->
+                Parser.tokenizeArguments(CommandType.BYE, "bye bye"));
+        assertThrows(WrongNumberOfArgumentsException.class, () ->
+                Parser.tokenizeArguments(CommandType.BYE, "b 1"));
+        assertThrows(WrongNumberOfArgumentsException.class, () ->
+                Parser.tokenizeArguments(CommandType.LIST, "list 3"));
+        assertThrows(WrongNumberOfArgumentsException.class, () ->
+                Parser.tokenizeArguments(CommandType.LIST, "l l"));
     }
 
     @Test
