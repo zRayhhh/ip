@@ -41,4 +41,18 @@ public class ValidationTools {
             return true;
         }
     }
+
+    /**
+     * Tests whether the input date Strings are arranged in chronological order.
+     * Allows both dates to be on the same day.
+     *
+     * @param fromDate First date.
+     * @param toDate Second date to validate against.
+     * @return Whether the input date Strings are arranged in chronological order.
+     */
+    public static boolean isInvalidDatePair(String fromDate, String toDate) {
+        LocalDate firstDate = LocalDate.parse(fromDate, DateTimeFormatter.ISO_LOCAL_DATE);
+        LocalDate secondDate = LocalDate.parse(toDate, DateTimeFormatter.ISO_LOCAL_DATE);
+        return firstDate.isAfter(secondDate);
+    }
 }

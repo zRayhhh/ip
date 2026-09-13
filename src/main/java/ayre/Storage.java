@@ -14,7 +14,7 @@ import ayre.commands.DeadlineCommand;
 import ayre.commands.EventCommand;
 import ayre.commands.TodoCommand;
 import ayre.enums.CommandType;
-import ayre.exceptions.InvalidCommandArgumentsException;
+import ayre.exceptions.InvalidCommandException;
 import ayre.exceptions.TaskLogCorruptedException;
 import ayre.tasks.Deadline;
 import ayre.tasks.Event;
@@ -159,7 +159,7 @@ public class Storage {
         }
         try {
             command.validate(cmdArgs); // correctness check for the arguments
-        } catch (InvalidCommandArgumentsException e) {
+        } catch (InvalidCommandException e) {
             throw new TaskLogCorruptedException("Dropped log line at index " + index + ": Data corrupted");
         }
     }

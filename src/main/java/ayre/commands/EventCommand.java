@@ -34,7 +34,12 @@ public class EventCommand extends Command {
     public void validate(List<String> args) throws InvalidCommandArgumentsException {
         assert args.size() == 3 : "Argument list should have 3 elements";
         if (ValidationTools.isInvalidIsoDate(args.get(1)) || ValidationTools.isInvalidIsoDate(args.get(2))) {
-            throw new InvalidCommandArgumentsException("Date does not adhere to ISO_LOCAL_DATE format");
+            throw new InvalidCommandArgumentsException("~ Raven, I need a date in the "
+                    + "ISO_LOCAL_DATE yyyy-mm-dd format.");
+        }
+        if (ValidationTools.isInvalidDatePair(args.get(1), args.get(2))) {
+            throw new InvalidCommandArgumentsException("~ Raven, the date from should occur before the date to. "
+                    + "Did you mix them up?");
         }
     }
 

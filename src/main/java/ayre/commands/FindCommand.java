@@ -5,7 +5,6 @@ import java.util.List;
 import ayre.CommandResult;
 import ayre.LiveTaskList;
 import ayre.enums.AyreStatus;
-import ayre.exceptions.InvalidCommandArgumentsException;
 
 /**
  * Defines how a user command "find ..." should be validated and executed.
@@ -27,7 +26,7 @@ public class FindCommand extends Command {
      * @param args Expected to be a List with a single element that is the name.
      */
     @Override
-    public void validate(List<String> args) throws InvalidCommandArgumentsException {
+    public void validate(List<String> args) {
         assert args.size() == 1 : "Argument list should have 1 element";
     }
 

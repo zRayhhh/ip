@@ -21,7 +21,7 @@ import ayre.commands.MarkCommand;
 import ayre.commands.TodoCommand;
 import ayre.commands.UnmarkCommand;
 import ayre.enums.AyreStatus;
-import ayre.exceptions.InvalidCommandArgumentsException;
+import ayre.exceptions.InvalidCommandException;
 
 public class CommandTest {
     @TempDir
@@ -62,31 +62,31 @@ public class CommandTest {
         ArrayList<String> args = new ArrayList<>();
         args.add("hi");
         Command mark = new MarkCommand(null);
-        assertThrows(InvalidCommandArgumentsException.class, () -> mark.validate(args));
+        assertThrows(InvalidCommandException.class, () -> mark.validate(args));
         Command unmark = new UnmarkCommand(null);
-        assertThrows(InvalidCommandArgumentsException.class, () -> unmark.validate(args));
+        assertThrows(InvalidCommandException.class, () -> unmark.validate(args));
         Command delete = new DeleteCommand(null);
-        assertThrows(InvalidCommandArgumentsException.class, () -> delete.validate(args));
+        assertThrows(InvalidCommandException.class, () -> delete.validate(args));
 
         args.add("not-a-date");
         Command deadline = new DeadlineCommand(null);
-        assertThrows(InvalidCommandArgumentsException.class, () -> deadline.validate(args));
+        assertThrows(InvalidCommandException.class, () -> deadline.validate(args));
         args.remove(1);
         args.add("2009-13-13");
-        assertThrows(InvalidCommandArgumentsException.class, () -> deadline.validate(args));
+        assertThrows(InvalidCommandException.class, () -> deadline.validate(args));
         args.remove(1);
 
         args.add("not-a-date");
         args.add("2003-03-03");
         Command event = new EventCommand(null);
-        assertThrows(InvalidCommandArgumentsException.class, () -> event.validate(args));
+        assertThrows(InvalidCommandException.class, () -> event.validate(args));
         args.remove(1);
         args.add("2026-26-26");
-        assertThrows(InvalidCommandArgumentsException.class, () -> event.validate(args));
+        assertThrows(InvalidCommandException.class, () -> event.validate(args));
     }
 
     @Test
-    public void doCommand_validArguments_success() throws InvalidCommandArgumentsException {
+    public void doCommand_validArguments_success() throws InvalidCommandException {
         Path testFile = tmpDir.resolve("test.txt");
         LiveTaskList tasks = new LiveTaskList(new TaskList(), new Storage(testFile.toString()));
         ArrayList<String> args = new ArrayList<>();
@@ -169,15 +169,15 @@ public class CommandTest {
         ArrayList<String> args = new ArrayList<>();
         args.add("-1");
 
-        assertThrows(InvalidCommandArgumentsException.class, () -> mark.doCommand(args));
-        assertThrows(InvalidCommandArgumentsException.class, () -> unmark.doCommand(args));
-        assertThrows(InvalidCommandArgumentsException.class, () -> delete.doCommand(args));
+        assertThrows(InvalidCommandException.class, () -> mark.doCommand(args));
+        assertThrows(InvalidCommandException.class, () -> unmark.doCommand(args));
+        assertThrows(InvalidCommandException.class, () -> delete.doCommand(args));
 
         args.clear();
         args.add("1");
 
-        assertThrows(InvalidCommandArgumentsException.class, () -> mark.doCommand(args));
-        assertThrows(InvalidCommandArgumentsException.class, () -> unmark.doCommand(args));
-        assertThrows(InvalidCommandArgumentsException.class, () -> delete.doCommand(args));
+        assertThrows(InvalidCommandException.class, () -> mark.doCommand(args));
+        assertThrows(InvalidCommandException.class, () -> unmark.doCommand(args));
+        assertThrows(InvalidCommandException.class, () -> delete.doCommand(args));
     }
 }

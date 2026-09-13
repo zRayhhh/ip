@@ -15,7 +15,7 @@ import ayre.commands.MarkCommand;
 import ayre.commands.TodoCommand;
 import ayre.commands.UnmarkCommand;
 import ayre.enums.CommandType;
-import ayre.exceptions.InvalidCommandArgumentsException;
+import ayre.exceptions.InvalidCommandException;
 
 /**
  * Handles the execution of Commands with an EnumMap mapping each Command to its manner of execution.
@@ -55,9 +55,9 @@ public class CommandExecutor {
      * @param cmd Command to be executed.
      * @param args Arguments required for Command execution.
      * @return A Record of the message on completion and the process status.
-     * @throws InvalidCommandArgumentsException If arguments will cause a RunTimeException.
+     * @throws InvalidCommandException If arguments will cause a RunTimeException.
      */
-    public CommandResult execute(CommandType cmd, List<String> args) throws InvalidCommandArgumentsException {
+    public CommandResult execute(CommandType cmd, List<String> args) throws InvalidCommandException {
         return handler.get(cmd).doCommand(args);
     }
 }

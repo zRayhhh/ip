@@ -121,7 +121,7 @@ public class TaskList {
     @Override
     public String toString() {
         if (this.list.isEmpty()) {
-            return "~ The mission log is empty, Raven.";
+            return "~ The mission log is empty. \"Time to get to work\"... Raven.";
         }
         StringBuilder tasks = new StringBuilder();
         for (int i = 1; i <= this.list.size(); i++) {

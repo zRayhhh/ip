@@ -7,6 +7,7 @@ import ayre.LiveTaskList;
 import ayre.ValidationTools;
 import ayre.enums.AyreStatus;
 import ayre.exceptions.InvalidCommandArgumentsException;
+import ayre.exceptions.InvalidCommandException;
 
 /**
  * Defines how a user command "delete ..." should be validated and executed.
@@ -32,7 +33,7 @@ public class DeleteCommand extends Command {
     public void validate(List<String> args) throws InvalidCommandArgumentsException {
         assert args.size() == 1 : "Argument list should have 1 element";
         if (ValidationTools.isInvalidTaskIndex(args.get(0))) {
-            throw new InvalidCommandArgumentsException("Expected integer value");
+            throw new InvalidCommandArgumentsException("~ Raven, please provide me with an integer value.");
         }
     }
 
@@ -44,14 +45,9 @@ public class DeleteCommand extends Command {
      * @throws InvalidCommandArgumentsException If index is out of bounds.
      */
     @Override
-    protected CommandResult execute(List<String> args) throws InvalidCommandArgumentsException {
-        assert args.size() == 1 : "Argument list should have 1 element";
-        int index = Integer.parseInt(args.get(0)) - 1; // user inputs index starting from 1
-        if (index >= tasks.getNumTasks() || index < 0) {
-            throw new InvalidCommandArgumentsException("~ Invalid index entered. "
-                    + "Raven, the available indexes are 1 to " + tasks.getNumTasks());
-        }
-        String resultMsg = tasks.del(index);
+    protected CommandResult execute(List<String> args) throws InvalidCommandException {
+        int index = super.validateIndex(args, this.tasks);
+        String resultMsg = this.tasks.del(index);
         return new CommandResult(resultMsg, AyreStatus.CONTINUE);
     }
 }

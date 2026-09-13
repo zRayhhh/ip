@@ -34,7 +34,8 @@ public class DeadlineCommand extends Command {
     public void validate(List<String> args) throws InvalidCommandArgumentsException {
         assert args.size() == 2 : "Argument list should have 2 elements";
         if (ValidationTools.isInvalidIsoDate(args.get(1))) {
-            throw new InvalidCommandArgumentsException("Date does not adhere to ISO_LOCAL_DATE format");
+            throw new InvalidCommandArgumentsException("~ Raven, I need a date in the "
+                    + "ISO_LOCAL_DATE yyyy-mm-dd format");
         }
     }
 
