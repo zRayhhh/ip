@@ -24,6 +24,8 @@ You are assisting a student working on a project in this repository.
 
 # Project-specific requirements
 
+* Ensure all additions adhere strictly to the Java coding standard from this [link](https://se-education.org/guides/conventions/java/intermediate.html)
+
 ## Java version:
 
 Ensure that Java 25 is used when running the application or build tasks. On macOS, use `sdk use java 25.0.3.fx-zulu` to switch to Java 25 if needed.
