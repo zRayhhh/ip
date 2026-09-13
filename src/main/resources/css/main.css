@@ -6,9 +6,13 @@
 }
 
 .text-area {
-    -fx-background-color: #819aa6;
-    -fx-font: 16px "Courier New";
+    -fx-font: 16px "Segoe UI";
     -fx-prompt-text-fill: #696969;
+}
+
+.text-area .viewport,
+.text-area .content {
+    -fx-background-color: #e1e1e1;
 }
 
 .scroll-pane,

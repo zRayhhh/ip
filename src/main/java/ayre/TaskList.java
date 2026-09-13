@@ -52,7 +52,7 @@ public class TaskList {
     }
 
     /**
-     * Mark a Task in the ArrayList as complete.
+     * Marks a Task in the ArrayList as complete.
      *
      * @param i Index of the Task.
      * @return Context String of marking a Task.
@@ -62,7 +62,7 @@ public class TaskList {
     }
 
     /**
-     * Unmark a Task in the ArrayList as complete.
+     * Unmarks a Task in the ArrayList as complete.
      *
      * @param i Index of the Task.
      * @return Context String of unmarking a Task.
@@ -72,7 +72,7 @@ public class TaskList {
     }
 
     /**
-     * Remove a Task from the ArrayList.
+     * Removes a Task from the ArrayList.
      *
      * @param i Index of the Task.
      * @return Context String of removing a Task.
@@ -108,7 +108,7 @@ public class TaskList {
     }
 
     /**
-     * Convert the Tasks in the ArrayList into save file parse-friendly Strings.
+     * Converts the Tasks in the ArrayList into save file parse-friendly Strings.
      *
      * @return A List of the toLogString() of each Task in order.
      */

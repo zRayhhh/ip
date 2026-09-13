@@ -45,7 +45,7 @@ public class LiveTaskList {
     }
 
     /**
-     * Add a new Task to the TaskList while updating the save file.
+     * Adds a new Task to the TaskList while updating the save file.
      *
      * @param tsk Task to be added.
      * @return Context String of adding a Task.
@@ -55,7 +55,7 @@ public class LiveTaskList {
     }
 
     /**
-     * Remove a Task to the TaskList while updating the save file.
+     * Removes a Task from the TaskList while updating the save file.
      *
      * @param i Index of Task to be removed.
      * @return Context String of removing a Task.
@@ -65,7 +65,7 @@ public class LiveTaskList {
     }
 
     /**
-     * Mark a Task as complete while updating the save file.
+     * Marks a Task as complete while updating the save file.
      *
      * @param i Index of Task to be marked.
      * @return Context String of marking a Task.
@@ -75,7 +75,7 @@ public class LiveTaskList {
     }
 
     /**
-     * Unmark a Task as complete while updating the save file.
+     * Unmarks a Task as complete while updating the save file.
      *
      * @param i Index of Task to be unmarked.
      * @return Context String of unmarking a Task.

@@ -9,7 +9,15 @@
     -fx-font: 12px "Courier New";
 }
 
-.reply-label {
+/* Keep user input visually distinct from Ayre's replies. */
+.label.user-label {
+    -fx-background-color: #97adb8;
+    -fx-font: 12px "Segoe UI";
+}
+
+.label.reply-label {
+    -fx-background-color: #b2b1b3;
+    -fx-font: 12px "Courier New";
     -fx-background-radius: 1em 1em 1em 0;
     -fx-border-radius: 1em 1em 1em 0;
 }

@@ -11,6 +11,6 @@
                 <VBox fx:id="dialogContainer" prefWidth="388.0" />
             </content>
         </ScrollPane>
-        <TextArea fx:id="userInput" promptText="> Message" wrapText="true" prefRowCount="1" prefHeight="30" maxHeight="120" prefWidth="400.0" />
+        <TextArea fx:id="userInput" promptText="> Message" wrapText="true" prefRowCount="1" prefHeight="25" maxHeight="120" prefWidth="400.0" />
     </children>
 </VBox>

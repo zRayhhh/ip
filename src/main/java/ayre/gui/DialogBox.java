@@ -19,6 +19,8 @@ import javafx.scene.layout.HBox;
  * and a label containing text from the speaker.
  */
 public class DialogBox extends HBox {
+    private static final double DIALOG_HORIZONTAL_OVERHEAD = 74;
+
     @FXML
     private Label dialog;
     @FXML
@@ -41,7 +43,19 @@ public class DialogBox extends HBox {
         }
 
         dialog.setText(text);
+        // Short messages use their natural width. Longer messages wrap to the
+        // available space, which is recalculated whenever the window is resized.
+        dialog.setMaxWidth(330);
+        widthProperty().addListener((obs, oldWidth, newWidth) ->
+                dialog.setMaxWidth(Math.max(0, newWidth.doubleValue() - DIALOG_HORIZONTAL_OVERHEAD)));
         displayPicture.setImage(img);
+    }
+
+    /**
+     * Applies the style used for a user-authored message.
+     */
+    private void styleAsUserMessage() {
+        dialog.getStyleClass().add("user-label");
     }
 
     /**
@@ -63,7 +77,9 @@ public class DialogBox extends HBox {
      * @return DialogBox.
      */
     public static DialogBox getUserDialog(String text, Image img) {
-        return new DialogBox(text, img);
+        var db = new DialogBox(text, img);
+        db.styleAsUserMessage();
+        return db;
     }
 
     /**

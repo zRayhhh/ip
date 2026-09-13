@@ -13,7 +13,7 @@ public class Ayre {
     private final CommandExecutor executor;
 
     /**
-     * Initialize UI, Storage, TaskList, CommandExecutor and ensure they can communicate.
+     * Initializes UI, Storage, TaskList, CommandExecutor and ensure they can communicate.
      */
     public Ayre() {
         Storage store = new Storage(LOG_PATH);
