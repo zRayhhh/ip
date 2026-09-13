@@ -12,6 +12,7 @@ import ayre.CommandResult;
 import ayre.LiveTaskList;
 import ayre.enums.AyreStatus;
 
+// Refactored by GPT-5.6 Luna
 /** Tests listing the current tasks. */
 public class ListCommandTest {
     @TempDir

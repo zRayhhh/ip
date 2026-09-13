@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import ayre.CommandResult;
 import ayre.enums.AyreStatus;
 
+// Refactored by GPT-5.6 Luna
 /** Tests the command that terminates the application. */
 public class ByeCommandTest {
     @Test

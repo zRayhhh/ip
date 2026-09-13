@@ -14,6 +14,7 @@ import ayre.LiveTaskList;
 import ayre.enums.AyreStatus;
 import ayre.exceptions.InvalidCommandException;
 
+// Refactored by GPT-5.6 Luna
 /** Tests creating event tasks and validating their date ranges. */
 public class EventCommandTest {
     @TempDir
