@@ -2,6 +2,8 @@ package ayre;
 
 import ayre.enums.AyreStatus;
 import ayre.exceptions.AyreException;
+import ayre.storage.LoadResult;
+import ayre.storage.Storage;
 
 /**
  * Main Class that handles the high-level operation of the chatbot.

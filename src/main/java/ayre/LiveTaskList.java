@@ -1,5 +1,6 @@
 package ayre;
 
+import ayre.storage.Storage;
 import ayre.tasks.Task;
 
 /**

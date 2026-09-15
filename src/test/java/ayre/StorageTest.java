@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import ayre.exceptions.TaskLogCorruptedException;
+import ayre.storage.LogParser;
+import ayre.storage.Storage;
 import ayre.tasks.Deadline;
 import ayre.tasks.Event;
 import ayre.tasks.Task;
@@ -77,15 +79,15 @@ public class StorageTest {
         Path testFile = tmpDir.resolve("test.txt");
         Storage storage = new Storage(testFile.toString());
         assertThrows(TaskLogCorruptedException.class, () ->
-                storage.constructNewTask(0, "T"));
+                LogParser.constructNewTask(0, "T"));
         assertThrows(TaskLogCorruptedException.class, () ->
-                storage.constructNewTask(0, "T", "0"));
+                LogParser.constructNewTask(0, "T", "0"));
         assertThrows(TaskLogCorruptedException.class, () ->
-                storage.constructNewTask(0, "D", "0", "hi"));
+                LogParser.constructNewTask(0, "D", "0", "hi"));
         assertThrows(TaskLogCorruptedException.class, () ->
-                storage.constructNewTask(0, "E", "0", "hi", "a"));
+                LogParser.constructNewTask(0, "E", "0", "hi", "a"));
         assertThrows(TaskLogCorruptedException.class, () ->
-                storage.constructNewTask(0, "E", "0"));
+                LogParser.constructNewTask(0, "E", "0"));
     }
 
     @Test
@@ -93,15 +95,15 @@ public class StorageTest {
         Path testFile = tmpDir.resolve("test.txt");
         Storage storage = new Storage(testFile.toString());
         assertThrows(TaskLogCorruptedException.class, () ->
-                storage.constructNewTask(0, "T", "0", "hi", "hi again"));
+                LogParser.constructNewTask(0, "T", "0", "hi", "hi again"));
         assertThrows(TaskLogCorruptedException.class, () ->
-                storage.constructNewTask(0, "D", "0", "name", "2000-10-01", "2000-10-01"));
+                LogParser.constructNewTask(0, "D", "0", "name", "2000-10-01", "2000-10-01"));
         assertThrows(TaskLogCorruptedException.class, () ->
-                storage.constructNewTask(0, "D", "0", "bleh", "2000-10-01", "testing!"));
+                LogParser.constructNewTask(0, "D", "0", "bleh", "2000-10-01", "testing!"));
         assertThrows(TaskLogCorruptedException.class, () ->
-                storage.constructNewTask(0, "E", "0", "boring", "2000-10-01", "2000-10-10", "2000-10-11"));
+                LogParser.constructNewTask(0, "E", "0", "boring", "2000-10-01", "2000-10-10", "2000-10-11"));
         assertThrows(TaskLogCorruptedException.class, () ->
-                storage.constructNewTask(0, "E", "0", "testing", "2000-10-01", "2000-10-10", "hmm..."));
+                LogParser.constructNewTask(0, "E", "0", "testing", "2000-10-01", "2000-10-10", "hmm..."));
     }
 
     @Test
@@ -109,18 +111,18 @@ public class StorageTest {
         Path testFile = tmpDir.resolve("test.txt");
         Storage storage = new Storage(testFile.toString());
         assertThrows(TaskLogCorruptedException.class, () ->
-                storage.constructNewTask(0, "D", "0", "hi", "1"));
+                LogParser.constructNewTask(0, "D", "0", "hi", "1"));
         assertThrows(TaskLogCorruptedException.class, () ->
-                storage.constructNewTask(0, "D", "0", "hi", "haha"));
+                LogParser.constructNewTask(0, "D", "0", "hi", "haha"));
         assertThrows(TaskLogCorruptedException.class, () ->
-                storage.constructNewTask(0, "E", "0", "hi", "1", "2"));
+                LogParser.constructNewTask(0, "E", "0", "hi", "1", "2"));
         assertThrows(TaskLogCorruptedException.class, () ->
-                storage.constructNewTask(0, "E", "0", "hi", "1999-10-01", "2"));
+                LogParser.constructNewTask(0, "E", "0", "hi", "1999-10-01", "2"));
         assertThrows(TaskLogCorruptedException.class, () ->
-                storage.constructNewTask(0, "E", "0", "hi", "1", "1999-10-01"));
+                LogParser.constructNewTask(0, "E", "0", "hi", "1", "1999-10-01"));
         assertThrows(TaskLogCorruptedException.class, () ->
-                storage.constructNewTask(0, "testing testing!"));
+                LogParser.constructNewTask(0, "testing testing!"));
         assertThrows(TaskLogCorruptedException.class, () ->
-                storage.constructNewTask(0, ""));
+                LogParser.constructNewTask(0, ""));
     }
 }

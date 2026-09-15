@@ -1,4 +1,6 @@
-package ayre;
+package ayre.storage;
+
+import ayre.TaskList;
 
 /**
  * A record to pass immutably the load result of Storage::load() to Ayre.
