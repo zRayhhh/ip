@@ -36,6 +36,7 @@ public class EventCommand extends Command {
      * @param args Expected to be a List with a name, start date, and end date in that order.
      * @throws InvalidCommandArgumentsException If argument is not a valid ISO_LOCAL_DATE.
      */
+    @Override
     public void validate(List<String> args) throws InvalidCommandArgumentsException {
         assert args.size() == EXPECTED_ARGUMENT_COUNT : "Argument list should have "
                 + EXPECTED_ARGUMENT_COUNT + " elements";

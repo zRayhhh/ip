@@ -37,7 +37,7 @@ public class ListCommand extends Command {
      * @return A CommandResult holding the operation result message as a String and the update to the process status.
      */
     @Override
-    public CommandResult execute(List<String> args) {
+    protected CommandResult execute(List<String> args) {
         assert args.isEmpty() : "Argument list should be empty";
         return new CommandResult(tasks.toString(), AyreStatus.CONTINUE);
     }

@@ -35,7 +35,7 @@ public class ByeCommand extends Command {
      * @return A CommandResult holding the (legacy) message String and the status to TERMINATE.
      */
     @Override
-    public CommandResult execute(List<String> args) {
+    protected CommandResult execute(List<String> args) {
         assert args.isEmpty() : "Argument list should be empty";
         return new CommandResult("~ Terminating connection. See you again, Raven.\n", AyreStatus.TERMINATE);
     }

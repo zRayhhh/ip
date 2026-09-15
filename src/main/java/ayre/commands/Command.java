@@ -57,16 +57,22 @@ public abstract class Command {
     int validateIndex(List<String> args, LiveTaskList tasks) throws InvalidCommandException {
         assert args.size() == EXPECTED_ARGUMENT_COUNT : "Argument list should have "
                 + EXPECTED_ARGUMENT_COUNT + " elements";
-        int index = Integer.parseInt(args.getFirst()) - USER_INDEX_OFFSET; // user inputs index starting from 1
-        if (tasks.getNumTasks() == 0) {
-            throw new InvalidCommandException("~ Raven, the mission log is currently empty. "
-                    + "Try adding a mission first.");
+        try {
+            int index = Integer.parseInt(args.getFirst()) - USER_INDEX_OFFSET; // user inputs index starting from 1
+            if (tasks.getNumTasks() == 0) {
+                throw new InvalidCommandException("~ Raven, the mission log is currently empty. "
+                        + "Try adding a mission first.");
+            }
+            if (index >= tasks.getNumTasks() || index < FIRST_TASK_INDEX) {
+                throw new InvalidCommandArgumentsException("~ Invalid index entered. " + (tasks.getNumTasks() == 1
+                        ? "Raven, the only accessible index is " + USER_INDEX_OFFSET
+                        : "Raven, the accessible indexes are "
+                                + USER_INDEX_OFFSET + " to " + tasks.getNumTasks()) + ".");
+            }
+            return index;
+        } catch (NumberFormatException e) {
+            throw new InvalidCommandException("~ Raven, that number is too large to process. "
+                    + "Please try something else.");
         }
-        if (index >= tasks.getNumTasks() || index < FIRST_TASK_INDEX) {
-            throw new InvalidCommandArgumentsException("~ Invalid index entered. " + (tasks.getNumTasks() == 1
-                    ? "Raven, the only accessible index is " + USER_INDEX_OFFSET
-                    : "Raven, the accessible indexes are " + USER_INDEX_OFFSET + " to " + tasks.getNumTasks()) + ".");
-        }
-        return index;
     }
 }

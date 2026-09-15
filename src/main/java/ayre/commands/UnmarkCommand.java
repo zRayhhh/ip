@@ -48,7 +48,7 @@ public class UnmarkCommand extends Command {
      * @throws InvalidCommandException If index is out of bounds
      */
     @Override
-    public CommandResult execute(List<String> args) throws InvalidCommandException {
+    protected CommandResult execute(List<String> args) throws InvalidCommandException {
         assert args.size() == EXPECTED_ARGUMENT_COUNT : "Argument list should have "
                 + EXPECTED_ARGUMENT_COUNT + " elements";
         int index = super.validateIndex(args, this.tasks);

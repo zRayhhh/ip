@@ -28,6 +28,7 @@ public class TodoCommand extends Command {
      *
      * @param args Expected to be a List with a single element that is the name.
      */
+    @Override
     public void validate(List<String> args) {
         assert args.size() == EXPECTED_ARGUMENT_COUNT : "Argument list should have "
                 + EXPECTED_ARGUMENT_COUNT + " elements";

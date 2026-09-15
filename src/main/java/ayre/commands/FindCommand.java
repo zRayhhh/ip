@@ -40,7 +40,7 @@ public class FindCommand extends Command {
      * @return Record holding the operation result message as a String and the update to the process status.
      */
     @Override
-    public CommandResult execute(List<String> args) {
+    protected CommandResult execute(List<String> args) {
         assert args.size() == EXPECTED_ARGUMENT_COUNT : "Argument list should have "
                 + EXPECTED_ARGUMENT_COUNT + " elements";
         return new CommandResult(tasks.findTasks(args.getFirst()), AyreStatus.CONTINUE);
