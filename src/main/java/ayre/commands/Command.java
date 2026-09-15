@@ -11,6 +11,10 @@ import ayre.exceptions.InvalidCommandException;
  * Defines the structure of subclasses that handle how user commands should be validated and executed.
  */
 public abstract class Command {
+    private static final int EXPECTED_ARGUMENT_COUNT = 1;
+    private static final int USER_INDEX_OFFSET = 1;
+    private static final int FIRST_TASK_INDEX = 0;
+
     /**
      * Validates, executes, returns the result.
      * This setup ensures that validation and execution are always bundled together.
@@ -51,15 +55,17 @@ public abstract class Command {
      * @throws InvalidCommandException If index is outside range for task list.
      */
     int validateIndex(List<String> args, LiveTaskList tasks) throws InvalidCommandException {
-        assert args.size() == 1 : "Argument list should have 1 element";
-        int index = Integer.parseInt(args.get(0)) - 1; // user inputs index starting from 1
+        assert args.size() == EXPECTED_ARGUMENT_COUNT : "Argument list should have "
+                + EXPECTED_ARGUMENT_COUNT + " elements";
+        int index = Integer.parseInt(args.getFirst()) - USER_INDEX_OFFSET; // user inputs index starting from 1
         if (tasks.getNumTasks() == 0) {
             throw new InvalidCommandException("~ Raven, the mission log is currently empty. "
                     + "Try adding a mission first.");
         }
-        if (index >= tasks.getNumTasks() || index < 0) {
-            throw new InvalidCommandArgumentsException("~ Invalid index entered. "
-                    + "Raven, the available indexes are 1 to " + tasks.getNumTasks());
+        if (index >= tasks.getNumTasks() || index < FIRST_TASK_INDEX) {
+            throw new InvalidCommandArgumentsException("~ Invalid index entered. " + (tasks.getNumTasks() == 1
+                    ? "Raven, the only accessible index is " + USER_INDEX_OFFSET
+                    : "Raven, the accessible indexes are " + USER_INDEX_OFFSET + " to " + tasks.getNumTasks()) + ".");
         }
         return index;
     }

@@ -11,6 +11,8 @@ import ayre.tasks.Todo;
  * Defines how a user command "todo ..." should be validated and executed.
  */
 public class TodoCommand extends Command {
+    private static final int EXPECTED_ARGUMENT_COUNT = 1;
+
     private final LiveTaskList tasks;
 
     /**
@@ -27,7 +29,8 @@ public class TodoCommand extends Command {
      * @param args Expected to be a List with a single element that is the name.
      */
     public void validate(List<String> args) {
-        assert args.size() == 1 : "Argument list should have 1 element";
+        assert args.size() == EXPECTED_ARGUMENT_COUNT : "Argument list should have "
+                + EXPECTED_ARGUMENT_COUNT + " elements";
     }
 
     /**
@@ -38,8 +41,9 @@ public class TodoCommand extends Command {
      */
     @Override
     protected CommandResult execute(List<String> args) {
-        assert args.size() == 1 : "Argument list should have 1 element";
-        String resultMsg = tasks.add(new Todo(args.get(0)));
+        assert args.size() == EXPECTED_ARGUMENT_COUNT : "Argument list should have "
+                + EXPECTED_ARGUMENT_COUNT + " elements";
+        String resultMsg = tasks.add(new Todo(args.getFirst()));
         return new CommandResult(resultMsg, AyreStatus.CONTINUE);
     }
 }

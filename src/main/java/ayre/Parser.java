@@ -50,7 +50,7 @@ public class Parser {
      */
     private static List<String> tokenizeArguments(CommandType cmd, String input)
             throws WrongNumberOfArgumentsException {
-        if (cmd.requiresArgs()) { // filters out BYE and LIST
+        if (cmd.requiresArgs()) { // filters in all commands that requires argument input
             String[] cmdWithArgs = input.trim().split(" ", SPLIT_ONCE_LIMIT);
             if (cmdWithArgs.length == 1) {
                 throw new WrongNumberOfArgumentsException("~ Raven, some parameters are missing. I don't have "
@@ -58,8 +58,8 @@ public class Parser {
             }
             String argLine = cmdWithArgs[ARGUMENT_STRING_INDEX]; // take the latter half of the split input as args
             return parseArguments(cmd, argLine);
-        } else {
-            if (input.trim().split(" ").length != 1) { // strict: no extra arguments to be passed with BYE & LIST
+        } else { // BYE and LIST get filtered out to here
+            if (input.trim().split(" ").length != 1) { // no extra arguments to be passed with BYE & LIST
                 throw new WrongNumberOfArgumentsException("~ Raven, there seems to be some extra parameters"
                         + " mixed in. Please try again.");
             }

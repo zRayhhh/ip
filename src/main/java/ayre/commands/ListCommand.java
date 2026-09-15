@@ -10,6 +10,8 @@ import ayre.enums.AyreStatus;
  * Defines how a user command "list" should be validated and executed.
  */
 public class ListCommand extends Command {
+    private static final int EXPECTED_ARGUMENT_COUNT = 1;
+
     private final LiveTaskList tasks;
 
     /**
@@ -27,7 +29,8 @@ public class ListCommand extends Command {
      */
     @Override
     public void validate(List<String> args) {
-        assert args.isEmpty() : "Argument list should be empty";
+        assert args.size() == EXPECTED_ARGUMENT_COUNT : "Argument list should have "
+                + EXPECTED_ARGUMENT_COUNT + " elements";
     }
 
     /**
@@ -38,7 +41,8 @@ public class ListCommand extends Command {
      */
     @Override
     public CommandResult execute(List<String> args) {
-        assert args.isEmpty() : "Argument list should be empty";
+        assert args.size() == EXPECTED_ARGUMENT_COUNT : "Argument list should have "
+                + EXPECTED_ARGUMENT_COUNT + " elements";
         return new CommandResult(tasks.toString(), AyreStatus.CONTINUE);
     }
 }

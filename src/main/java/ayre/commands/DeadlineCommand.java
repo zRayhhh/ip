@@ -13,6 +13,10 @@ import ayre.tasks.Deadline;
  * Defines how a user command "deadline ..." should be validated and executed.
  */
 public class DeadlineCommand extends Command {
+    private static final int EXPECTED_ARGUMENT_COUNT = 2;
+    private static final int NAME_INDEX = 0;
+    private static final int DATE_INDEX = 1;
+
     private final LiveTaskList tasks;
 
     /**
@@ -32,8 +36,9 @@ public class DeadlineCommand extends Command {
      * @throws InvalidCommandArgumentsException If argument is not a valid ISO_LOCAL_DATE.
      */
     public void validate(List<String> args) throws InvalidCommandArgumentsException {
-        assert args.size() == 2 : "Argument list should have 2 elements";
-        if (ValidationTools.isInvalidIsoDate(args.get(1))) {
+        assert args.size() == EXPECTED_ARGUMENT_COUNT : "Argument list should have "
+                + EXPECTED_ARGUMENT_COUNT + " elements";
+        if (ValidationTools.isInvalidIsoDate(args.get(DATE_INDEX))) {
             throw new InvalidCommandArgumentsException("~ Raven, I need a date in the "
                     + "ISO_LOCAL_DATE yyyy-mm-dd format");
         }
@@ -47,8 +52,9 @@ public class DeadlineCommand extends Command {
      */
     @Override
     protected CommandResult execute(List<String> args) {
-        assert args.size() == 2 : "Argument list should have 2 elements";
-        String resultMsg = tasks.add(new Deadline(args.get(0), args.get(1)));
+        assert args.size() == EXPECTED_ARGUMENT_COUNT : "Argument list should have "
+                + EXPECTED_ARGUMENT_COUNT + " elements";
+        String resultMsg = tasks.add(new Deadline(args.get(NAME_INDEX), args.get(DATE_INDEX)));
         return new CommandResult(resultMsg, AyreStatus.CONTINUE);
     }
 }

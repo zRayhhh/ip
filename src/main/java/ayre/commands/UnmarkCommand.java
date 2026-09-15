@@ -13,6 +13,8 @@ import ayre.exceptions.InvalidCommandException;
  * Defines how a user command "unmark ..." should be validated and executed.
  */
 public class UnmarkCommand extends Command {
+    private static final int EXPECTED_ARGUMENT_COUNT = 1;
+
     private final LiveTaskList tasks;
 
     /**
@@ -31,8 +33,9 @@ public class UnmarkCommand extends Command {
      */
     @Override
     public void validate(List<String> args) throws InvalidCommandException {
-        assert args.size() == 1 : "Argument list should have 1 element";
-        if (ValidationTools.isInvalidTaskIndex(args.get(0))) {
+        assert args.size() == EXPECTED_ARGUMENT_COUNT : "Argument list should have "
+                + EXPECTED_ARGUMENT_COUNT + " elements";
+        if (ValidationTools.isInvalidTaskIndex(args.getFirst())) {
             throw new InvalidCommandArgumentsException("~ Raven, please provide me with an integer value.");
         }
     }
@@ -46,7 +49,8 @@ public class UnmarkCommand extends Command {
      */
     @Override
     public CommandResult execute(List<String> args) throws InvalidCommandException {
-        assert args.size() == 1 : "Argument list should have 1 element";
+        assert args.size() == EXPECTED_ARGUMENT_COUNT : "Argument list should have "
+                + EXPECTED_ARGUMENT_COUNT + " elements";
         int index = super.validateIndex(args, this.tasks);
         String resultMsg = this.tasks.unmark(index);
         return new CommandResult(resultMsg, AyreStatus.CONTINUE);

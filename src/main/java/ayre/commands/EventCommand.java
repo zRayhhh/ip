@@ -13,6 +13,11 @@ import ayre.tasks.Event;
  * Defines how a user command "event ..." should be validated and executed.
  */
 public class EventCommand extends Command {
+    private static final int EXPECTED_ARGUMENT_COUNT = 3;
+    private static final int NAME_INDEX = 0;
+    private static final int FROM_DATE_INDEX = 1;
+    private static final int TO_DATE_INDEX = 1;
+
     private final LiveTaskList tasks;
 
     /**
@@ -32,12 +37,14 @@ public class EventCommand extends Command {
      * @throws InvalidCommandArgumentsException If argument is not a valid ISO_LOCAL_DATE.
      */
     public void validate(List<String> args) throws InvalidCommandArgumentsException {
-        assert args.size() == 3 : "Argument list should have 3 elements";
-        if (ValidationTools.isInvalidIsoDate(args.get(1)) || ValidationTools.isInvalidIsoDate(args.get(2))) {
+        assert args.size() == EXPECTED_ARGUMENT_COUNT : "Argument list should have "
+                + EXPECTED_ARGUMENT_COUNT + " elements";
+        if (ValidationTools.isInvalidIsoDate(args.get(FROM_DATE_INDEX))
+                || ValidationTools.isInvalidIsoDate(args.get(TO_DATE_INDEX))) {
             throw new InvalidCommandArgumentsException("~ Raven, I need a date in the "
                     + "ISO_LOCAL_DATE yyyy-mm-dd format.");
         }
-        if (ValidationTools.isInvalidDatePair(args.get(1), args.get(2))) {
+        if (ValidationTools.isInvalidDatePair(args.get(FROM_DATE_INDEX), args.get(TO_DATE_INDEX))) {
             throw new InvalidCommandArgumentsException("~ Raven, the date from should occur before the date to. "
                     + "Did you mix them up?");
         }
@@ -51,8 +58,10 @@ public class EventCommand extends Command {
      */
     @Override
     protected CommandResult execute(List<String> args) {
-        assert args.size() == 3 : "Argument list should have 3 elements";
-        String resultMsg = tasks.add(new Event(args.get(0), args.get(1), args.get(2)));
+        assert args.size() == EXPECTED_ARGUMENT_COUNT : "Argument list should have "
+                + EXPECTED_ARGUMENT_COUNT + " elements";
+        String resultMsg = tasks.add(
+                new Event(args.get(NAME_INDEX), args.get(FROM_DATE_INDEX), args.get(TO_DATE_INDEX)));
         return new CommandResult(resultMsg, AyreStatus.CONTINUE);
     }
 }

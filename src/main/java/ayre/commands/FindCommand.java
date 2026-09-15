@@ -10,6 +10,8 @@ import ayre.enums.AyreStatus;
  * Defines how a user command "find ..." should be validated and executed.
  */
 public class FindCommand extends Command {
+    private static final int EXPECTED_ARGUMENT_COUNT = 1;
+
     private final LiveTaskList tasks;
 
     /**
@@ -27,7 +29,8 @@ public class FindCommand extends Command {
      */
     @Override
     public void validate(List<String> args) {
-        assert args.size() == 1 : "Argument list should have 1 element";
+        assert args.size() == EXPECTED_ARGUMENT_COUNT : "Argument list should have "
+                + EXPECTED_ARGUMENT_COUNT + " elements";
     }
 
     /**
@@ -38,8 +41,9 @@ public class FindCommand extends Command {
      */
     @Override
     public CommandResult execute(List<String> args) {
-        assert args.size() == 1 : "Argument list should have 1 element";
-        return new CommandResult(tasks.findTasks(args.get(0)), AyreStatus.CONTINUE);
+        assert args.size() == EXPECTED_ARGUMENT_COUNT : "Argument list should have "
+                + EXPECTED_ARGUMENT_COUNT + " elements";
+        return new CommandResult(tasks.findTasks(args.getFirst()), AyreStatus.CONTINUE);
     }
 }
 
