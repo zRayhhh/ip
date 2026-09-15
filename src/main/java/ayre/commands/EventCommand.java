@@ -16,7 +16,7 @@ public class EventCommand extends Command {
     private static final int EXPECTED_ARGUMENT_COUNT = 3;
     private static final int NAME_INDEX = 0;
     private static final int FROM_DATE_INDEX = 1;
-    private static final int TO_DATE_INDEX = 1;
+    private static final int TO_DATE_INDEX = 2;
 
     private final LiveTaskList tasks;
 
