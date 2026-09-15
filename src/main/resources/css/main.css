@@ -1,8 +1,6 @@
 .root {
     main-color: #2a2e30;
     -fx-background-color: main-color;
-    /*-fx-background-image: url("../images/background.png");*/
-    /*-fx-background-size: stretch;*/
 }
 
 .text-area {

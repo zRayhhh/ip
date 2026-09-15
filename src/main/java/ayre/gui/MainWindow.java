@@ -17,8 +17,8 @@ import javafx.scene.text.Text;
 public class MainWindow extends AnchorPane {
     private static final double MIN_HEIGHT = 30;
     private static final double MAX_HEIGHT = 120;
-    private static final Image USER_IMAGE = new Image("/images/Emblem_ACVI_C4-621_Raven.png");
-    private static final Image AYRE_IMAGE = new Image("/images/Emblem_ACVI_Ayre.png");
+    private static final Image USER_IMAGE = new Image("/images/Raven.png");
+    private static final Image AYRE_IMAGE = new Image("/images/Ayre.png");
 
     @FXML
     private ScrollPane scrollPane;
