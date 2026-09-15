@@ -44,7 +44,7 @@ public class CommandExecutor {
 
         for (CommandType c : CommandType.values()) {
             if (!handler.containsKey(c)) {
-                throw new IllegalStateException("No executor registered for command: " + c);
+                throw new AssertionError("No executor registered for command: " + c);
             }
         }
     }

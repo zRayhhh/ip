@@ -28,8 +28,7 @@ public class Parser {
      * @throws UnknownCommandException If no matching Command is found.
      * @throws WrongNumberOfArgumentsException If wrong number of arguments are parsed.
      */
-    public static ParsedInput parseInput(String input) throws UnknownCommandException,
-            WrongNumberOfArgumentsException {
+    public static ParsedInput parseInput(String input) throws UnknownCommandException, WrongNumberOfArgumentsException {
         String[] cmdWithArgs = input.trim().split(" ", SPLIT_ONCE_LIMIT);
         CommandType cmd = CommandType.parseCommand(cmdWithArgs[COMMAND_TYPE_INDEX]);
         if (cmd == null) {
@@ -44,14 +43,13 @@ public class Parser {
 
     /**
      * Splits the user-inputted String into the corresponding arguments of the Command.
-     * Package private for JUnit tests.
-     *
      * @param cmd Command parsed from input.
      * @param input User-inputted String.
      * @return List of arguments as Strings.
      * @throws WrongNumberOfArgumentsException If wrong number of arguments are detected after tokenizing.
      */
-    static List<String> tokenizeArguments(CommandType cmd, String input) throws WrongNumberOfArgumentsException {
+    private static List<String> tokenizeArguments(CommandType cmd, String input)
+            throws WrongNumberOfArgumentsException {
         if (cmd.requiresArgs()) { // filters out BYE and LIST
             String[] cmdWithArgs = input.trim().split(" ", SPLIT_ONCE_LIMIT);
             if (cmdWithArgs.length == 1) {
@@ -73,46 +71,67 @@ public class Parser {
      * Parses user-inputted arguments to the command to ensure the correct number of arguments are given.
      * Logically this only involves the commands that require 1 or more arguments.
      *
-     * @param cmd CommandType involved
-     * @param argLine User input String containing what should be the arguments
-     * @return List which elements correspond to the arguments in order
-     * @throws WrongNumberOfArgumentsException If wrong number of arguments are found while parsing
+     * @param cmd CommandType involved.
+     * @param argLine User input String containing what should be the arguments.
+     * @return List which elements correspond to the arguments in order.
+     * @throws WrongNumberOfArgumentsException If wrong number of arguments are found while parsing.
      */
     private static List<String> parseArguments(CommandType cmd, String argLine) throws WrongNumberOfArgumentsException {
+        return switch (cmd) {
+            case FIND, MARK, UNMARK, DELETE, TODO -> List.of(argLine);
+            case DEADLINE -> parseDeadlineArguments(argLine);
+            case EVENT -> parseEventArguments(argLine);
+            default -> throw new AssertionError("<<Main System>> Warning: "
+                    + "A program invariant has been breached.");
+        };
+    }
+
+    /**
+     * Parses the task name and due date from a deadline argument line.
+     *
+     * @param argLine User input containing a task name and {@code /by} date.
+     * @return The deadline name and due date in argument order.
+     * @throws WrongNumberOfArgumentsException If the input does not contain exactly one deadline separator.
+     */
+    private static List<String> parseDeadlineArguments(String argLine) throws WrongNumberOfArgumentsException {
+        String[] deadlineArgs = splitExactlyOnce(argLine,
+                " /by | b/", "deadline NAME-OF-TASK /by yyyy-mm-dd");
+        return Arrays.asList(deadlineArgs);
+    }
+
+    /**
+     * Parses the task name, start date, and end date from an event argument line.
+     *
+     * @param argLine User input containing an event name, {@code /from} date, and {@code /to} date.
+     * @return The event name and dates in argument order.
+     * @throws WrongNumberOfArgumentsException If either event separator is missing or repeated.
+     */
+    private static List<String> parseEventArguments(String argLine) throws WrongNumberOfArgumentsException {
+        String[] eventArgsFromSplit = splitExactlyOnce(argLine,
+                " /from | f/", "event NAME-OF-TASK /from yyyy-mm-dd /to yyyy-mm-dd");
         List<String> arguments = new ArrayList<>();
-        switch (cmd) {
-            case FIND: // fallthrough
-            case MARK: // fallthrough
-            case UNMARK: // fallthrough
-            case DELETE: // fallthrough
-            case TODO:
-                arguments.add(argLine);
-                break;
-            case DEADLINE:
-                String[] deadlineArgs = argLine.split(" /by | b/");
-                if (deadlineArgs.length != 2) { // expecting to split only once
-                    throw new WrongNumberOfArgumentsException("~ Raven... please follow the format: "
-                            + "deadline NAME-OF-TASK /by yyyy-mm-dd");
-                }
-                arguments.addAll(Arrays.asList(deadlineArgs)); // add name and time by
-                break;
-            case EVENT: // split and verify x2 to make sure no misuse of flags
-                String[] eventArgsFromSplit = argLine.split(" /from | f/");
-                if (eventArgsFromSplit.length != 2) { // expecting to split only once
-                    throw new WrongNumberOfArgumentsException("~ Raven... please follow the format: "
-                            + "event NAME-OF-TASK /from yyyy-mm-dd /to yyyy-mm-dd");
-                }
-                arguments.add(eventArgsFromSplit[NAME_INDEX]); // add name
-                String[] eventArgsToSplit = eventArgsFromSplit[DATES_INDEX].split(" /to | t/");
-                if (eventArgsToSplit.length != 2) { // expecting to split only once
-                    throw new WrongNumberOfArgumentsException("~ Raven... please follow the format: "
-                            + "event NAME-OF-TASK /from yyyy-mm-dd /to yyyy-mm-dd");
-                }
-                arguments.addAll(Arrays.asList(eventArgsToSplit)); // add time from and time to
-                break;
-            default: // guaranteed to never happen by cmd == null check above
-                assert false : cmd; // should be guaranteed that default case will never be reached
-        }
+        arguments.add(eventArgsFromSplit[NAME_INDEX]); // add name
+        String[] eventArgsToSplit = splitExactlyOnce(eventArgsFromSplit[DATES_INDEX],
+                " /to | t/", "event NAME-OF-TASK /from yyyy-mm-dd /to yyyy-mm-dd");
+        arguments.addAll(Arrays.asList(eventArgsToSplit)); // add the dates
         return arguments;
+    }
+
+    /**
+     * Splits an input string and verifies that the delimiter occurs exactly once.
+     *
+     * @param input String to split.
+     * @param delimiter Regular expression identifying the delimiter.
+     * @param format User-facing command format shown when validation fails.
+     * @return The two parts produced by the split.
+     * @throws WrongNumberOfArgumentsException If the delimiter does not produce exactly two parts.
+     */
+    private static String[] splitExactlyOnce(String input, String delimiter, String format)
+            throws WrongNumberOfArgumentsException {
+        String[] splitInput = input.split(delimiter);
+        if (splitInput.length != 2) {
+            throw new WrongNumberOfArgumentsException("~ Raven... please follow the format: " + format);
+        }
+        return splitInput;
     }
 }
