@@ -10,6 +10,8 @@ import ayre.tasks.Task;
  * the other methods and the Tasks.
  */
 public class TaskList {
+    private static final int FIRST_TASK_INDEX = 1;
+
     private final ArrayList<Task> list;
 
     /**
@@ -42,8 +44,8 @@ public class TaskList {
                                     .map(Task::toString)
                                     .toList();
         StringBuilder tasks = new StringBuilder();
-        for (int i = 1; i <= list.size(); i++) {
-            tasks.append(i).append(". ").append(list.get(i - 1)).append("\n");
+        for (int i = FIRST_TASK_INDEX; i <= list.size(); i++) {
+            tasks.append(i).append(". ").append(list.get(i - FIRST_TASK_INDEX)).append("\n");
         }
         return list.isEmpty()
                 ? "~ Sorry, Raven. There were no hits for that search."
@@ -124,8 +126,8 @@ public class TaskList {
             return "~ The mission log is empty. \"Time to get to work\"... Raven.";
         }
         StringBuilder tasks = new StringBuilder();
-        for (int i = 1; i <= this.list.size(); i++) {
-            tasks.append(i).append(". ").append(this.list.get(i - 1)).append("\n");
+        for (int i = FIRST_TASK_INDEX; i <= this.list.size(); i++) {
+            tasks.append(i).append(". ").append(this.list.get(i - FIRST_TASK_INDEX)).append("\n");
         }
         int numUnmarked = this.getUnmarkedTasks();
         String unmarkedInfo = (numUnmarked == 0)
