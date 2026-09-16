@@ -15,7 +15,7 @@ import javafx.scene.text.Text;
  * Controller for the main GUI.
  */
 public class MainWindow extends AnchorPane {
-    private static final double MIN_HEIGHT = 30;
+    private static final double MIN_HEIGHT = 35;
     private static final double MAX_HEIGHT = 120;
     private static final Image USER_IMAGE = new Image("/images/Raven.png");
     private static final Image AYRE_IMAGE = new Image("/images/Ayre.png");
@@ -48,15 +48,23 @@ public class MainWindow extends AnchorPane {
         // auto expands user input area to hold user text better
         this.userInput.textProperty().addListener((obs, oldText, newText) -> {
             Platform.runLater(() -> {
-                this.userInput.setPrefHeight(computeContentHeight(this.userInput));
+                this.userInput.setMinHeight(computeContentHeight(this.userInput));
             });
         });
         // auto adjusts user input area if user modifies the window width
         this.userInput.widthProperty().addListener((obs, oldWidth, newWidth) -> {
             Platform.runLater(() -> {
-                this.userInput.setPrefHeight(computeContentHeight(this.userInput));
+                this.userInput.setMinHeight(computeContentHeight(this.userInput));
             });
         });
+    }
+
+    /**
+     * Opens the user guide when the Help menu item is selected.
+     */
+    @FXML
+    private void handleHelp() {
+        HelpWindow.show();
     }
 
     /**
@@ -69,9 +77,9 @@ public class MainWindow extends AnchorPane {
     private double computeContentHeight(TextArea userInput) {
         Text text = new Text(userInput.getText());
         text.setFont(userInput.getFont());
-        text.setWrappingWidth(userInput.getWidth() - 20);
+        text.setWrappingWidth(userInput.getWidth() - 10);
         double textHeight = text.getLayoutBounds().getHeight();
-        return Math.clamp(textHeight + 24, MIN_HEIGHT, MAX_HEIGHT);
+        return Math.clamp(textHeight + 10, MIN_HEIGHT, MAX_HEIGHT);
     }
 
     /**
@@ -104,6 +112,7 @@ public class MainWindow extends AnchorPane {
         String input = userInput.getText();
         String response = ayre.getResponse(input);
         if (response.equals("TERMINATE")) {
+            HelpWindow.close();
             Platform.exit();
         }
         dialogContainer.getChildren().addAll(

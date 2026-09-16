@@ -38,6 +38,7 @@ public class Main extends Application {
             stage.setMinHeight(MIN_WINDOW_HEIGHT);
             stage.getIcons().add(new Image("/images/Ayre.png"));
             stage.setTitle("Ayre");
+            stage.setOnCloseRequest(event -> HelpWindow.close());
             fxmlLoader.<MainWindow>getController().setAyre(ayre); // inject the Ayre instance
             stage.show();
         } catch (IOException e) {

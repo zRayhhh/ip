@@ -95,7 +95,7 @@ public class Parser {
      */
     private static List<String> parseDeadlineArguments(String argLine) throws WrongNumberOfArgumentsException {
         String[] deadlineArgs = splitExactlyOnce(argLine,
-                " /by | b/", "deadline NAME-OF-TASK /by yyyy-mm-dd");
+                " /by | /b ", "deadline NAME-OF-TASK /by yyyy-mm-dd");
         return Arrays.asList(deadlineArgs);
     }
 
@@ -108,11 +108,11 @@ public class Parser {
      */
     private static List<String> parseEventArguments(String argLine) throws WrongNumberOfArgumentsException {
         String[] eventArgsFromSplit = splitExactlyOnce(argLine,
-                " /from | f/", "event NAME-OF-TASK /from yyyy-mm-dd /to yyyy-mm-dd");
+                " /from | /f ", "event NAME-OF-TASK /from yyyy-mm-dd /to yyyy-mm-dd");
         List<String> arguments = new ArrayList<>();
         arguments.add(eventArgsFromSplit[NAME_INDEX]); // add name
         String[] eventArgsToSplit = splitExactlyOnce(eventArgsFromSplit[DATES_INDEX],
-                " /to | t/", "event NAME-OF-TASK /from yyyy-mm-dd /to yyyy-mm-dd");
+                " /to | /t ", "event NAME-OF-TASK /from yyyy-mm-dd /to yyyy-mm-dd");
         arguments.addAll(Arrays.asList(eventArgsToSplit)); // add the dates
         return arguments;
     }
