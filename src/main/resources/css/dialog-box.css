@@ -6,7 +6,6 @@
     -fx-background-radius: 1em 1em 0 1em;
     -fx-border-radius: 1em 1em 0 1em;
     -fx-text-fill: ladder(background, white 49%, black 50%);
-    -fx-font: 12px "Courier New";
 }
 
 /* Keep user input visually distinct from Ayre's replies. */
@@ -17,7 +16,8 @@
 
 .label.reply-label {
     -fx-background-color: #b2b1b3;
-    -fx-font: 12px "Courier New";
+    -fx-font-family: "Monospaced";
+    -fx-font-size: 12px;
     -fx-background-radius: 1em 1em 1em 0;
     -fx-border-radius: 1em 1em 1em 0;
 }

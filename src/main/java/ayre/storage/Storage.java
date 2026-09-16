@@ -87,6 +87,24 @@ public class Storage {
     }
 
     /**
+     * Creates the task log and returns the corresponding load message.
+     *
+     * @return A message describing successful log creation or the creation failure.
+     */
+    private String createNewFile() {
+        StringBuilder warning = new StringBuilder();
+        warning.append("~ First contact with Coral Collective established");
+        try {
+            this.createTaskLog();
+        } catch (IOException e) {
+            warning.append(e.getMessage())
+                    .append("\n<<Main System>> WARNING: MISSION LOG CREATION FAILED; ")
+                    .append("YOUR MISSION LIST WILL NOT BE SAVED TO DISK");
+        }
+        return warning.toString();
+    }
+
+    /**
      * Creates a new save file if not present.
      *
      * @throws IOException If unable to create the parent folder or file for some reason.
@@ -96,23 +114,6 @@ public class Storage {
             Files.createDirectories(parentDirectory);
         }
         Files.createFile(logPath);
-    }
-
-    /**
-     * Creates the task log and returns the corresponding load message.
-     *
-     * @return A message describing successful log creation or the creation failure.
-     */
-    private String createNewFile() {
-        List<String> warnings = new ArrayList<>();
-        warnings.add("~ First contact with Coral Collective established");
-        try {
-            this.createTaskLog();
-        } catch (IOException e) {
-            warnings.add(e.getMessage() + "\n<<Main System>> WARNING: MISSION LOG CREATION FAILED; "
-                    + "YOUR MISSION LIST WILL NOT BE SAVED TO DISK");
-        }
-        return this.getWarningsAsString(warnings);
     }
 
     /**

@@ -14,6 +14,8 @@ import javafx.stage.Stage;
  * A GUI for Ayre using FXML.
  */
 public class Main extends Application {
+    private static final double MIN_WINDOW_WIDTH = 417;
+    private static final double MIN_WINDOW_HEIGHT = 220;
 
     private final Ayre ayre = new Ayre();
 
@@ -28,12 +30,12 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            stage.setMinHeight(220);
-            stage.setMinWidth(417);
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
             Parent root = fxmlLoader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            stage.setMinWidth(MIN_WINDOW_WIDTH);
+            stage.setMinHeight(MIN_WINDOW_HEIGHT);
             stage.getIcons().add(new Image("/images/Ayre.png"));
             stage.setTitle("Ayre");
             fxmlLoader.<MainWindow>getController().setAyre(ayre); // inject the Ayre instance
