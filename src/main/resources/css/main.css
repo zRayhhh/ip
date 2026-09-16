@@ -51,8 +51,11 @@
 .help-text {
     -fx-background-color: #b2b1b3;
     -fx-background-radius: 1em 1em 1em 0;
-    -fx-text-fill: black;
     -fx-padding: 16px;
+}
+
+.help-text-content {
+    -fx-text-fill: black;
     -fx-font-family: "Monospaced";
     -fx-font-size: 14px;
 }
