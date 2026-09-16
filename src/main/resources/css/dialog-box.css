@@ -22,6 +22,12 @@
     -fx-border-radius: 1em 1em 1em 0;
 }
 
+/* Make backend errors immediately visible with a soft warning color. */
+.label.reply-label.error-label {
+    -fx-background-color: #f4cccc;
+    -fx-text-fill: #8b0000;
+}
+
 .add-label {
     -fx-background-color: yellow;
 }

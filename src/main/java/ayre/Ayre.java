@@ -1,6 +1,7 @@
 package ayre;
 
 import ayre.enums.AyreStatus;
+import ayre.enums.ReplyType;
 import ayre.exceptions.AyreException;
 import ayre.storage.LoadResult;
 import ayre.storage.Storage;
@@ -41,16 +42,13 @@ public class Ayre {
      * @param input User input through the GUI.
      * @return Result of executing the relevant command.
      */
-    public String getResponse(String input) {
+    public AyreResponse getResponse(String input) {
         try {
             ParsedInput parsedInput = Parser.parseInput(input);
             CommandResult result = this.executor.execute(parsedInput.command(), parsedInput.args());
-            if (result.status() == AyreStatus.TERMINATE) {
-                return "TERMINATE";
-            }
-            return result.message();
+            return new AyreResponse(result.message(), ReplyType.NORMAL, result.status());
         } catch (AyreException e) {
-            return e.getMessage();
+            return new AyreResponse(e.getMessage(), ReplyType.ERROR, AyreStatus.CONTINUE);
         }
     }
 }

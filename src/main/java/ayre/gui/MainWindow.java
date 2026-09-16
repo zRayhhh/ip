@@ -1,6 +1,9 @@
 package ayre.gui;
 
 import ayre.Ayre;
+import ayre.AyreResponse;
+import ayre.enums.AyreStatus;
+import ayre.enums.ReplyType;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
@@ -110,15 +113,29 @@ public class MainWindow extends AnchorPane {
      */
     private void handleUserInput() {
         String input = userInput.getText();
-        String response = ayre.getResponse(input);
-        if (response.equals("TERMINATE")) {
+        AyreResponse response = ayre.getResponse(input);
+        if (response.status() == AyreStatus.TERMINATE) {
             HelpWindow.close();
             Platform.exit();
+            return;
         }
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, USER_IMAGE),
-                DialogBox.getAyreDialog(response, AYRE_IMAGE)
+                getAyreDialog(response)
         );
         userInput.clear();
+    }
+
+    /**
+     * Creates the appropriate Ayre dialog box for a backend response.
+     *
+     * @param response Response returned by Ayre.
+     * @return Normal or error-styled Ayre dialog box.
+     */
+    private DialogBox getAyreDialog(AyreResponse response) {
+        if (response.type() == ReplyType.ERROR) {
+            return DialogBox.getAyreErrorDialog(response.message(), AYRE_IMAGE);
+        }
+        return DialogBox.getAyreDialog(response.message(), AYRE_IMAGE);
     }
 }

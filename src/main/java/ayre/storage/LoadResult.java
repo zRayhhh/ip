@@ -3,7 +3,7 @@ package ayre.storage;
 import ayre.TaskList;
 
 /**
- * A record to pass immutably the load result of Storage::load() to Ayre.
+ * A record to pass the load result of Storage::load() to Ayre.
  * Record is passed to the constructor in Ayre::Ayre().
  *
  * @param tasks The resultant TaskList from reading the save file.

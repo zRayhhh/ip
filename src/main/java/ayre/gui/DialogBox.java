@@ -70,6 +70,13 @@ public class DialogBox extends HBox {
     }
 
     /**
+     * Applies the style used for an Ayre error message.
+     */
+    private void styleAsErrorMessage() {
+        dialog.getStyleClass().add("error-label");
+    }
+
+    /**
      * Creates a new DialogBox to echo user input.
      *
      * @param text User input.
@@ -92,6 +99,20 @@ public class DialogBox extends HBox {
     public static DialogBox getAyreDialog(String text, Image img) {
         var db = new DialogBox(text, img);
         db.flip();
+        return db;
+    }
+
+    /**
+     * Creates a new Ayre dialog box styled to highlight an error message.
+     *
+     * @param text Error message from Ayre.
+     * @param img Ayre profile icon.
+     * @return Error-styled Ayre dialog box.
+     */
+    public static DialogBox getAyreErrorDialog(String text, Image img) {
+        var db = new DialogBox(text, img);
+        db.flip();
+        db.styleAsErrorMessage();
         return db;
     }
 }
