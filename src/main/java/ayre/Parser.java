@@ -29,7 +29,7 @@ public class Parser {
      * @throws WrongNumberOfArgumentsException If wrong number of arguments are parsed.
      */
     public static ParsedInput parseInput(String input) throws UnknownCommandException, WrongNumberOfArgumentsException {
-        String[] cmdWithArgs = input.trim().split(" ", SPLIT_ONCE_LIMIT);
+        String[] cmdWithArgs = input.trim().split("\\s+", SPLIT_ONCE_LIMIT);
         CommandType cmd = CommandType.parseCommand(cmdWithArgs[COMMAND_TYPE_INDEX]);
         if (cmd == null) {
             throw new UnknownCommandException("~ ...Raven, this command was not found in the Coral Collective. "
@@ -51,7 +51,7 @@ public class Parser {
     private static List<String> tokenizeArguments(CommandType cmd, String input)
             throws WrongNumberOfArgumentsException {
         if (cmd.requiresArgs()) { // filters in all commands that requires argument input
-            String[] cmdWithArgs = input.trim().split(" ", SPLIT_ONCE_LIMIT);
+            String[] cmdWithArgs = input.trim().split("\\s+", SPLIT_ONCE_LIMIT);
             if (cmdWithArgs.length == 1) {
                 throw new WrongNumberOfArgumentsException("~ Raven, some parameters are missing. I don't have "
                         + "enough information to carry out this command.");
@@ -59,7 +59,7 @@ public class Parser {
             String argLine = cmdWithArgs[ARGUMENT_STRING_INDEX]; // take the latter half of the split input as args
             return parseArguments(cmd, argLine);
         } else { // BYE and LIST get filtered out to here
-            if (input.trim().split(" ").length != 1) { // no extra arguments to be passed with BYE & LIST
+            if (input.trim().split("\\s+").length != 1) { // no extra arguments to be passed with BYE & LIST
                 throw new WrongNumberOfArgumentsException("~ Raven, there seems to be some extra parameters"
                         + " mixed in. Please try again.");
             }
@@ -95,7 +95,7 @@ public class Parser {
      */
     private static List<String> parseDeadlineArguments(String argLine) throws WrongNumberOfArgumentsException {
         String[] deadlineArgs = splitExactlyOnce(argLine,
-                " /by | /b ", "deadline NAME-OF-TASK /by yyyy-mm-dd");
+                "\\s+/by\\s+|\\s+/b\\s+", "deadline NAME-OF-TASK /by yyyy-mm-dd");
         return Arrays.asList(deadlineArgs);
     }
 
@@ -108,11 +108,11 @@ public class Parser {
      */
     private static List<String> parseEventArguments(String argLine) throws WrongNumberOfArgumentsException {
         String[] eventArgsFromSplit = splitExactlyOnce(argLine,
-                " /from | /f ", "event NAME-OF-TASK /from yyyy-mm-dd /to yyyy-mm-dd");
+                "\\s+/from\\s+|\\s+/f\\s+", "event NAME-OF-TASK /from yyyy-mm-dd /to yyyy-mm-dd");
         List<String> arguments = new ArrayList<>();
         arguments.add(eventArgsFromSplit[NAME_INDEX]); // add name
         String[] eventArgsToSplit = splitExactlyOnce(eventArgsFromSplit[DATES_INDEX],
-                " /to | /t ", "event NAME-OF-TASK /from yyyy-mm-dd /to yyyy-mm-dd");
+                "\\s+/to\\s+|\\s+/t\\s+", "event NAME-OF-TASK /from yyyy-mm-dd /to yyyy-mm-dd");
         arguments.addAll(Arrays.asList(eventArgsToSplit)); // add the dates
         return arguments;
     }
