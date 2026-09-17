@@ -68,7 +68,7 @@ jar {
 }
 
 shadowJar {
-    archiveFileName = 'ayre.jar'
+    archiveFileName = 'Ayre.jar'
 }
 
 run {
