@@ -42,7 +42,7 @@ public class Main extends Application {
             fxmlLoader.<MainWindow>getController().setAyre(ayre); // inject the Ayre instance
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace(); // cba
+            e.printStackTrace();
         }
     }
 }

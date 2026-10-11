@@ -2,6 +2,7 @@
 
 <img src="Ui.png" alt="Ayre user interface" width="400">
 
+_Icon credit: Armored Core VI: Fires of Rubicon_
 ## Table of contents
 
 - [Quick start](#quick-start)
